@@ -1,7 +1,7 @@
 {
-  "name": "Hello, Blockstack",
+  "name": "dCrypt",
   "start_url": "localhost:8080",
-  "description": "A simple demo of Blockstack Auth",
+  "description": "Public-key cryptography made easy",
   "icons": [{
     "src": "http://localhost:8080/icon-192x192.png",
     "sizes": "192x192",
