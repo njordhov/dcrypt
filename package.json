@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack -p"
+    "build": "webpack",
+    "build-p": "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,10 @@
   },
   "dependencies": {
     "blockstack": "^19.1.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "~4.3.1",
+    "jquery": "^1.9.1",
+    "popper": "^1.0.1",
+    "popper.js": "^1.15.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   }
