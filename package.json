@@ -41,6 +41,7 @@
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react-dom": "^16.8.0",
+    "react-dropzone": "^10.1.6"
   }
 }

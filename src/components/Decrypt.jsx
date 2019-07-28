@@ -13,14 +13,14 @@ function Dropzone() {
       <input {...getInputProps()} />
       {
         isDragActive ?
-          <p>Drop the files here to encrypt</p> :
+          <p>Drop the files here ...</p> :
           <p>Drag 'n' drop some files here, or click to select files</p>
       }
     </div>
   )
 }
 
-export default class Encrypt extends Component {
+export default class Decrypt extends Component {
   constructor(props) {
     super(props);
   }
@@ -31,7 +31,7 @@ export default class Encrypt extends Component {
     return (
       <div className="jumbotron">
         <p className="lead">
-          Encrypt!
+          Decrypt!
         </p>
         <Dropzone />
       </div>
