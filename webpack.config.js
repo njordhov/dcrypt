@@ -9,9 +9,12 @@ const IconAssetPlugin = new CopyWebpackPlugin([ { from: 'src/images/icon-192x192
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  title: 'dCrypt',
+  meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'},
   template: './src/index.html',
   filename: 'index.html',
-  inject: 'body'
+  inject: 'body',
+  xhtml: true
 });
 
 module.exports = {
