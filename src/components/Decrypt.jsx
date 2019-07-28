@@ -1,25 +1,5 @@
 import React, { Component,  useCallback} from 'react';
-import {useDropzone} from 'react-dropzone'
-
-function Dropzone() {
-  // https://react-dropzone.js.org/
-  const onDrop = useCallback(acceptedFiles => {
-    // Do something with the files
-    console.log("Dropped:", acceptedFiles)
-  }, [])
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-
-  return (
-    <div {...getRootProps()}>
-      <input {...getInputProps()} />
-      {
-        isDragActive ?
-          <p>Drop the files here ...</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
-      }
-    </div>
-  )
-}
+import Dropzone from './Dropzone.jsx'
 
 export default class Decrypt extends Component {
   constructor(props) {
@@ -34,7 +14,7 @@ export default class Decrypt extends Component {
         <p className="lead">
           Decrypt!
         </p>
-        <Dropzone />
+        <Dropzone className="Dropzone"/>
       </div>
     );
   }
