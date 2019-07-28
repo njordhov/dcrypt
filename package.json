@@ -1,7 +1,7 @@
 {
-  "name": "hello-blockstack",
-  "version": "0.0.0",
-  "description": "A simple Blockstack app using ReactJS",
+  "name": "dCrypt",
+  "version": "0.0.1",
+  "description": "Public-key cryptography made easy",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
@@ -40,7 +40,7 @@
     "jquery": "^1.9.1",
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   }
 }
