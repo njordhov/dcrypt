@@ -7,6 +7,20 @@
   border: thin solid blue;
 }
 
+/* NavBar */
+
+html:not(.user-signed-in) #navbarNav .nav-tabs {
+    display: none !important;
+}
+
+
+.avatar img {
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  margin-right: 0.3em;
+}
+
 /* Dropzone */
 
 .Dropzone {

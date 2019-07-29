@@ -3,8 +3,11 @@ import Profile from './Profile.jsx';
 import Signin from './Signin.jsx';
 import {
   UserSession,
-  AppConfig
+  AppConfig,
+  Person
 } from 'blockstack';
+
+const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
 
 const appConfig = new AppConfig()
 const userSession = new UserSession({ appConfig: appConfig })
@@ -13,6 +16,16 @@ export default class Auth extends Component {
 
   constructor(props) {
   	super(props);
+    this.state = {
+  	  person: {
+  	  	name() {
+          return 'Anonymous';
+        },
+  	  	avatarUrl() {
+  	  	  return avatarFallbackImage;
+  	  	},
+  	  },
+  	};
   }
 
   handleSignIn(e) {
@@ -26,8 +39,17 @@ export default class Auth extends Component {
   }
 
   render() {
+    const { person } = this.state;
     return (
       <div className="Auth">
+         {userSession.isUserSignedIn() ?
+          <span className="avatar">
+            <img src={ person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage }
+                   className="avatar-image" id="avatar-image" />
+            { person.name() }
+          </span>
+          : null }
+
           { !userSession.isUserSignedIn() ?
             <button
               className="btn btn-outline-primary"
@@ -37,6 +59,7 @@ export default class Auth extends Component {
             :
             <button
                 className="btn btn-outline-secondary"
+                disabled={ userSession.isSignInPending() }
                 onClick={ this.handleSignOut }>
                 Sign Out
             </button>
@@ -48,8 +71,17 @@ export default class Auth extends Component {
   componentWillMount() {
     if (userSession.isSignInPending()) {
       userSession.handlePendingSignIn().then((userData) => {
-        window.location = window.location.origin;
+      window.location = window.location.origin;
       });
+    }
+    // Hack...
+    if (userSession.isUserSignedIn()) {
+      document.documentElement.className = "user-signed-in";
+      this.setState({
+        person: new Person(userSession.loadUserData().profile),
+      });
+    } else {
+      document.documentElement.className = "";
     }
   }
 }

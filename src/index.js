@@ -15,3 +15,13 @@ ReactDOM.render(<Auth />, document.getElementById('auth-root'));
 ReactDOM.render(<App />, document.getElementById('about-root'));
 ReactDOM.render(<Encrypt />, document.getElementById('encrypt-root'));
 ReactDOM.render(<Decrypt />, document.getElementById('decrypt-root'));
+
+/* Correct tab for incoming links */
+
+window.onload = function () {
+    console.log("Hash=" + document.location.hash)
+    const tab = document.getElementById(document.location.hash.substring(1) + "-tab")
+    if (tab != null) {
+      tab.click();
+    }
+};

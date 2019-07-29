@@ -17,6 +17,7 @@ export default class Profile extends Component {
   	super(props);
 
   	this.state = {
+      hiddenKey: true,
   	  person: {
   	  	name() {
           return 'Anonymous';
@@ -28,32 +29,63 @@ export default class Profile extends Component {
   	};
   }
 
-  render() {
+  copyLink () {
+    console.log("Copy encrypt link to clipboard")
+  }
+
+  toggleKey () {
+    this.setState({
+      hiddenKey: !this.state.hiddenKey
+    })
+  }
+
+  renderLink (publicKey) {
+   // note: hash should be after query string
+   const url = window.location.origin + "?public-key=" + publicKey + "#encrypt"
+   return (
+     <div className="public-key-link">
+        <button onClick={this.copyLink.bind(this)}>copy</button>
+        <a href={url}>{url}</a>
+     </div>)
+  }
+
+  renderCore () {
     const { handleSignOut, userSession } = this.props;
-    const { person } = this.state;
+    const { person, hiddenKey } = this.state;
     const privateKey = userSession.loadUserData().appPrivateKey
     const publicKey = getPublicKeyFromPrivate(privateKey)
 
     return (
-      !userSession.isSignInPending() ?
-      <div className="panel-welcome" id="section-2">
-        <div className="avatar-section">
-          <img src={ person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage } className="img-rounded avatar" id="avatar-image" />
-        </div>
-        <h1>Hello, <span id="heading-name">{ person.name() ? person.name() : 'Nameless Person' }</span>!</h1>
-        <p>Public key: <input value={publicKey} style={{width: "30em"}} /></p>
+      <div>
         <p className="lead">
-          <button
-            className="btn btn-primary btn-lg"
-            id="signout-button"
-            onClick={ handleSignOut.bind(this) }
-          >
-            Logout
-          </button>
+          We've made public-key cryptography so easy you don't actually need to know
+          the public key. Click on the field below if you still want to check
+          it out:
         </p>
-      </div> : null
+        <p>Public key:
+        <input value={publicKey} style={{width: "30em"}} readOnly={true}
+               type={hiddenKey? "password" : "text"}
+               onClick={ this.toggleKey.bind(this) }/></p>
+        {!hiddenKey ?
+          <p>Cryptic, you may say. Definitely not something you'd like to try to remember.
+             Instead, just share the link below with people so they easily can use your
+             public key to encrypt files before sending them to you.</p>
+          : null}
+
+        <p>Well, this is not much better, but it's only for now
+           until I figure out how to shorten it:</p>
+        {this.renderLink(publicKey)}
+      </div>
     );
   }
+
+  render () {
+      const { userSession } = this.props;
+      if (!userSession.isSignInPending()) {
+        return(this.renderCore())
+      }
+  }
+
 
   componentWillMount() {
     const { userSession } = this.props;
