@@ -1,9 +1,9 @@
 {
   "name": "dCrypt",
-  "start_url": "localhost:8080",
+  "start_url": "https://dcrypt.app",
   "description": "Public-key cryptography made easy",
   "icons": [{
-    "src": "http://localhost:8080/icon-192x192.png",
+    "src": "https://dcrypt.app/media/logo.svg",
     "sizes": "192x192",
     "type": "image/png"
   }]

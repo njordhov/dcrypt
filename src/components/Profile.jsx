@@ -59,7 +59,7 @@ export default class Profile extends Component {
       <div>
         <p className="lead">
           We've made public-key cryptography so easy you don't actually need to know
-          the public key. Click on the field below if you still want to check
+          your public key. Click on the field below if you still want to check
           it out:
         </p>
         <p>Public key:
@@ -67,7 +67,8 @@ export default class Profile extends Component {
                type={hiddenKey? "password" : "text"}
                onClick={ this.toggleKey.bind(this) }/></p>
         {!hiddenKey ?
-          <p>Cryptic, you may say. Definitely not something you'd like to try to remember.</p>
+          <p>Cryptic, you may say. Definitely not something you'd like to try to remember.
+          Fortunately, you don't have to.</p>
           : null}
 
         <div hidden={true}>

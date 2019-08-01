@@ -37,3 +37,16 @@ html:not(.user-signed-in) #navbarNav .nav-tabs {
   flex-direction: column;
   font-size: 16px;
 }
+
+/* Footer */
+
+.blockstack-glyph {
+  height: 0.9rem;
+  width: 0.9rem;
+  margin-right: 0.2rem;
+  background-image: url(https://pbs.twimg.com/profile_images/1099073690065547265/0T4PyCGk_400x400.png);
+  background-position: -0.35rem -0.35rem;
+  background-repeat: no-repeat;
+  background-size: 170% 170%;
+  border-radius: 0.2rem;
+}
