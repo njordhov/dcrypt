@@ -67,14 +67,19 @@ export default class Profile extends Component {
                type={hiddenKey? "password" : "text"}
                onClick={ this.toggleKey.bind(this) }/></p>
         {!hiddenKey ?
-          <p>Cryptic, you may say. Definitely not something you'd like to try to remember.
-             Instead, just share the link below with people so they easily can use your
-             public key to encrypt files before sending them to you.</p>
+          <p>Cryptic, you may say. Definitely not something you'd like to try to remember.</p>
           : null}
 
-        <p>Well, this is not much better, but it's only for now
-           until I figure out how to shorten it:</p>
-        {this.renderLink(publicKey)}
+        <div hidden={true}>
+          <p>Instead, just share the link below with people so they easily can use your
+          public key to encrypt files before sending them to you.</p>
+
+          <p>Well, this is not much better, but it's only for now
+            until I figure out how to shorten it:</p>
+            {this.renderLink(publicKey)}
+        </div>
+        <button class="btn btn-primary" role="button"
+           onClick={() => $('#encrypt-tab').click()}>Next: Encrypt a File</button>
       </div>
     );
   }

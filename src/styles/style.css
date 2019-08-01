@@ -25,10 +25,12 @@ html:not(.user-signed-in) #navbarNav .nav-tabs {
 
 .Dropzone {
   height: 200px;
-  width: 200px;
+  width: 80%;
+  margin-left: 10%;
   background-color: #fff;
   border: 2px dashed rgb(187, 186, 186);
-  border-radius: 50%;
+  border-radius: 5%;
+  padding: 1em;
   display: flex;
   align-items: center;
   justify-content: center;
