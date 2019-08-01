@@ -1,6 +1,7 @@
 import React, { Component, Link } from 'react';
 import Profile from './Profile.jsx';
 import Signin from './Signin.jsx';
+import {userSession} from './Global.js'
 import {
   UserSession,
   AppConfig,
@@ -8,9 +9,6 @@ import {
 } from 'blockstack';
 
 const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
-
-const appConfig = new AppConfig()
-const userSession = new UserSession({ appConfig: appConfig })
 
 export default class Auth extends Component {
 

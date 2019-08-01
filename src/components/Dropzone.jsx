@@ -5,8 +5,12 @@ export default function Dropzone(props) {
   console.log("Dropzone:", props)
   // https://react-dropzone.js.org/
   const onDrop = useCallback(acceptedFiles => {
-    console.log("Dropped:", acceptedFiles);
-    // Do something with the files
+    if (props && props.onChange) {
+      // ## FIX: include eventual previous files
+      props.onChange(acceptedFiles)
+    } else {
+      console.log("Dropped in Dropzone:", acceptedFiles)
+    }
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 

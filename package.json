@@ -37,6 +37,7 @@
   "dependencies": {
     "blockstack": "~19.2.1",
     "bootstrap": "~4.3.1",
+    "file-saver": "^2.0.2",
     "jquery": "~3.4.1",
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",

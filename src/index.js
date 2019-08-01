@@ -16,7 +16,7 @@ ReactDOM.render(<App />, document.getElementById('about-root'));
 ReactDOM.render(<Encrypt />, document.getElementById('encrypt-root'));
 ReactDOM.render(<Decrypt />, document.getElementById('decrypt-root'));
 
-/* Correct tab for incoming links */
+/* Select tab for incoming links */
 
 window.onload = function () {
     console.log("Hash=" + document.location.hash)
