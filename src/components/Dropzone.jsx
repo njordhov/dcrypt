@@ -17,10 +17,10 @@ export default function Dropzone(props) {
   return (
     <div {...getRootProps(props)}>
       <input {...getInputProps()} />
-      {
-        isDragActive ?
+      {props.children ||
+        (isDragActive ?
           <p>Drop the files here to encrypt</p> :
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>Drag 'n' drop some files here, or click to select files</p>)
       }
     </div>
   )

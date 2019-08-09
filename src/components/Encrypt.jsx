@@ -39,18 +39,27 @@ export default class Encrypt extends Component {
   }
 
   render() {
-    const { handleSignIn } = this.props;
 
     return (
       <div className="jumbotron">
         <p className="lead">
           Encrypt! {this.state.publicKey}
         </p>
-        <Dropzone className="Dropzone" onChange = {this.onChange.bind(this)}/>
-        <button className="btn btn-success btn-block"
-                onClick={ () => this.saveEncrypted(this.state.files, this.state.publicKey)}>
-                Save Encrypted
+        <Dropzone className="Dropzone" onChange = {this.onChange.bind(this)}>
+          {this.state.files.length > 0
+           ? <i class="fas fa-shield-alt m-auto"></i>
+           : null}
+        </Dropzone>
+        <button className="btn btn-success btn-block mt-4"
+                    disabled= {this.state.files.length == 0}
+                    onClick={ () => this.saveEncrypted(this.state.files, this.state.publicKey)}>
+                    Save Encrypted
         </button>
+        {this.state.files.length > 0
+                  ? <div className="alert alert-info text-center mt-4">
+                      The file has been encrypted and the result is ready to be saved.</div>
+                  : null}
+
       </div>
     );
   }

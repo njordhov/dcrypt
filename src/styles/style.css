@@ -67,6 +67,11 @@ html:not(.user-signed-in) #navbarNav .nav-tabs {
   font-size: 16px;
 }
 
+.Dropzone .fas {
+  font-size: 100px;
+}
+
+
 /* Footer */
 
 .blockstack-glyph {
