@@ -4,8 +4,13 @@
 }
 
 .inspect .inspect {
-  border: thin solid blue;
+  border: thin solid yellow;
 }
+
+.inspect .inspect {
+  border: thin solid green;
+}
+
 
 /* NavBar */
 
@@ -19,6 +24,30 @@ html:not(.user-signed-in) #navbarNav .nav-tabs {
   height: 32px;
   width: 32px;
   margin-right: 0.3em;
+}
+
+/* FEATURES */
+
+.features-icons {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.features-icons .features-icons-item {
+  max-width: 20rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon {
+  height: 7rem;
+}
+
+.features-icons .features-icons-item .features-icons-icon i {
+  font-size: 4.5rem;
+  transition: font-size 0.2s ease-in-out;
+}
+
+.features-icons .features-icons-item:hover .features-icons-icon i {
+  font-size: 5.5rem;
 }
 
 /* Dropzone */
