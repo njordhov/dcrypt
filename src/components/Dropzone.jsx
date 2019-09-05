@@ -1,4 +1,4 @@
-import React, { Component,  useCallback} from 'react';
+import React, { useCallback } from 'react';
 import {useDropzone} from 'react-dropzone'
 
 export default function Dropzone(props) {

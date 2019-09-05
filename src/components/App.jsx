@@ -1,48 +1,18 @@
-import React, { Component, Link } from 'react';
-import Profile from './Profile.jsx';
-import Signin from './Signin.jsx';
-import {
-  UserSession,
-  AppConfig
-} from 'blockstack';
+import React from 'react'
+import { useBlockstack } from 'react-blockstack'
+import Profile from './Profile.jsx'
+import Signin from './Signin.jsx'
 
-const appConfig = new AppConfig()
-const userSession = new UserSession({ appConfig: appConfig })
-
-export default class App extends Component {
-
-  constructor(props) {
-  	super(props);
-  }
-
-  handleSignIn(e) {
-    e.preventDefault();
-    userSession.redirectToSignIn();
-  }
-
-  handleSignOut(e) {
-    e.preventDefault();
-    userSession.signUserOut(window.location.origin);
-  }
-
-  render() {
+export default function App () {
+  const { userSession, signIn, signOut } = useBlockstack()
     return (
       <div className="site-wrapper">
         <div className="site-wrapper-inner">
-          { !userSession.isUserSignedIn() ?
-            <Signin userSession={userSession} handleSignIn={ this.handleSignIn } />
-            : <Profile userSession={userSession} handleSignOut={ this.handleSignOut } />
+          { signIn ?
+              <Signin userSession={userSession} handleSignIn={ signIn } />
+            : <Profile userSession={userSession} handleSignOut={ signOut } />
           }
         </div>
       </div>
-    );
+    )
   }
-
-  componentWillMount() {
-    if (userSession.isSignInPending()) {
-      userSession.handlePendingSignIn().then((userData) => {
-        window.location = window.location.origin;
-      });
-    }
-  }
-}

@@ -1,28 +1,20 @@
-import React, { Component,  useCallback} from 'react'
+import React, { useState } from 'react'
 import FileSaver from 'file-saver'
+import { useBlockstack } from 'react-blockstack'
 import Dropzone from './Dropzone.jsx'
-import {userSession} from './Global.js'
 
-export default class Encrypt extends Component {
-  constructor(props) {
-    super(props);
-    const params = new URLSearchParams(window.location.search);
-    const publicKey = params.get('public-key')
-    console.log("Public Key:", publicKey)
-    this.state = {
-        files: [],
-        publicKey: publicKey
-      }
-  }
+export default function Encrypt (props) {
+  const { userSession } = useBlockstack()
+  const [files, setFiles] = useState([])
+  const params = new URLSearchParams(window.location.search);
+  const publicKey = params.get('public-key')
 
-  onChange (files) {
+  function onChange (files) {
     console.log("Current files:", files)
-    this.setState({
-      files: files
-    })
+    setFiles(files)
   }
 
-  saveEncrypted (files, publicKey) {
+  function saveEncrypted (files, publicKey) {
     console.log("Save encrypted:", files, publicKey)
     //var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"})
     //FileSaver.saveAs(file)
@@ -38,29 +30,26 @@ export default class Encrypt extends Component {
     reader.readAsArrayBuffer(file)
   }
 
-  render() {
-
-    return (
+  return (
       <div className="jumbotron">
         <p className="lead">
-          Encrypt! {this.state.publicKey}
+          Encrypt! {publicKey}
         </p>
-        <Dropzone className="Dropzone" onChange = {this.onChange.bind(this)}>
-          {this.state.files.length > 0
+        <Dropzone className="Dropzone" onChange = { onChange }>
+          { files.length > 0
            ? <i class="fas fa-shield-alt m-auto"></i>
            : null}
         </Dropzone>
         <button className="btn btn-success btn-block mt-4"
-                    disabled= {this.state.files.length == 0}
-                    onClick={ () => this.saveEncrypted(this.state.files, this.state.publicKey)}>
+                    disabled= { files.length === 0}
+                    onClick={ () => saveEncrypted( files, publicKey)}>
                     Save Encrypted
         </button>
-        {this.state.files.length > 0
+        { files.length > 0
                   ? <div className="alert alert-info text-center mt-4">
                       The file has been encrypted and the result is ready to be saved.</div>
                   : null}
 
       </div>
-    );
+    )
   }
-}

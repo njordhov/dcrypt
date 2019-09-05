@@ -1,12 +1,8 @@
-import React, { Component } from 'react';
+import React, { } from 'react';
+import { useBlockstack } from 'react-blockstack'
 
-export default class Signin extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { handleSignIn } = this.props;
+export default function Signin (props) {
+    const { signIn } = useBlockstack()
 
     return (
       <div className="">
@@ -17,11 +13,10 @@ export default class Signin extends Component {
         <button
             className="btn btn-primary btn-lg"
             id="signin-button"
-            onClick={ handleSignIn.bind(this) }
+            onClick={ signIn }
           >
             Sign In with Blockstack
           </button>
       </div>
-    );
+    )
   }
-}

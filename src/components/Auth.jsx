@@ -1,85 +1,47 @@
-import React, { Component, Link } from 'react';
-import Profile from './Profile.jsx';
-import Signin from './Signin.jsx';
-import {userSession} from './Global.js'
-import {
-  UserSession,
-  AppConfig,
-  Person
-} from 'blockstack';
+import React from 'react';
+import { useBlockstack } from 'react-blockstack'
 
 const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
 
-export default class Auth extends Component {
-
-  constructor(props) {
-  	super(props);
-    this.state = {
-  	  person: {
-  	  	name() {
-          return 'Anonymous';
-        },
-  	  	avatarUrl() {
-  	  	  return avatarFallbackImage;
-  	  	},
-  	  },
-  	};
-  }
-
-  handleSignIn(e) {
-    e.preventDefault();
-    userSession.redirectToSignIn();
-  }
-
-  handleSignOut(e) {
-    e.preventDefault();
-    userSession.signUserOut(window.location.origin);
-  }
-
-  render() {
-    const { person } = this.state;
+export default function Auth (props) {
+    const { signIn, signOut, person } = useBlockstack()
     return (
       <div className="Auth">
-         {userSession.isUserSignedIn() ?
-          <span className="avatar">
-            <img src={ person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage }
-                   className="avatar-image" id="avatar-image" />
-            { person.name() }
-          </span>
+         { signOut ?
+          <div className="btn-group dropdown">
+            <button className="btn dropdown-toggle"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span className="avatar">
+                <img src={ (person && person.avatarUrl && person.avatarUrl()) || avatarFallbackImage }
+                       className="avatar-image" id="avatar-image" />
+                { (person && person.name && person.name()) || ''}
+              </span>
+            </button>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" onClick={ signOut }>
+                <i className="fas fa-sign-out-alt"></i>
+                <span className="ml-2">Sign out</span>
+              </a>
+            </div>
+          </div>
           : null }
 
-          { !userSession.isUserSignedIn() ?
-            <button
-              className="btn btn-outline-primary"
-              onClick={ this.handleSignIn }>
-              Sign In
-            </button>
-            :
+          <span hidden={true}>
+          { signOut ?
             <button
                 className="btn btn-outline-secondary"
-                disabled={ userSession.isSignInPending() }
-                onClick={ this.handleSignOut }>
+                onClick={ signOut }>
                 Sign Out
             </button>
+            : signIn ?
+            <button
+              className="btn btn-primary"
+              onClick={ signIn }>
+              Sign In
+            </button>
+            : <span>...</span>
           }
+          </span>
         </div>
-    );
-  }
-
-  componentWillMount() {
-    if (userSession.isSignInPending()) {
-      userSession.handlePendingSignIn().then((userData) => {
-      window.location = window.location.origin;
-      });
-    }
-    // Hack...
-    if (userSession.isUserSignedIn()) {
-      document.documentElement.className = "user-signed-in";
-      this.setState({
-        person: new Person(userSession.loadUserData().profile),
-      });
-    } else {
-      document.documentElement.className = "";
-    }
-  }
+    )
 }
