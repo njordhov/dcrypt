@@ -80,7 +80,7 @@ export default class Profile extends Component {
             {this.renderLink(publicKey)}
         </div>
         <button class="btn btn-primary" role="button"
-           onClick={() => $('#encrypt-tab').click()}>Next: Encrypt a File</button>
+           onClick={() => document.getElementById('encrypt-tab').click()}>Next: Encrypt a File</button>
       </div>
     );
   }
