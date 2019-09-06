@@ -17,30 +17,35 @@
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">
-        <img src="/media/logo.svg" width="32" height="32" />
-        <i>d</i>crypt</a>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="about-tab" data-toggle="tab"
-               href="#about" role="tab" aria-controls="about" aria-selected="true">
-              About
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="encrypt-tab" data-toggle="tab"
-               href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
-               Encode</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="decrypt-tab" data-toggle="tab"
-               href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
-               Decode</a>
-          </li>
-        </ul>
-      </div>
-
+        <a class="navbar-brand" href="#" onclick="document.getElementById('home-tab').click()">
+            <img src="/media/logo.svg" width="32" height="32" />
+            <i>d</i>Crypt</a>
+        <div class="collapse navbar-collapse ml-2" id="navbarNav">
+          <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item" style="display: none">
+              <a class="nav-link" id="home-tab" data-toggle="tab"
+                 href="#home" role="tab" aria-controls="home" aria-selected="true">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="about-tab" data-toggle="tab"
+                 href="#about" role="tab" aria-controls="about" aria-selected="false">
+                About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="encrypt-tab" data-toggle="tab"
+                 href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
+                 Encode</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="decrypt-tab" data-toggle="tab"
+                 href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
+                 Decode</a>
+            </li>
+          </ul>
+        </div>
       <div class="ml-auto mr-3">
           <a class="btn btn-outline-primary ml-1 py-0 px-2 nav-link"
               style="border:none; font-size: 1.5rem;"
@@ -57,20 +62,10 @@
 
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active"
-           id="about" role="tabpanel" aria-labelledby="about-tab">
+           id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="jumbotron mb-0">
-          <h3 class="text-center">Public-key cryptography made easy.</h3>
-
-          <p class="alert alert-info">
-            Public key cryptography is an essential technology to
-            communicate secrets online, but
-            can be confusing to understand and hard to use.
-            It is like having a padlock with one key code
-           to lock it and another secret key to unlock. That way, anyone
-           can send you a secret by locking it, while only you get access.</p>
-
-          <section class="features-icons bg-light text-center">
             <div class="row">
+              <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
               <div class="col col-12 col-md-4 p-5">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                   <div class="features-icons-icon d-flex">
@@ -110,13 +105,21 @@
           <div id="app-root" class="when-authenticated"></div>
         </div>
       </div>
+
+      <div class="tab-pane fade"
+           id="about" role="tabpanel" aria-labelledby="about-tab">
+        <div id="about-root">[About]</div>
+      </div>
+
+
       <div class="tab-pane fade"
            id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
-        <div id="encrypt-root">Encrypt...</div>
+        <div id="encrypt-root">[Encrypt]</div>
       </div>
+
       <div class="tab-pane fade"
            id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
-        <div id="decrypt-root">Decrypt...</div>
+        <div id="decrypt-root">[Decrypt]</div>
       </div>
     </div>
 
@@ -130,13 +133,14 @@
     </footer>
 
     <!-- Better included in compiled js -->
+    <!--
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
           rel="stylesheet">
   </body>
