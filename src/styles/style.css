@@ -11,6 +11,10 @@
   border: thin solid green;
 }
 
+.alert-info {
+  background-color: var(--blue);
+}
+
 
 /* NavBar */
 
@@ -66,7 +70,7 @@ html:not(.authenticated) .when-authenticated {
   height: 200px;
   width: 80%;
   margin-left: 10%;
-  background-color: #fff;
+  /*background-color: #fff;*/
   border: 2px dashed rgb(187, 186, 186);
   border-radius: 5%;
   padding: 1em;

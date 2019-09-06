@@ -17,8 +17,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 // Require Sass file so webpack can build it
 // import bootstrap from 'bootstrap/dist/css/bootstrap.css'
+
 import bootstrap from 'bootswatch/dist/cyborg/bootstrap.css'
-//import bootstrap from 'bootswatch/dist/darkly/bootstrap.css'
+
+// Looks mostly nice but can't see text in forms:
+// import bootstrap from 'bootswatch/dist/darkly/bootstrap.css'
 
 import style from './styles/style.css';
 

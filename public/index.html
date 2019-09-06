@@ -5,11 +5,24 @@
     <title>dCrypt</title>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <script>
+      document.documentElement.add("loading")
+      window.onload = function () {
+        document.documentElement.className =
+        document.documentElement.className.replace("loading", '')
+      };
+    </script>
 
-    <!-- tmp as adds latency to rendering -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    <style type="text/css">
+      html.loading body {
+        background-color: black;
+        color: gray;
+      }
+      html.loading nav {
+        opacity: 0;
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm"> <!--  navbar-light bg-light -->
@@ -17,7 +30,7 @@
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-        <a class="navbar-brand" href="#" onclick="document.getElementById('home-tab').click()">
+        <a class="navbar-brand mr-3" href="#" onclick="document.getElementById('home-tab').click()">
             <img src="/media/logo.svg" width="32" height="32" />
             <i>d</i>Crypt</a>
         <div class="collapse navbar-collapse ml-2" id="navbarNav">
@@ -34,22 +47,22 @@
                 About
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item when-authenticated">
               <a class="nav-link" id="encrypt-tab" data-toggle="tab"
                  href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
-                 Encode</a>
+                 Encrypt</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item when-authenticated">
               <a class="nav-link" id="decrypt-tab" data-toggle="tab"
                  href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
-                 Decode</a>
+                 Decrypt</a>
             </li>
           </ul>
         </div>
       <div class="ml-auto mr-3">
 
         </div>
-      <div id="auth-root">Sign in</div>
+      <div" id="auth-root">Sign in</div>
     </nav>
 
 
@@ -61,15 +74,6 @@
             <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
             <div class="row">
               <div class="col col-12 col-md-4 p-5">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex">
-                    <i class="fas fa-bullhorn m-auto text-primary"></i>
-                  </div>
-                  <h3>Advocate</h3>
-                  <p class="lead mb-0">Encourage others to use public-key cryptography.
-                   <!-- when sending you files meant for your eyes only--></p>
-                </div>
-              </div>
               <div class="col col-12 col-md-4 p-5">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                   <div class="features-icons-icon d-flex">
@@ -88,14 +92,24 @@
                   </div>
                   <h3>Decrypt</h3>
                   <p class="lead mb-0">
-                    Decrypt the files to restore their original content.
+                    Decrypt files to restore their original content.
                   </p>
                 </div>
+              </div>
+
+              <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                <div class="features-icons-icon d-flex">
+                  <i class="fas fa-bullhorn m-auto text-primary"></i>
+                </div>
+                <h3>Advocate</h3>
+                <p class="lead mb-0">Encourage others to use public-key cryptography.
+                 <!-- when sending you files meant for your eyes only--></p>
               </div>
             </div>
           </section>
 
-          <div id="signin-root" class="unless-authenticated"></div>
+          <div id="signin-root"
+               class="unless-authenticated mx-auto"></div>
           <div id="app-root" class="when-authenticated"></div>
         </div>
       </div>
@@ -134,15 +148,6 @@
         <!-- /.container -->
     </footer>
 
-    <!-- Better included in compiled js -->
-    <!--
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
           rel="stylesheet">
   </body>

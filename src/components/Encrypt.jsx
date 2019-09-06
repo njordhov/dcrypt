@@ -56,10 +56,15 @@ function PublicKey (props) {
     const toggleKey = () => setHidden(!hiddenKey)
     return (
     <>
-      <label for="public-key-field">Public key</label>
+
       <div className="input-group">
+        <div className="input-group-prepend">
+          <span className="input-group-text">
+            Public Key
+          </span>
+        </div>
         <input className="form-control"
-               id="public-key-field"
+               id="public-key-fieldxx"
                value={publicKey} style={{width: "30em"}} readOnly={true}
                type={hiddenKey? "password" : "text"}
                onClick={ toggleKey }/>
@@ -113,6 +118,7 @@ export default function Encrypt (props) {
       <div className="jumbotron">
 
           <PublicKey publicKey={publicKey}/>
+
           <div className="mt-4">
             <DropEncrypt  setResult={setResult}/>
           </div>

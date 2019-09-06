@@ -26,8 +26,8 @@ export default function Auth (props) {
           </div>
           : null }
 
-          <span hidden={true}>
-          { signOut ?
+          <span>
+          { signOut && false ?
             <button
                 className="btn btn-outline-secondary"
                 onClick={ signOut }>
@@ -35,11 +35,11 @@ export default function Auth (props) {
             </button>
             : signIn ?
             <button
-              className="btn btn-primary"
+              className="btn btn-outline-primary"
               onClick={ signIn }>
               Sign In
             </button>
-            : <span>...</span>
+            : <span></span>
           }
           </span>
         </div>

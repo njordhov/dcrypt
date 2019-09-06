@@ -12,7 +12,7 @@ export function DownloadButton (props) {
          disabled= { !url }
          aria-disabled={ !url }
          href={url} target="_blank">
-         <i className="fas fa-file-download"></i>
+         <i className="fas fa-file-download mr-2"></i>
          {children || <span>Save File</span>}
         </a>
       </div>
@@ -39,7 +39,7 @@ export default function Dropzone(props) {
       {props.children ||
         (isDragActive ?
           <p>Drop the files here</p> :
-          <p>Drag &amp; drop files here, or click to select files</p>)
+          <p>Drag &amp; drop a file here, or click to select from your filesystem.</p>)
       }
     </div>
   )
