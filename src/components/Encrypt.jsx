@@ -55,9 +55,9 @@ function PublicKey (props) {
     const [hiddenKey, setHidden] = useState(true)
     const toggleKey = () => setHidden(!hiddenKey)
     return (
-    <>
+    <div className="PublicKeyField">
 
-      <div className="input-group">
+      <div className="input-group ">
         <div className="input-group-prepend">
           <span className="input-group-text">
             Public Key
@@ -65,7 +65,7 @@ function PublicKey (props) {
         </div>
         <input className="form-control"
                id="public-key-fieldxx"
-               value={publicKey} style={{width: "30em"}} readOnly={true}
+               value={publicKey} readOnly={true}
                type={hiddenKey? "password" : "text"}
                onClick={ toggleKey }/>
         <div className="input-group-append">
@@ -78,7 +78,7 @@ function PublicKey (props) {
           {!hiddenKey && false ?
             <p>Use the button to copy a link with your public key.</p>
             : null}
-    </>
+    </div>
     )
   }
 

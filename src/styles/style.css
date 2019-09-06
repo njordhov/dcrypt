@@ -15,6 +15,14 @@
   background-color: var(--blue);
 }
 
+main {
+  min-height: 100vh;
+  min-height: calc(100vh - 32px);
+}
+
+.PublicKeyField input {
+  width: 100%;
+}
 
 /* NavBar */
 

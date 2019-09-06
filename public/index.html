@@ -65,71 +65,73 @@
       <div" id="auth-root">Sign in</div>
     </nav>
 
-
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active"
-           id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="jumbotron mb-0">
-          <section class="features-icons">
-            <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
-            <div class="row">
-              <div class="col col-12 col-md-4 p-5">
-              <div class="col col-12 col-md-4 p-5">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex">
-                    <i class="fas fa-shield-alt m-auto text-primary"></i>
+    <main>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active"
+             id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="jumbotron mb-0">
+            <section class="features-icons">
+              <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
+              <div class="row">
+                <div class="col col-12 col-md-4 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                      <i class="fas fa-shield-alt m-auto text-primary"></i>
+                    </div>
+                    <h3>Encrypt</h3>
+                    <p class="lead mb-0">
+                      Encrypt files with content you prefer to be kept secret.
+                    </p>
                   </div>
-                  <h3>Encrypt</h3>
-                  <p class="lead mb-0">
-                    Encrypt files with content you prefer to be kept secret.
-                  </p>
                 </div>
-              </div>
-              <div class="col col-12 col-md-4 p-5">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                  <div class="features-icons-icon d-flex">
-                    <i class="fas fa-unlock-alt m-auto text-primary"></i>
+                <div class="col col-12 col-md-4 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                      <i class="fas fa-unlock-alt m-auto text-primary"></i>
+                    </div>
+                    <h3>Decrypt</h3>
+                    <p class="lead mb-0">
+                      Decrypt files to restore their original content.
+                    </p>
                   </div>
-                  <h3>Decrypt</h3>
-                  <p class="lead mb-0">
-                    Decrypt files to restore their original content.
-                  </p>
+                </div>
+                <div class="col col-12 col-md-4 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                      <i class="fas fa-bullhorn m-auto text-primary"></i>
+                    </div>
+                    <h3>Advocate</h3>
+                    <p class="lead mb-0">Encourage others to use public-key cryptography.
+                     <!-- when sending you files meant for your eyes only--></p>
+                  </div>
                 </div>
               </div>
+            </section>
 
-              <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                <div class="features-icons-icon d-flex">
-                  <i class="fas fa-bullhorn m-auto text-primary"></i>
-                </div>
-                <h3>Advocate</h3>
-                <p class="lead mb-0">Encourage others to use public-key cryptography.
-                 <!-- when sending you files meant for your eyes only--></p>
-              </div>
-            </div>
-          </section>
+            <div id="signin-root"
+                 class="unless-authenticated mx-auto"></div>
+            <div id="app-root" class="when-authenticated"></div>
+          </div>
+        </div>
 
-          <div id="signin-root"
-               class="unless-authenticated mx-auto"></div>
-          <div id="app-root" class="when-authenticated"></div>
+        <div class="tab-pane fade"
+             id="about" role="tabpanel" aria-labelledby="about-tab">
+          <div id="about-root">[About]</div>
+        </div>
+
+
+        <div class="tab-pane fade"
+             id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
+          <div id="encrypt-root">[Encrypt]</div>
+        </div>
+
+        <div class="tab-pane fade"
+             id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
+          <div id="decrypt-root">[Decrypt]</div>
         </div>
       </div>
-
-      <div class="tab-pane fade"
-           id="about" role="tabpanel" aria-labelledby="about-tab">
-        <div id="about-root">[About]</div>
-      </div>
-
-
-      <div class="tab-pane fade"
-           id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">
-        <div id="encrypt-root">[Encrypt]</div>
-      </div>
-
-      <div class="tab-pane fade"
-           id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
-        <div id="decrypt-root">[Decrypt]</div>
-      </div>
-    </div>
+      
+    </main>
 
     <footer class="mt-0 py-5 text-center"> <!-- bg-dark text-white -->
         <div class="container">
