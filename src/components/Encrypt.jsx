@@ -46,7 +46,7 @@ function encryptHandler(file, encryptContent, setUrl) {
   })}}
 
 
-function PublicKey (props) {
+function PublicKeyField (props) {
     const {publicKey} = props
     const url = window.location.origin + "/encrypt?public-key=" + publicKey
     const copyLink = () => {
@@ -64,7 +64,8 @@ function PublicKey (props) {
           </span>
         </div>
         <input className="form-control"
-               id="public-key-fieldxx"
+               id="public-key-field"
+               style={{maxWidth: "34rem"}}
                value={publicKey} readOnly={true}
                type={hiddenKey? "password" : "text"}
                onClick={ toggleKey }/>
@@ -117,7 +118,9 @@ export default function Encrypt (props) {
   return (
       <div className="jumbotron">
 
-          <PublicKey publicKey={publicKey}/>
+          <div className="d-flex justify-content-center align-items-center w-100">
+            <PublicKeyField publicKey={publicKey}/>
+          </div>
 
           <div className="mt-4">
             <DropEncrypt  setResult={setResult}/>
