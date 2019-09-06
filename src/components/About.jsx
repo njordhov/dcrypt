@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function About () {
   return (
-  <div class="h-80 jumbotron row align-items-center justify-content-center"
+  <div class="h-80 jumbotron mb-0 row align-items-center justify-content-center"
        style={{minHeight: "100vh"}}>
     <p className="col col-12 col-sm-6 col-md-5
                   alert alert-info">
