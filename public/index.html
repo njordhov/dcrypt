@@ -13,7 +13,8 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand" href="#">
@@ -44,9 +45,9 @@
           <a class="btn btn-outline-primary ml-1 py-0 px-2 nav-link"
               style="border:none; font-size: 1.5rem;"
               role="button"
-              data-toggle="tooltip" title="Watch the project on Github"
+              data-toggle="tooltip" title="Open source for transparency"
               target="_blank"
-              href="https://github.com/TerjeNorderhaug/dcrypt">
+              href="https://github.com/njordhov/dcrypt">
               <i class="fab fa-github"></i>
             </a>
         </div>
@@ -105,7 +106,8 @@
             </div>
           </section>
 
-          <div id="about-root">More...</div>
+          <div id="signin-root" class="unless-authenticated"></div>
+          <div id="app-root" class="when-authenticated"></div>
         </div>
       </div>
       <div class="tab-pane fade"

@@ -30,12 +30,12 @@
     ]
   },
   "dependencies": {
-    "blockstack": "^19.2.5",
+    "blockstack": "^19.3.0",
     "file-saver": "^2.0.2",
     "jquery": "~3.4.1",
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
-    "react": "^16.8.6",
+    "react": "^16.9.0",
     "react-blockstack": "^0.4.11",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.0",

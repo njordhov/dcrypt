@@ -22,8 +22,8 @@ function KeyLink ({ publicKey }) {
      </div>)
   }
 
-function Enter (props) {
-    const { userData } = useBlockstack()
+export default function Enter (props) {
+    const {userData, signOut} = useBlockstack()
     const [hiddenKey, setHidden] = useState()
     const privateKey = userData && userData.appPrivateKey
     const publicKey = privateKey && getPublicKeyFromPrivate(privateKey)
@@ -52,16 +52,9 @@ function Enter (props) {
             until I figure out how to shorten it:</p>
             <KeyLink publicKey={publicKey}/>
         </div>
-        <button class="btn btn-primary" role="button"
-           onClick={() => document.getElementById('encrypt-tab').click()}>Next: Encrypt a File</button>
+        <a className="btn btn-primary" role="button"
+           href="/encrypt">
+           Next: Encrypt a File</a>
       </div>
-    );
+    )
   }
-
-
-export default function Profile () {
-  const { userSession } = useBlockstack()
-  if (!userSession.isSignInPending()) {
-    return(<Enter/>)
-  }
-}

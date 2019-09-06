@@ -1,9 +1,8 @@
-import React, { } from 'react';
+import React, { } from 'react'
 import { useBlockstack } from 'react-blockstack'
 
 export default function Signin (props) {
     const { signIn } = useBlockstack()
-
     return (
       <div className="">
         <p className="lead">
@@ -13,6 +12,7 @@ export default function Signin (props) {
         <button
             className="btn btn-primary btn-lg"
             id="signin-button"
+            disabled={!signIn}
             onClick={ signIn }
           >
             Sign In with Blockstack

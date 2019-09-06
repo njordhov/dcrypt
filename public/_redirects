@@ -1,9 +1,2 @@
-# Redirect domain aliases to primary domain
-# https://person8.in-progress.com/* https://app.person8.org/:splat 301!
-# https://person8.app/* https://app.person8.org/:splat 301!
-
-# Optional: Redirect default Netlify subdomain to primary domain
-# https://person8.netlify.com/* https://app.person8.org/:splat 301!
-
 /media/* /media/:splat
 /* /index.html 200

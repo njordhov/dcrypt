@@ -1,18 +1,35 @@
 import React from 'react'
-import { useBlockstack } from 'react-blockstack'
-import Profile from './Profile.jsx'
+import { BrowserRouter as Router, Route, Link, Redirect, Switch } from 'react-router-dom'
+import { useBlockstack, AuthenticatedDocumentClass } from 'react-blockstack'
+import Enter from './Enter.jsx'
 import Signin from './Signin.jsx'
 
+function Exit (props) {
+
+}
+
+function goEncrypt () {
+  document.getElementById('encrypt-tab').click();
+  return (null)
+}
+
 export default function App () {
-  const { userSession, signIn, signOut } = useBlockstack()
+  const { userData } = useBlockstack()
+  if (!userData) {
+    return null
+  } else {
     return (
-      <div className="site-wrapper">
-        <div className="site-wrapper-inner">
-          { signIn ?
-              <Signin userSession={userSession} handleSignIn={ signIn } />
-            : <Profile userSession={userSession} handleSignOut={ signOut } />
-          }
-        </div>
-      </div>
+      <>
+         <AuthenticatedDocumentClass name="authenticated" />
+         <Router>
+                <Switch>
+                  <Route key="enter" path="/enter" component={Enter} />
+                  <Route key="encrypt" path="/encrypt"
+                         render={ goEncrypt() } />
+                  <Redirect to="/enter"/>
+                </Switch>
+              </Router>
+      </>
     )
   }
+}

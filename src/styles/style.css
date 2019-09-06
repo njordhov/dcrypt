@@ -14,9 +14,18 @@
 
 /* NavBar */
 
-html:not(.user-signed-in) #navbarNav .nav-tabs {
+html:not(.authenticated) #navbarNav .nav-tabs {
     display: none !important;
 }
+
+html.authenticated .unless-authenticated {
+  display: none !important;
+}
+
+html:not(.authenticated) .when-authenticated {
+    display: none !important;
+}
+
 
 
 .avatar img {

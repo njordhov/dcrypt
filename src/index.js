@@ -4,6 +4,7 @@ import { AppConfig } from 'blockstack'
 
 import { initBlockstack } from 'react-blockstack'
 
+import Signin from './components/Signin.jsx';
 import App from './components/App.jsx';
 import Auth from './components/Auth.jsx';
 import Encrypt from './components/Encrypt.jsx';
@@ -17,8 +18,9 @@ const appConfig = new AppConfig(['store_write', 'publish_data'])
 
 initBlockstack(appConfig)
 
+ReactDOM.render(<Signin />, document.getElementById('signin-root'));
+ReactDOM.render(<App />, document.getElementById('app-root'));
 ReactDOM.render(<Auth />, document.getElementById('auth-root'));
-ReactDOM.render(<App />, document.getElementById('about-root'));
 ReactDOM.render(<Encrypt />, document.getElementById('encrypt-root'));
 ReactDOM.render(<Decrypt />, document.getElementById('decrypt-root'));
 
