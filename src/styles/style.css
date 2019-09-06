@@ -44,6 +44,7 @@ html:not(.authenticated) .when-authenticated {
 
 .features-icons .features-icons-item {
   max-width: 20rem;
+  text-align: center;
 }
 
 .features-icons .features-icons-item .features-icons-icon {

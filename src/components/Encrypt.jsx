@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import Dropzone from './Dropzone.jsx'
+import Dropzone, {DownloadButton} from './Dropzone.jsx'
 
 function getPublicKeyFromPrivate(privateKey: string) {
   // from blockstack.js internal key module
@@ -11,6 +11,7 @@ function getPublicKeyFromPrivate(privateKey: string) {
 }
 
 function saveEncrypted (files, encrypt) {
+  // consider using filesaver package or similar
     console.log("Save encrypted:", files)
     //var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"})
     //FileSaver.saveAs(file)
@@ -18,38 +19,78 @@ function saveEncrypted (files, encrypt) {
     // ## TODO: Notify blockstack that encryptContent should take a file (it's a blob)
     const reader = new FileReader()
     const file = files[0]
+    console.log("Save encrypted file:", file)
+    const url = window.URL.createObjectURL(file)
+    console.log("Save url:", url)
+    /*
     reader.onload = e => {
       const content = e.target.result
       const encrypted = encrypt(content)
       FileSaver.saveAs(JSON.stringify(encrypted))
     }
-    reader.readAsArrayBuffer(file)
+    reader.readAsArrayBuffer(file)*/
   }
 
-function copyLink () {
-      console.log("Copy encrypt link to clipboard")
-    }
+function encryptHandler(file, encryptContent, setUrl) {
+  if (file) {
+    var myReader = new FileReader()
+    myReader.readAsArrayBuffer(file)
+    myReader.addEventListener("loadend", (e) => {
+      var buffer = e.srcElement.result;//arraybuffer object
+      const cipherObject = encryptContent(buffer)
+      console.log("Encrypted:", cipherObject)
+      const encrypted = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+      const url = window.URL.createObjectURL(encrypted)
+      console.log("Save url:", url)
+      setUrl(url)
+  })}}
 
-function KeyLink ({ publicKey }) {
-     // note: hash should be after query string
-     const url = window.location.origin + "/encrypt?public-key=" + publicKey
-     return (
-       <span className="public-key-link">
-          <button className="btn btn-secondary" onClick={ copyLink }>
-            <i className="far fa-copy"></i> Magic Link
-          </button>
-          <a hidden={true} href={url}>{url}</a>
-       </span>)
-    }
 
-function DropEncrypt ({publicKey}) {
+function PublicKey (props) {
+    const {publicKey} = props
+    const url = window.location.origin + "/encrypt?public-key=" + publicKey
+    const copyLink = () => {
+          console.log("Copy encrypt link to clipboard")
+        }
+    const [hiddenKey, setHidden] = useState(true)
+    const toggleKey = () => setHidden(!hiddenKey)
+    return (
+    <>
+      <label for="public-key-field">Public key</label>
+      <div className="input-group">
+        <input className="form-control"
+               id="public-key-field"
+               value={publicKey} style={{width: "30em"}} readOnly={true}
+               type={hiddenKey? "password" : "text"}
+               onClick={ toggleKey }/>
+        <div className="input-group-append">
+                  <button className="btn btn-outline-secondary" type="button"
+                          onClick={ copyLink }>
+                    <i className="far fa-clipboard"></i> Magic Link
+                  </button>
+        </div>
+      </div>
+          {!hiddenKey && false ?
+            <p>Use the button to copy a link with your public key.</p>
+            : null}
+    </>
+    )
+  }
+
+
+function DropEncrypt ({publicKey, setResult}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
-    const encryptContent = content => userSession.encryptContent(content, publicKey)
-    function onChange (files) {
+    const [url, setUrl] = useState()
+    const encryptContent = useCallback(content => userSession.encryptContent(content, publicKey),
+                                      [userSession, publicKey])
+    const file = files &&  files[0]
+    useEffect( (() => encryptHandler(file, encryptContent, setUrl)),[file, encryptContent])
+    const onChange = (files) => {
       console.log("Current files:", files)
       setFiles(files)
     }
+    useEffect( (() => setResult ? setResult(url) : null), [setResult, url])
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
@@ -57,15 +98,6 @@ function DropEncrypt ({publicKey}) {
            ? <i class="fas fa-shield-alt m-auto"></i>
            : null}
         </Dropzone>
-        <button className="btn btn-success btn-block mt-4"
-                    disabled= { files.length === 0}
-                    onClick={ () => saveEncrypted( files, encryptContent)}>
-                    Save Encrypted
-        </button>
-        { files.length > 0
-                  ? <div className="alert alert-info text-center mt-4">
-                      The file has been encrypted and the result is ready to be saved.</div>
-                  : null}
       </>
 )}
 
@@ -73,26 +105,29 @@ export default function Encrypt (props) {
   const { userData } = useBlockstack()
   // const params = new URLSearchParams(window.location.search);
   // const publicKey = params.get('public-key')
-  const [hiddenKey, setHidden] = useState()
   const privateKey = userData && userData.appPrivateKey
   const publicKey = privateKey && getPublicKeyFromPrivate(privateKey)
-  const toggleKey = () => setHidden(!hiddenKey)
-
+  const [url, setUrl] = useState()
+  const setResult = useCallback(setUrl)
   return (
       <div className="jumbotron">
 
-            <p>Public key:
-              <input value={publicKey} style={{width: "30em"}} readOnly={true}
-                     type={hiddenKey? "password" : "text"}
-                     onClick={ toggleKey }/>
-              <KeyLink publicKey={publicKey}/>
-            </p>
-            {!hiddenKey ?
-              <p>Use the button to copy a link with your public key.</p>
-              : null}
+          <PublicKey publicKey={publicKey}/>
+          <div className="mt-4">
+            <DropEncrypt  setResult={setResult}/>
+          </div>
 
+          { url ?
+             <div className="alert alert-info text-center mt-4">
+                The file has been encrypted and the result is ready to be saved.
+              </div>
+            : null}
 
-          <DropEncrypt />
+          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+            <DownloadButton url={url} filename="encrypted">
+              Save Encrypted File
+            </DownloadButton>
+          </div>
 
       </div>
     )

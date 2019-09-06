@@ -1,27 +1,58 @@
-import React, { useState } from 'react';
-import Dropzone from './Dropzone.jsx'
+import React, { useState, useEffect, useCallback } from 'react'
+import { useBlockstack } from 'react-blockstack'
+import Dropzone, {DownloadButton} from './Dropzone.jsx'
 
-export default function Decrypt (props) {
+
+function decryptHandler(file, decryptContent, setUrl) {
+  if (file) {
+    var myReader = new FileReader()
+    myReader.readAsArrayBuffer(file)
+    myReader.addEventListener("loadend", (e) => {
+      var buffer = e.srcElement.result;//arraybuffer object
+      var decodedString = String.fromCharCode.apply(null, new Uint8Array(buffer));
+      const cipherObject = decryptContent(decodedString)
+      const decrypted = new Blob([cipherObject])  // https://fileinfo.com/filetypes/encoded
+      const url = window.URL.createObjectURL(decrypted)
+      setUrl(url)
+  })}}
+
+function DropDecrypt (props) {
+  const { userSession } = useBlockstack()
   const [files, setFiles] = useState([])
-
-  function onChange (files) {
-      console.log("Current files:", files)
-      setFiles(files)
-    }
+  const [url, setUrl] = useState()
+  const decryptContent = useCallback((content => userSession.decryptContent(content)), [userSession])
+  const file = files && files[0]
+  useEffect( () => decryptHandler(file, decryptContent, setUrl), [file, decryptContent])
 
   return (
-      <div className="jumbotron">
-        <p className="lead">
-          Decrypt!
-        </p>
-        <Dropzone className="Dropzone" onChange = { onChange }>
+      <>
+        <Dropzone className="Dropzone" onChange = { setFiles }>
         { files.length > 0
          ? <i className="fas fa-unlock-alt m-auto"></i>
          : null}
          </Dropzone>
-         { files.length > 0
-           ? <div className="alert alert-info text-center mt-4">Your file has been decrypted</div>
-           : null}
-      </div>
+      </>
     );
   }
+
+export default function Decrypt (props) {
+  const [url, setUrl] = useState()
+  const setResult = useCallback(setUrl)
+  return (
+    <div className="jumbotron">
+      <div className="mt-4">
+        <DropDecrypt  setResult={setResult}/>
+      </div>
+      { url ?
+         <div className="alert alert-info text-center mt-4">
+            The file has been encrypted and the result is ready to be saved.
+          </div>
+        : null}
+      <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+        <DownloadButton url={url} filename="decrypted">
+          Save Decrypted File
+        </DownloadButton>
+      </div>
+    </div>
+  )
+}
