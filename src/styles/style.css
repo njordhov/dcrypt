@@ -15,6 +15,10 @@
   background-color: var(--blue);
 }
 
+.text-info {
+  color: var(--blue) !important;
+}
+
 main {
   min-height: 100vh;
   min-height: calc(100vh - 32px);

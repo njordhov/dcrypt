@@ -46,22 +46,18 @@ function initPanes () {
 export default function App () {
   const { userData } = useBlockstack()
   initPanes()
-  if (!userData) {
-    return null
-  } else {
-    return (
+  return (
       <>
          <AuthenticatedDocumentClass name="authenticated" />
          <Router>
                 <Switch>
                   <Route key="home" path="/home" component={goPane('home')} />
-                  <Route key="home" path="/about" component={goPane('about') } />
+                  <Route key="about" path="/about" component={goPane('about') } />
                   <Route key="encrypt" path="/encrypt" component={goPane('encrypt') } />
                   <Route key="decrypt" path="/decrypt" component={goPane('decrypt') } />
-                  {/*<Redirect to="/home"/>*/}
+                  { userData ? <Redirect to="/about"/> : null }
                 </Switch>
               </Router>
       </>
     )
-  }
 }
