@@ -36,7 +36,7 @@ function encryptHandler(file, encryptContent, setUrl) {
     var myReader = new FileReader()
     myReader.readAsArrayBuffer(file)
     myReader.addEventListener("loadend", (e) => {
-      var buffer = e.srcElement.result;//arraybuffer object
+      var buffer = e.srcElement.result;  //arraybuffer object
       const cipherObject = encryptContent(buffer)
       console.log("Encrypted:", cipherObject)
       const encrypted = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
@@ -51,6 +51,7 @@ function PublicKeyField (props) {
     const url = window.location.origin + "/encrypt?public-key=" + publicKey
     const copyLink = () => {
           console.log("Copy encrypt link to clipboard")
+
         }
     const [hiddenKey, setHidden] = useState(true)
     const toggleKey = () => setHidden(!hiddenKey)
@@ -107,14 +108,32 @@ function DropEncrypt ({publicKey, setResult}) {
       </>
 )}
 
-export default function Encrypt (props) {
+function usePublicKey () {
+  // The public key to use for encryption
+  const [value, setValue] = useState()
   const { userData } = useBlockstack()
-  // const params = new URLSearchParams(window.location.search);
-  // const publicKey = params.get('public-key')
-  const privateKey = userData && userData.appPrivateKey
-  const publicKey = privateKey && getPublicKeyFromPrivate(privateKey)
+  useEffect( (() => {
+      const params = new URLSearchParams(window.location.search);
+      const publicKey = params.get('public-key')
+      if (publicKey) {
+        setValue(publicKey)
+      } else {
+        const privateKey = userData && userData.appPrivateKey
+        const publicKey = privateKey && getPublicKeyFromPrivate(privateKey)
+        setValue(publicKey)
+      }}), [window.location.search, userData])
+    return (value)
+}
+
+export default function Encrypt (props) {
+  const { userData, userSession } = useBlockstack()
   const [url, setUrl] = useState()
   const setResult = useCallback(setUrl)
+  const publicKey = usePublicKey()
+  useEffect( () => {
+    if (publicKey && userSession) {
+      userSession.putFile("public", JSON.stringify({publicKey: publicKey}))
+    }}, [publicKey, userSession])
   return (
       <div className="jumbotron">
 
