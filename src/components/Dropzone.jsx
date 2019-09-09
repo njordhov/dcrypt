@@ -38,8 +38,8 @@ export default function Dropzone(props) {
       <input {...getInputProps()} />
       {props.children ||
         (isDragActive ?
-          <p>Drop the files here</p> :
-          <p>Drag &amp; drop a file here, or click to select from your filesystem.</p>)
+          <div>Drop the files here</div> :
+          <div>{props.placeholder || "Drag & drop a file here, or click to select from your filesystem."}</div>)
       }
     </div>
   )

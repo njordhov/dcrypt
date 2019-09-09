@@ -45,12 +45,26 @@ export default function About () {
      <div className="card border-info">
         <div class="card-body">
             <p>In a nutshell, assymetric cryptography is like giving out padlocks
-            that anyone can lock but only
+            that anyone can use to secure confidential material but where only
              you have the key to unlock it. That way, anyone
-           can transmit a secret to you by securing it with the padlock,
+           can transmit confidentially to you by securing the material with the padlock,
            while only you can get access using your private key.</p>
          </div>
       </div>
+
+     <div className="card border-danger">
+        <div class="card-body">
+            <div class="card-media text-center mb-1">
+              <i class="fas fa-bolt" style={{color: "gold", fontSize: "300%"}}></i>
+            </div>
+            <p>Public-key cryptography has many uses.
+            For example, say you want to request funds from somebody
+          with a Bolt11 Lightning invoice but prefer to keep the content
+          of the invoice a secret. We'll show you how.
+          </p>
+         </div>
+      </div>
+
 
       <div className="card border-success">
         <div className="card-body">

@@ -22,11 +22,13 @@ function DropDecrypt (props) {
   const [url, setUrl] = useState()
   const decryptContent = useCallback((content => userSession.decryptContent(content)), [userSession])
   const file = files && files[0]
+  const placeholder = "Drag & drop an encrypted file here, or click to select from your filesystem."
   useEffect( () => decryptHandler(file, decryptContent, setUrl), [file, decryptContent])
 
   return (
       <>
-        <Dropzone className="Dropzone" onChange = { setFiles }>
+        <Dropzone className="Dropzone" onChange = { setFiles }
+                  placeholder={placeholder}>
         { files.length > 0
          ? <i className="fas fa-unlock-alt m-auto"></i>
          : null}
