@@ -1,18 +1,94 @@
 import React from 'react'
 
+const wikiBobAlice = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Public_key_encryption.svg/800px-Public_key_encryption.svg.png"
+//   align-items-center justify-content-center
 
 export default function About () {
   return (
-  <div class="h-80 jumbotron mb-0 row align-items-center justify-content-center"
+  <div className="jumbotron mb-0"
        style={{minHeight: "100vh"}}>
-    <p className="col col-12 col-sm-6 col-md-5
-                  alert alert-info">
-      Public key cryptography is an essential technology to
-      communicate secrets online, but
-      can be confusing to understand and hard to use.
-      It is like having a padlock with one key code
-     to lock it and another secret key to unlock. That way, anyone
-     can send you a secret by locking it, while only you get access.</p>
+     <h5 className="text-center pb-2">What is Public Key Cryptography?</h5>
+    <div className="card-columns">
+       <div className="card border-primary">
+         <div class="card-body">
+            <p>The internet runs on public key cryptography! It is an essential technology to
+            communicate secrets online, but
+            can be confusing to understand and hard to use.</p>
+         </div>
+      </div>
+
+      <div className="card border-info">
+         <div class="card-body">
+            <p>Public key cryptography solves the chicken/egg problem of how to communicate securely with
+               somebody without already having a way to communicate securely.
+               Like if the two parties cannot meet to agree on a secret cipher for their messages.
+               </p>
+        </div>
+      </div>
+
+     <div className="card border-info">
+        <div class="card-body">
+            <p>
+              The solution is to have a public sharable key to encrypt the message and a different
+              secret key to decrypt it back to the original. That's why it is also known
+              as <cite>assymetric cryptography</cite>.</p>
+        </div>
+      </div>
+
+      <div className="card bg-dark">
+        <div class="card-body">
+           {<img className="img-responsive" src={wikiBobAlice}
+                 style={{maxWidth: "100%", maxHeight: "auto", objectFit: "contain"}}/>}
+        </div>
+       </div>
+
+     <div className="card border-info">
+        <div class="card-body">
+            <p>In a nutshell, assymetric cryptography is like giving out padlocks
+            that anyone can lock but only
+             you have the key to unlock it. That way, anyone
+           can transmit a secret to you by securing it with the padlock,
+           while only you can get access using your private key.</p>
+         </div>
+      </div>
+
+      <div className="card border-success">
+        <div className="card-body">
+          <h6 className="card-title">Example: Safekeeping</h6>
+          <ol className="list-group list-group-flush">
+            <li className="list-group-item">Encrypt the file with your public key.</li>
+            <li className="list-group-item">Store the encrypted content on your filesystem
+                or online.</li>
+            <li className="list-group-item">Decrypt the content using your private key
+            to get back the original file.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div className="card border-success">
+        <div className="card-body">
+          <h6 className="card-title">Example: Send a Confidential File</h6>
+          <ol className="list-group list-group-flush">
+            <li className="list-group-item">Encrypt the file with the public key of the recipient.</li>
+            <li className="list-group-item">Transmit the encrypted content to the recipient.</li>
+            <li className="list-group-item">The receiver decrypt the content using their private key.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div className="card border-success">
+        <div className="card-body">
+          <h6 className="card-title">Example: Request a Confidential File</h6>
+          <ol className="list-group list-group-flush">
+            <li className="list-group-item">Share your public key with the sender</li>
+            <li className="list-group-item">The sender encrypts the file with your public key.</li>
+            <li className="list-group-item">Upon receipt you decrypt the file using your private key.</li>
+          </ol>
+        </div>
+      </div>
+
+
+     </div>
   </div>
   )
 }

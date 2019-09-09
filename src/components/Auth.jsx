@@ -1,19 +1,43 @@
 import React from 'react';
 import { useBlockstack } from 'react-blockstack'
 
-const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
+import css from './Auth.css'
+
+function AuthButton ({signIn, signOut}) {
+  return (
+    signOut ?
+      <button
+          className="btn btn-outline-secondary"
+          onClick={ signOut }>
+          Sign Out
+      </button>
+      : signIn ?
+      <button
+        className="btn btn-primary"
+        onClick={ signIn }>
+        Sign In
+      </button>
+      : <span>...</span>
+  )
+}
 
 export default function Auth (props) {
-    const { signIn, signOut, person } = useBlockstack()
+    const {userSession, userData, signIn, signOut, person} = useBlockstack()
+    const avatarUrl = (person && person.avatarUrl && person.avatarUrl())
+    if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
+      console.log("Blockstack inconsistency: Already signed in yet signin is pending");
+    }
     return (
       <div className="Auth">
          { signOut ?
           <div className="btn-group dropdown">
-            <button className="btn dropdown-toggle"
+            <button className="btn text-muted dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span className="avatar">
-                <img src={ (person && person.avatarUrl && person.avatarUrl()) || avatarFallbackImage }
-                       className="avatar-image" id="avatar-image" />
+              <span className="avatar mr-3">
+                {avatarUrl ?
+                 <img src={ avatarUrl }
+                      className="avatar-image" id="avatar-image" />
+                 : <i className="fas fa-user-circle mr-2" style={{fontSize: "1.3rem"}}></i>}
                 { (person && person.name && person.name()) || ''}
               </span>
             </button>
@@ -26,21 +50,8 @@ export default function Auth (props) {
           </div>
           : null }
 
-          <span>
-          { signOut && false ?
-            <button
-                className="btn btn-outline-secondary"
-                onClick={ signOut }>
-                Sign Out
-            </button>
-            : signIn ?
-            <button
-              className="btn btn-outline-primary"
-              onClick={ signIn }>
-              Sign In
-            </button>
-            : <span></span>
-          }
+          <span hidden={true}>
+            <AuthButton signIn={signIn} signOut={signOut}/>
           </span>
         </div>
     )

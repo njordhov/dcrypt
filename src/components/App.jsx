@@ -16,8 +16,8 @@ function Empty (props) {
 
 
 function goPane (id) {
-  return () => {
-    console.log("Go pane:", id)
+  return (props) => {
+    console.log("Go pane:", id, props)
     useEffect( () => {
       const tab = document.getElementById("" + id + "-tab")
       if (tab) {
@@ -37,7 +37,7 @@ function initPanes () {
       //e.relatedTarget // previous active tab
       const id = e.target.getAttribute("aria-controls")
       console.log("Routing pane", id, e.target.tab, e.target, e.relatedTarget)
-      window.history.replaceState({}, document.title, id)
+      window.history.replaceState({}, document.title, "/" + id)
   }
   $('a[data-toggle="tab"]').on('show.bs.tab', handleTabShown)
   console.log("route panes:", $('a[data-toggle="tab"]'))
@@ -51,10 +51,11 @@ export default function App () {
          <AuthenticatedDocumentClass name="authenticated" />
          <Router>
                 <Switch>
-                  <Route key="home" path="/home" component={goPane('home')} />
-                  <Route key="about" path="/about" component={goPane('about') } />
-                  <Route key="encrypt" path="/encrypt" component={goPane('encrypt') } />
-                  <Route key="decrypt" path="/decrypt" component={goPane('decrypt') } />
+                  <Route key="home" path="/home" exact={true} component={goPane('home')} />
+                  <Route key="about" path="/about" exact={true} component={goPane('about') } />
+                  <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />
+                  <Route key="custom" path="/to/:publicKey" exact={true} component={goPane('encrypt')} />
+                  <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />
                   { userData ? <Redirect to="/about"/> : null }
                 </Switch>
               </Router>
