@@ -2,13 +2,14 @@ import React, { useCallback } from 'react';
 import {useDropzone} from 'react-dropzone'
 
 export function DownloadButton (props) {
-  const {url, filename, children} = props
+  const {url, filename, children, onComplete} = props
   return (
     <div className="d-flex justify-content-center align-items-center w-100">
       <div>
         <a className={[!url ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
          role="button"
          download={ filename || true}
+         onloaded={onComplete}
          disabled= { !url }
          aria-disabled={ !url }
          href={url} target="_blank">

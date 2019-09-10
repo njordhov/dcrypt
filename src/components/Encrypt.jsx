@@ -27,38 +27,37 @@ function saveEncrypted (files, encrypt) {
     reader.readAsArrayBuffer(file)*/
   }
 
-function encryptHandler(file, encryptContent, setUrl) {
+function encryptHandler(file, encryptContent, setResult) {
   if (file) {
     var myReader = new FileReader()
     myReader.readAsArrayBuffer(file)
     myReader.addEventListener("loadend", (e) => {
       var buffer = e.srcElement.result;  //arraybuffer object
       const cipherObject = encryptContent(buffer)
-      console.log("Encrypted:", cipherObject)
-      const encrypted = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-      const url = window.URL.createObjectURL(encrypted)
-      console.log("Save url:", url)
-      setUrl(url)
+      if (cipherObject) {
+        const encrypted = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+        setResult(encrypted)}
   })}}
 
 function DropEncrypt ({publicKey, setResult}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
-    const [url, setUrl] = useState()
     const encryptContent = useCallback(content => userSession.encryptContent(content, publicKey),
                                       [userSession, publicKey])
     const file = files &&  files[0]
-    useEffect( (() => encryptHandler(file, encryptContent, setUrl)),[file, encryptContent])
+    useEffect( (() => encryptHandler(file, encryptContent, setResult)),[file, encryptContent])
     const onChange = (files) => {
       console.log("Current files:", files)
       setFiles(files)
     }
-    useEffect( (() => setResult ? setResult(url) : null), [setResult, url])
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
-          { files.length > 0
-           ? <i class="fas fa-shield-alt m-auto"></i>
+          { file
+           ? <div className="m-auto text-center">
+                <div><i class="fas fa-shield-alt"></i></div>
+                <div className="mt-2">{file.name}</div>
+             </div>
            : null}
         </Dropzone>
       </>
@@ -68,12 +67,13 @@ function DropEncrypt ({publicKey, setResult}) {
 export default function Encrypt (props) {
   const { userData, userSession } = useBlockstack()
   const [url, setUrl] = useState()
-  const setResult = useCallback(setUrl)
+  const setResult = useCallback( encrypted => setUrl(window.URL.createObjectURL(encrypted)))
   const publicKey = usePublicKey()
   useEffect( () => {
     if (publicKey && userSession) {
       userSession.putFile("public", JSON.stringify({publicKey: publicKey}))
     }}, [publicKey, userSession])
+  const resetForm = useCallback(() => {setUrl(null); })
   return (
       <div className="jumbotron">
 
@@ -83,7 +83,7 @@ export default function Encrypt (props) {
           </div>
 
           <div className="mt-4">
-            <DropEncrypt  setResult={setResult}/>
+            <DropEncrypt setResult={setResult}/>
           </div>
 
           { url ?
@@ -93,7 +93,7 @@ export default function Encrypt (props) {
             : null}
 
           <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-            <DownloadButton url={url} filename="encrypted">
+            <DownloadButton url={url} filename="encrypted" onComplete={ resetForm }>
               Save Encrypted File
             </DownloadButton>
           </div>

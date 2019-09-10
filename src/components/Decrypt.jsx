@@ -4,7 +4,7 @@ import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { DownloadButton } from './Dropzone.jsx'
 
-function decryptHandler(file, decryptContent, setUrl) {
+function decryptHandler(file, decryptContent, setResult) {
   if (file) {
     var myReader = new FileReader()
     myReader.readAsArrayBuffer(file)
@@ -13,26 +13,34 @@ function decryptHandler(file, decryptContent, setUrl) {
       var decodedString = String.fromCharCode.apply(null, new Uint8Array(buffer));
       const cipherObject = decryptContent(decodedString)
       const decrypted = new Blob([cipherObject])  // https://fileinfo.com/filetypes/encoded
-      const url = window.URL.createObjectURL(decrypted)
-      setUrl(url)
+      setResult(decrypted)
   })}}
 
-function DropDecrypt (props) {
+function DropDecrypt ({setResult}) {
   const { userSession } = useBlockstack()
   const [files, setFiles] = useState([])
-  const [url, setUrl] = useState()
-  const decryptContent = useCallback((content => userSession.decryptContent(content)), [userSession])
+  const [message, setMessage] = useState()
+  const decryptContent = useCallback((content => {
+    try {
+      return( userSession.decryptContent(content) )
+    } catch (err) {
+      console.info("Failed to decrypt:", err)
+      setFiles([])
+      setMessage("Can't decrypt the file, possibly because it is not encrypted with your public key.")
+    }
+  }), [userSession])
   const file = files && files[0]
-  const placeholder = "Drag & drop an encrypted file here, or click to select from your filesystem."
-  useEffect( () => decryptHandler(file, decryptContent, setUrl), [file, decryptContent])
+  const placeholder = message || "Drag & drop an encrypted file here, or click to select from your filesystem."
+  useEffect( () => decryptHandler(file, decryptContent, setResult), [file, decryptContent])
 
   return (
       <>
         <Dropzone className="Dropzone" onChange = { setFiles }
                   placeholder={placeholder}>
-        { files.length > 0
+        { message ||
+         (file
          ? <i className="fas fa-unlock-alt m-auto"></i>
-         : null}
+         : <i className="fas fa-file-import m-auto"></i>)}
          </Dropzone>
       </>
     );
@@ -40,9 +48,9 @@ function DropDecrypt (props) {
 
 export default function Decrypt (props) {
   const [url, setUrl] = useState()
-  const setResult = useCallback(setUrl)
+  const setResult = useCallback( decrypted => setUrl(window.URL.createObjectURL(decrypted)) )
   const privateKey = usePrivateKey()
-  console.log("PrivateKey:", privateKey)
+  const resetForm = () => console.log("File saved, ready to reset the form")
   return (
     <div className="jumbotron">
 
@@ -52,15 +60,15 @@ export default function Decrypt (props) {
       </div>
 
       <div className="mt-4">
-        <DropDecrypt  setResult={setResult}/>
+        <DropDecrypt setResult={setResult}/>
       </div>
       { url ?
          <div className="alert alert-info text-center mt-4">
-            The file has been encrypted and the result is ready to be saved.
+            The file has been decrypted and the result is ready to be saved.
           </div>
         : null}
       <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-        <DownloadButton url={url} filename="decrypted">
+        <DownloadButton url={url} filename="decrypted" onComplete={ resetForm }>
           Save Decrypted File
         </DownloadButton>
       </div>
