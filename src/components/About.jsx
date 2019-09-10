@@ -11,7 +11,7 @@ export default function About () {
     <div className="card-columns">
        <div className="card border-primary">
          <div class="card-body">
-            <p>The internet runs on public key cryptography! It is an essential technology to
+            <p>The internet runs on public-key cryptography! It is an essential technology to
             communicate secrets online, but
             can be confusing to understand and hard to use.</p>
          </div>
@@ -19,9 +19,11 @@ export default function About () {
 
       <div className="card border-info">
          <div class="card-body">
-            <p>Public key cryptography solves the chicken/egg problem of how to communicate securely with
-               somebody without already having a way to communicate securely.
+            <p>Public key cryptography solves the chicken/egg problem of <cite>how to communicate securely with
+               somebody without already having a way to communicate securely.</cite>
                Like if the two parties cannot meet to agree on a secret cipher for their messages.
+               With public-key cryptography, the people communicating don't have to have shared ahead
+               of time a secret key such as a password.
                </p>
         </div>
       </div>
@@ -68,7 +70,7 @@ export default function About () {
 
       <div className="card border-success">
         <div className="card-body">
-          <h6 className="card-title">Example: Safekeeping</h6>
+          <h6 className="card-title">Example: Safekeeping Confidential Files</h6>
           <ol className="list-group list-group-flush">
             <li className="list-group-item">Encrypt the file with your public key.</li>
             <li className="list-group-item">Store the encrypted content on your filesystem

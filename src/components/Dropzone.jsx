@@ -21,12 +21,20 @@ export function DownloadButton (props) {
   )
 }
 
+export function decryptedFilename (filename) {
+  return (filename.replace(/.dcrypt$/, ""))
+}
+
+export function encryptedFilename (filename) {
+  return (decryptedFilename(filename) + ".dcrypt")
+}
+
 export function SaveButton (props) {
   const { content, filename } = props
   const [url, setUrl] = useState()
   const [name, setName] = useState()
   useEffect( () => {
-      setName(filename || (content && content.filename)) //keeps it around beyond the click
+      setName(filename || (content && encryptedFilename(content.filename))) //keeps it around beyond the click
       setUrl(content? window.URL.createObjectURL(content) : null)
     }, [content, filename])
   const custom = {url: url, filename: name}

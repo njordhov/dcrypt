@@ -3,7 +3,7 @@ import { useBlockstack } from 'react-blockstack'
 import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
-import Dropzone, { DownloadButton } from './Dropzone.jsx'
+import Dropzone, { DownloadButton, decryptedFilename } from './Dropzone.jsx'
 
 function decryptHandler(file, decryptContent, setResult) {
   if (file) {
@@ -78,13 +78,13 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
 
 export default function Decrypt (props) {
   const [url, setUrl] = useState()
-  const [name, setName] = useState()
+  const [filename, setName] = useState()
   const privateKey = usePrivateKey()
   const [message, setMessage] = useState()
 
   const setResult = useCallback( decrypted => {
     if (decrypted) {
-      setName(decrypted.filename.replace(/.dcrypt$/, ""))
+      setName(decryptedFilename(filename))
       setUrl(window.URL.createObjectURL(decrypted))
       setMessage(null)
   }})
@@ -119,7 +119,7 @@ export default function Decrypt (props) {
           </div>
         : null}
       <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-        <DownloadButton url={url} onComplete={ resetForm } filename={name}>
+        <DownloadButton url={url} onComplete={ resetForm } filename={filename}>
           Save Decrypted File
         </DownloadButton>
       </div>

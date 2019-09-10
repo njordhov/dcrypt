@@ -81,11 +81,17 @@ function SaveCard ({active, onComplete, completed, content}) {
 )}
 
 function DecryptStep ({active, completed, onCompleted}) {
+  const [error, onError] = useState()
   return (
     <Card active={active}>
        <h5 className="card-header">Step 3: Decrypt the Encrypted File</h5>
        <div className="card-body">
-        {(!completed && !active) &&
+       {(error) ?
+        <div className="alert alert-danger text-center mt-4">
+          Can't decrypt this file. Is it really the encrypted file you saved in the
+          earlier step?
+        </div> :
+        (!completed && !active) &&
         <div className="alert alert-warning text-center mt-4">
           When you have completed the earlier steps,
           there will be an encrypted file to decrypt.
@@ -95,7 +101,8 @@ function DecryptStep ({active, completed, onCompleted}) {
          <div className="alert alert-info text-center mt-4">
             Decrypt the saved file to get back the original:
          </div>}
-         <DropDecrypt setResult={onCompleted}/>
+         <DropDecrypt setResult={onCompleted} gotResult={completed}
+                      onError={onError}/>
        </div>
     </Card>
   )

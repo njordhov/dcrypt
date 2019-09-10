@@ -5,7 +5,7 @@ import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-l
 import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import {usePublicKey} from './cipher.jsx'
-import Dropzone, { SaveButton } from './Dropzone.jsx'
+import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 
 function saveEncrypted (files, encrypt) {
   // consider using filesaver package or similar
@@ -95,7 +95,7 @@ export default function Encrypt (props) {
 
           <div className="d-flex justify-content-center align-items-center w-100 mt-3">
             <SaveButton content={content} onComplete={ resetForm }
-                        filename={content && content.filename && (content.filename + ".dcrypt")}>
+                        filename={content && content.filename && encryptedFilename(content.filename)}>
               Save Encrypted File
             </SaveButton>
           </div>
