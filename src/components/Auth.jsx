@@ -23,10 +23,13 @@ function AuthButton ({signIn, signOut}) {
 
 export default function Auth (props) {
     const {userSession, userData, signIn, signOut, person} = useBlockstack()
-    const avatarUrl = (person && person.avatarUrl && person.avatarUrl())
+    const {name, avatarUrl} = person  // access functions
+    const avatar = avatarUrl && person.avatarUrl()
+    const {username, email} = userData
     if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
       console.log("Blockstack inconsistency: Already signed in yet signin is pending");
     }
+    console.log("UserData:", avatarUrl)
     return (
       <div className="Auth">
          { signOut ?
@@ -34,11 +37,11 @@ export default function Auth (props) {
             <button className="btn text-muted dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span className="avatar mr-3">
-                {avatarUrl ?
-                 <img src={ avatarUrl }
+                {avatar ?
+                 <img src={ avatar }
                       className="avatar-image" id="avatar-image" />
                  : <i className="fas fa-user-circle mr-2" style={{fontSize: "1.3rem"}}></i>}
-                { (person && person.name && person.name()) || ''}
+                { username && username.replace(/.id.blockstack$/, "") }
               </span>
             </button>
             <div className="dropdown-menu">

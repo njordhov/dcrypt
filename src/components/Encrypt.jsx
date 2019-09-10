@@ -52,6 +52,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       console.log("Current files:", files)
       setFiles(files)
     }
+    const placeholder = <span>Drag &amp; drop a file here, or click to select from your filesystem.</span>
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
@@ -60,7 +61,14 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
                 <div><i class="fas fa-shield-alt"></i></div>
                 <div className="mt-2">{file.name}</div>
              </div>
-           : null}
+           : <div className="mx-auto text-center">
+               <div>
+                 <i className="fas fa-file-import m-auto"></i>
+               </div>
+               <div className="mt-4">
+                 {placeholder}
+               </div>
+             </div>}
         </Dropzone>
       </>
 )}
@@ -68,6 +76,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
 
 export default function Encrypt (props) {
   const { userData, userSession } = useBlockstack()
+  const {username} = userData
   const [content, setResult] = useState()
   const publicKey = usePublicKey()
   useEffect( () => {
@@ -80,6 +89,7 @@ export default function Encrypt (props) {
 
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
+              username={username}
               label="Public Key" publicKey={publicKey}/>
           </div>
 

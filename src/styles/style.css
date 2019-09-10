@@ -53,6 +53,10 @@ html:not(.authenticated) .when-authenticated {
 
 /* MAIN */
 
+main .jumbotron {
+  background-color: #101010;  /* original conflicts input-group colors */
+}
+
 /* FEATURES */
 
 .features-icons {

@@ -57,7 +57,7 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
       return(null)
     }
   }), [userSession])
-  const placeholder = "Drag & drop an encrypted file here, or click to select from your filesystem."
+  const placeholder = <span>Drag & drop a <cite>dcrypt</cite> encrypted file here, or click to select from your filesystem.</span>
 
   useEffect( () => decryptHandler(file, decryptContent, setResult), [file, decryptContent])
 
@@ -67,9 +67,13 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
                   placeholder={placeholder}>
         { ((!isNull(gotResult) ? gotResult : file)
          ? <i className="fas fa-unlock-alt m-auto"></i>
-         : <div>
-             <i class="fas fa-shield-alt"></i>
-             <i className="fas fa-file-import m-auto"></i>
+         : <div className="mx-auto text-center">
+             <div>
+               <i className="fas fa-file-import m-auto"></i>
+             </div>
+             <div className="mt-4">
+               {placeholder}
+             </div>
            </div>)}
          </Dropzone>
       </>
@@ -77,6 +81,9 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
   }
 
 export default function Decrypt (props) {
+  const { userData, userSession } = useBlockstack()
+  const {username} = userData
+
   const [url, setUrl] = useState()
   const [filename, setName] = useState()
   const privateKey = usePrivateKey()
@@ -102,6 +109,7 @@ export default function Decrypt (props) {
 
       <div className="d-flex justify-content-center align-items-center w-100">
         <KeyField className="PrivateKeyField"
+          username={username}
           label="Private Key" privateKey={privateKey} />
       </div>
 
