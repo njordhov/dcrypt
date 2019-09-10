@@ -41,7 +41,7 @@ function encryptHandler(file, encryptContent, setResult) {
         setResult(content)}
   })}}
 
-export function DropEncrypt ({publicKey, setResult, gotResult}) {
+export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
     const encryptContent = useCallback(content => userSession.encryptContent(content, publicKey),
@@ -89,7 +89,7 @@ export default function Encrypt (props) {
 
           { content ?
              <div className="alert alert-info text-center mt-4">
-                The file has been encrypted and the result is ready to be saved.
+                The file has been encrypted.
               </div>
             : null}
 
