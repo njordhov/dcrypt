@@ -8,6 +8,7 @@ import Signin from './components/Signin.jsx';
 import App from './components/App.jsx';
 import Auth from './components/Auth.jsx';
 import About from './components/About.jsx';
+import Tutorial from './components/Tutorial.jsx';
 import Encrypt from './components/Encrypt.jsx';
 import Decrypt from './components/Decrypt.jsx';
 
@@ -33,5 +34,6 @@ ReactDOM.render(<Signin />, document.getElementById('signin-root'));
 ReactDOM.render(<App />, document.getElementById('app-root'));
 ReactDOM.render(<Auth />, document.getElementById('auth-root'));
 ReactDOM.render(<About />, document.getElementById('about-root'));
+ReactDOM.render(<Tutorial />, document.getElementById('tutorial-root'));
 ReactDOM.render(<Encrypt />, document.getElementById('encrypt-root'));
 ReactDOM.render(<Decrypt />, document.getElementById('decrypt-root'));

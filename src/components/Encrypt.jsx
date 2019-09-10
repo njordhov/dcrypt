@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
+import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import {usePublicKey} from './cipher.jsx'
-import Dropzone, { DownloadButton } from './Dropzone.jsx'
+import Dropzone, { SaveButton } from './Dropzone.jsx'
 
 function saveEncrypted (files, encrypt) {
   // consider using filesaver package or similar
@@ -35,16 +36,17 @@ function encryptHandler(file, encryptContent, setResult) {
       var buffer = e.srcElement.result;  //arraybuffer object
       const cipherObject = encryptContent(buffer)
       if (cipherObject) {
-        const encrypted = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-        setResult(encrypted)}
+        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+        content.filename = file.name
+        setResult(content)}
   })}}
 
-function DropEncrypt ({publicKey, setResult}) {
+export function DropEncrypt ({publicKey, setResult, gotResult}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
     const encryptContent = useCallback(content => userSession.encryptContent(content, publicKey),
                                       [userSession, publicKey])
-    const file = files &&  files[0]
+    const file = files && files[0]
     useEffect( (() => encryptHandler(file, encryptContent, setResult)),[file, encryptContent])
     const onChange = (files) => {
       console.log("Current files:", files)
@@ -53,7 +55,7 @@ function DropEncrypt ({publicKey, setResult}) {
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
-          { file
+          { (!isNull(gotResult) ? gotResult : file)
            ? <div className="m-auto text-center">
                 <div><i class="fas fa-shield-alt"></i></div>
                 <div className="mt-2">{file.name}</div>
@@ -66,14 +68,13 @@ function DropEncrypt ({publicKey, setResult}) {
 
 export default function Encrypt (props) {
   const { userData, userSession } = useBlockstack()
-  const [url, setUrl] = useState()
-  const setResult = useCallback( encrypted => setUrl(window.URL.createObjectURL(encrypted)))
+  const [content, setResult] = useState()
   const publicKey = usePublicKey()
   useEffect( () => {
     if (publicKey && userSession) {
       userSession.putFile("public", JSON.stringify({publicKey: publicKey}))
     }}, [publicKey, userSession])
-  const resetForm = useCallback(() => {setUrl(null); })
+  const resetForm = useCallback(() => {setResult(null); })
   return (
       <div className="jumbotron">
 
@@ -83,19 +84,20 @@ export default function Encrypt (props) {
           </div>
 
           <div className="mt-4">
-            <DropEncrypt setResult={setResult}/>
+            <DropEncrypt setResult={setResult} gotResult={!!content}/>
           </div>
 
-          { url ?
+          { content ?
              <div className="alert alert-info text-center mt-4">
                 The file has been encrypted and the result is ready to be saved.
               </div>
             : null}
 
           <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-            <DownloadButton url={url} filename="encrypted" onComplete={ resetForm }>
+            <SaveButton content={content} onComplete={ resetForm }
+                        filename={content && content.filename && (content.filename + ".dcrypt")}>
               Save Encrypted File
-            </DownloadButton>
+            </SaveButton>
           </div>
 
       </div>

@@ -48,6 +48,12 @@
               </a>
             </li>
             <li class="nav-item when-authenticated">
+              <a class="nav-link" id="tutorial-tab" data-toggle="tab"
+                 href="#tutorial" role="tab" aria-controls="tutorial" aria-selected="false">
+                Tutorial
+              </a>
+            </li>
+            <li class="nav-item when-authenticated">
               <a class="nav-link" id="encrypt-tab" data-toggle="tab"
                  href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
                  Encrypt</a>
@@ -119,6 +125,10 @@
           <div id="about-root">[About]</div>
         </div>
 
+        <div class="tab-pane fade"
+             id="tutorial" role="tabpanel" aria-labelledby="tutorial-tab">
+          <div id="tutorial-root">[Tutorial]</div>
+        </div>
 
         <div class="tab-pane fade"
              id="encrypt" role="tabpanel" aria-labelledby="encrypt-tab">

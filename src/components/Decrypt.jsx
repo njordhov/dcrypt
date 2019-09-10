@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
+import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { DownloadButton } from './Dropzone.jsx'
@@ -11,12 +12,13 @@ function decryptHandler(file, decryptContent, setResult) {
     myReader.addEventListener("loadend", (e) => {
       var buffer = e.srcElement.result;//arraybuffer object
       var decodedString = String.fromCharCode.apply(null, new Uint8Array(buffer));
-      const cipherObject = decryptContent(decodedString)
-      const decrypted = new Blob([cipherObject])  // https://fileinfo.com/filetypes/encoded
+      const originalObject = decryptContent(decodedString)
+      const decrypted = new Blob([originalObject])  // https://fileinfo.com/filetypes/encoded
+      decrypted.filename = file.name.replace(/.dcrypt$/, "")
       setResult(decrypted)
   })}}
 
-function DropDecrypt ({setResult}) {
+export function DropDecrypt ({setResult, gotResult}) {
   const { userSession } = useBlockstack()
   const [files, setFiles] = useState([])
   const [message, setMessage] = useState()
@@ -38,9 +40,12 @@ function DropDecrypt ({setResult}) {
         <Dropzone className="Dropzone" onChange = { setFiles }
                   placeholder={placeholder}>
         { message ||
-         (file
+         ((!isNil(gotResult) ? gotResult : file)
          ? <i className="fas fa-unlock-alt m-auto"></i>
-         : <i className="fas fa-file-import m-auto"></i>)}
+         : <div>
+             <i class="fas fa-shield-alt"></i>
+             <i className="fas fa-file-import m-auto"></i>
+           </div>)}
          </Dropzone>
       </>
     );
@@ -48,9 +53,16 @@ function DropDecrypt ({setResult}) {
 
 export default function Decrypt (props) {
   const [url, setUrl] = useState()
-  const setResult = useCallback( decrypted => setUrl(window.URL.createObjectURL(decrypted)) )
+  const [name, setName] = useState()
+  const setResult = useCallback( decrypted => {
+    setName(decrypted.filename)
+    setUrl(window.URL.createObjectURL(decrypted))
+  })
   const privateKey = usePrivateKey()
-  const resetForm = () => console.log("File saved, ready to reset the form")
+  const resetForm = () => {
+    console.log("File saved, ready to reset the form")
+    setUrl(null)
+  }
   return (
     <div className="jumbotron">
 
@@ -60,7 +72,7 @@ export default function Decrypt (props) {
       </div>
 
       <div className="mt-4">
-        <DropDecrypt setResult={setResult}/>
+        <DropDecrypt setResult={setResult} gotResult={!!url}/>
       </div>
       { url ?
          <div className="alert alert-info text-center mt-4">
@@ -68,7 +80,7 @@ export default function Decrypt (props) {
           </div>
         : null}
       <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-        <DownloadButton url={url} filename="decrypted" onComplete={ resetForm }>
+        <DownloadButton url={url} onComplete={ resetForm } filename={name}>
           Save Decrypted File
         </DownloadButton>
       </div>
