@@ -2,13 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import Dropzone, {DownloadButton} from './Dropzone.jsx'
-
-function getPublicKeyFromPrivate(privateKey: string) {
-  // from blockstack.js internal key module
-  const keyPair = ECPair.fromPrivateKey(Buffer.from(privateKey, 'hex'))
-  return keyPair.publicKey.toString('hex')
-}
+import KeyField from './KeyField.jsx'
+import {usePublicKey} from './cipher.jsx'
+import Dropzone, { DownloadButton } from './Dropzone.jsx'
 
 function saveEncrypted (files, encrypt) {
   // consider using filesaver package or similar
@@ -45,46 +41,6 @@ function encryptHandler(file, encryptContent, setUrl) {
       setUrl(url)
   })}}
 
-
-function PublicKeyField (props) {
-    const {publicKey} = props
-    const url = window.location.origin + "/encrypt?public-key=" + publicKey
-    const copyLink = () => {
-          console.log("Copy encrypt link to clipboard")
-
-        }
-    const [hiddenKey, setHidden] = useState(true)
-    const toggleKey = () => setHidden(!hiddenKey)
-    return (
-    <div className="PublicKeyField">
-
-      <div className="input-group ">
-        <div className="input-group-prepend">
-          <span className="input-group-text">
-            Public Key
-          </span>
-        </div>
-        <input className="form-control"
-               id="public-key-field"
-               style={{maxWidth: "34rem"}}
-               value={publicKey} readOnly={true}
-               type={hiddenKey? "password" : "text"}
-               onClick={ toggleKey }/>
-        <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" type="button"
-                          onClick={ copyLink }>
-                    <i className="far fa-clipboard"></i> Magic Link
-                  </button>
-        </div>
-      </div>
-          {!hiddenKey && false ?
-            <p>Use the button to copy a link with your public key.</p>
-            : null}
-    </div>
-    )
-  }
-
-
 function DropEncrypt ({publicKey, setResult}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
@@ -108,22 +64,6 @@ function DropEncrypt ({publicKey, setResult}) {
       </>
 )}
 
-function usePublicKey () {
-  // The public key to use for encryption
-  const [value, setValue] = useState()
-  const { userData } = useBlockstack()
-  useEffect( (() => {
-      const params = new URLSearchParams(window.location.search);
-      const publicKey = params.get('public-key')
-      if (publicKey) {
-        setValue(publicKey)
-      } else {
-        const privateKey = userData && userData.appPrivateKey
-        const publicKey = privateKey && getPublicKeyFromPrivate(privateKey)
-        setValue(publicKey)
-      }}), [window.location.search, userData])
-    return (value)
-}
 
 export default function Encrypt (props) {
   const { userData, userSession } = useBlockstack()
@@ -138,7 +78,8 @@ export default function Encrypt (props) {
       <div className="jumbotron">
 
           <div className="d-flex justify-content-center align-items-center w-100">
-            <PublicKeyField publicKey={publicKey}/>
+            <KeyField className="PublicKeyField"
+              label="Public Key" publicKey={publicKey}/>
           </div>
 
           <div className="mt-4">

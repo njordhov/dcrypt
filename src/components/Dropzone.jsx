@@ -6,7 +6,7 @@ export function DownloadButton (props) {
   return (
     <div className="d-flex justify-content-center align-items-center w-100">
       <div>
-        <a className={[!url ? "disabled":null, "btn btn-success center-text"].join(" ")}
+        <a className={[!url ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
          role="button"
          download={ filename || true}
          disabled= { !url }

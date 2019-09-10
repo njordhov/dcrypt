@@ -6,7 +6,7 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/media/logo32.png">
     <script>
-      document.documentElement.add("loading")
+      document.documentElement.className += " loading"
       window.onload = function () {
         document.documentElement.className =
         document.documentElement.className.replace("loading", '')

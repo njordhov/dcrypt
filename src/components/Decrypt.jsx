@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import Dropzone, {DownloadButton} from './Dropzone.jsx'
-
+import KeyField from './KeyField.jsx'
+import { usePrivateKey } from './cipher.jsx'
+import Dropzone, { DownloadButton } from './Dropzone.jsx'
 
 function decryptHandler(file, decryptContent, setUrl) {
   if (file) {
@@ -40,8 +41,16 @@ function DropDecrypt (props) {
 export default function Decrypt (props) {
   const [url, setUrl] = useState()
   const setResult = useCallback(setUrl)
+  const privateKey = usePrivateKey()
+  console.log("PrivateKey:", privateKey)
   return (
     <div className="jumbotron">
+
+      <div className="d-flex justify-content-center align-items-center w-100">
+        <KeyField className="PrivateKeyField"
+          label="Private Key" privateKey={privateKey} />
+      </div>
+
       <div className="mt-4">
         <DropDecrypt  setResult={setResult}/>
       </div>

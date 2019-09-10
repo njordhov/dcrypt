@@ -76,6 +76,31 @@ html:not(.authenticated) .when-authenticated {
   font-size: 5.5rem;
 }
 
+/* Key Fields */
+
+/*
+.PrivateKeyField input.key-field:not(:focus) {
+  color: transparent;
+  text-shadow: 0 0 4px rgba(0,0,0,0.5);
+}*/
+
+.PrivateKeyField input.key-field:not(:focus) {
+  font-family: "text-security-square";
+}
+
+
+.PublicKeyField input.key-field {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.PrivateKeyField input.key-field {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 /* Dropzone */
 
 .Dropzone {
