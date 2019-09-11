@@ -19,11 +19,6 @@
   color: var(--blue) !important;
 }
 
-main {
-  min-height: 100vh;
-  min-height: calc(100vh - 32px);
-}
-
 .PublicKeyField input {
   width: 100%;
 }
@@ -51,10 +46,28 @@ html:not(.authenticated) .when-authenticated {
   margin-right: 0.3em;
 }
 
-/* MAIN */
+main {
+  background-color: #181818;
+  min-height: 100vh;
+  min-height: calc(100vh - 32px);
+}
 
 main .jumbotron {
-  background-color: #101010;  /* original conflicts input-group colors */
+  background-color: #181818;  /* original conflicts input-group colors */
+}
+
+main mark{
+  border-radius: 5px;
+  background-color: inherit;
+  color: #fcf8e3;
+  border: thin solid transparent;
+}
+
+main mark:hover{
+  border-radius: 5px;
+  background-color: transparent;
+  color: inherit;
+  border: thin solid yellow;
 }
 
 /* FEATURES */
@@ -92,6 +105,7 @@ main .jumbotron {
 
 .PrivateKeyField input.key-field:not(:focus) {
   font-family: "text-security-square";
+  color: gray;
 }
 
 

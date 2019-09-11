@@ -2,7 +2,7 @@ import React, { useState, useCallback, useReducer } from 'react'
 import {DropEncrypt} from './Encrypt.jsx'
 import {DropDecrypt} from './Decrypt.jsx'
 import Dropzone, { SaveButton, OpenLink } from './Dropzone.jsx'
-import {usePublicKey} from './cipher.jsx'
+import {usePublicKey, usePrivateKey} from './cipher.jsx'
 
 const classNames = (...list) => list.join(" ")
 
@@ -35,18 +35,21 @@ function safekeepingReducer (state, event) {
 }
 
 
-function ImportCard ({active, completed, onComplete}) {
+function ImportCard ({active, completed, onComplete, publicKey}) {
+  const tooltip = publicKey && ("Your public key is " + publicKey + " and can be freely shared.")
   return (
     <Card active={active}>
       <h5 className="card-header">Step 1: Encrypt a File</h5>
       <div className="card-body">
         { active &&
           <div className="alert alert-primary text-center mt-4">
-            Add a file to be encrypted:
+            Add a file to be encrypted using&nbsp;
+            <mark data-toggle="tooltip" title={tooltip}>your public key:</mark>
           </div>}
         { !active &&
           <div className="alert alert-success text-center mt-4">
-            The file has been encrypted using your <strong>Public Key</strong>.
+            The file has been encrypted using your
+            <mark data-toggle="tooltip" title={tooltip}>your public key.</mark>
           </div>}
         <DropEncrypt disabled={ !active } setResult={onComplete}
                      gotResult={ completed }/>
@@ -82,10 +85,17 @@ function SaveCard ({active, onComplete, completed, content}) {
 
 function DecryptStep ({active, completed, onCompleted}) {
   const [error, onError] = useState()
+  const privateKey = usePrivateKey()
+  const tooltip = privateKey && ("Your private key is " + privateKey + " but it's supposed to be a secret, so keep it to yourself.")
   return (
     <Card active={active}>
        <h5 className="card-header">Step 3: Decrypt the Encrypted File</h5>
        <div className="card-body">
+       {active &&
+        <div className="alert alert-info text-center mt-4">
+           Decrypt the saved file using
+           <mark data-toggle="tooltip" title={tooltip}>your private key:</mark>
+        </div>}
        {(error) ?
         <div className="alert alert-danger text-center mt-4">
           Can't decrypt this file. Is it really the encrypted file you saved in the
@@ -97,10 +107,11 @@ function DecryptStep ({active, completed, onCompleted}) {
           there will be an encrypted file to decrypt.
         </div>
         }
-        {active &&
-         <div className="alert alert-info text-center mt-4">
-            Decrypt the saved file to get back the original:
-         </div>}
+        {completed &&
+          <div className="alert alert-success text-center mt-4">
+            The encrypted file has been decrypted using&nbsp;
+            <mark data-toggle="tooltip" title={tooltip}>your private key.</mark>
+          </div>}
          <DropDecrypt setResult={onCompleted} gotResult={completed}
                       onError={onError}/>
        </div>
@@ -120,9 +131,12 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
           </div>}
         {active &&
           <div className="alert alert-info text-center mt-4">
-            The encrypted file was decrypted using your <strong>Private Key</strong>.
             You can now open the file - it should have the same content as the original.
           </div>}
+        {completed &&
+        <div className="alert alert-success text-center mt-4">
+          <p>The restored file has been opened/saved.</p>
+        </div>}
         { !completed &&
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
@@ -145,18 +159,25 @@ function SafeKeeping (props) {
       <div className="alert alert-dark text-center mt-4">
         This tutorial takes you through the steps of safekeeping a confidential file
         by encrypting it using your public key.
+        { <button className="btn btn-outline-secondary btn-large ml-3"
+                disabled={step == "import"}
+                onClick={() => dispatch({type:"reset"})}>
+           Restart
+          </button>}
       </div>
 
       <ul className="list-group">
         <li className="list-group-item">
-          <ImportCard active={(step == "import")} completed={!!encrypted} onComplete={onEncrypted}/></li>
+          <ImportCard active={(step == "import")} completed={!!encrypted} onComplete={onEncrypted}
+                      publicKey={publicKey}/></li>
         <li className="list-group-item">
           <SaveCard active={(step == "save")} completed={!!saved} content={encrypted}
                 onComplete={onSaved}/></li>
         <li className="list-group-item">
           <DecryptStep active={(step == "decrypt")} completed={!!decrypted} onCompleted={onDecrypted} /></li>
         <li className="list-group-item">
-          <FinalStep active={(step == "export")} decrypted={decrypted} completed={!!done} onCompleted={onDone} /></li>
+          <FinalStep active={(step == "export")} decrypted={decrypted} completed={!!done}
+                     onCompleted={onDone}/></li>
       </ul>
       {done &&
       <div className="alert alert-success text-center mt-4">
@@ -165,16 +186,14 @@ function SafeKeeping (props) {
                 onClick={() => dispatch({type:"reset"})}>
            Restart
         </button>
-      </div>
-      }
+      </div>}
     </div>
   )
 }
 
 export default function Tutorial () {
   return (
-   <div className="jumbotron mb-0"
-        style={{minHeight: "100vh"}}>
+   <div className="jumbotron mb-0">
       <SafeKeeping />
    </div>
   )}

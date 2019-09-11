@@ -29,6 +29,7 @@ export default function Auth (props) {
     if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
       console.log("Blockstack inconsistency: Already signed in yet signin is pending");
     }
+    const defaultAvatar = Math.random() < 0.7 ?  "fas fa-user-circle" : "fas fa-user-secret"
     console.log("UserData:", avatarUrl)
     return (
       <div className="Auth">
@@ -40,7 +41,7 @@ export default function Auth (props) {
                 {avatar ?
                  <img src={ avatar }
                       className="avatar-image" id="avatar-image" />
-                 : <i className="fas fa-user-circle mr-2" style={{fontSize: "1.3rem"}}></i>}
+                 : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
                 { username && username.replace(/.id.blockstack$/, "") }
               </span>
             </button>

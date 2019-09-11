@@ -5,6 +5,8 @@ import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { DownloadButton, decryptedFilename } from './Dropzone.jsx'
 
+import css from 'text-security/dist/text-security.css'
+
 function decryptHandler(file, decryptContent, setResult) {
   if (file) {
     var myReader = new FileReader()
@@ -57,7 +59,7 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
       return(null)
     }
   }), [userSession])
-  const placeholder = <span>Drag & drop a <cite>dcrypt</cite> encrypted file here, or click to select from your filesystem.</span>
+  const placeholder = <span>Drag & drop a <cite>dCrypt</cite> encrypted file here, or click to select from your filesystem.</span>
 
   useEffect( () => decryptHandler(file, decryptContent, setResult), [file, decryptContent])
 

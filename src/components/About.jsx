@@ -3,10 +3,19 @@ import React from 'react'
 const wikiBobAlice = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Public_key_encryption.svg/800px-Public_key_encryption.svg.png"
 //   align-items-center justify-content-center
 
+function EFF (props) {
+  return (
+  <div>
+    <a href="https://www.eff.org/join">
+      <img src="https://www.eff.org/files/eff-join1.png" alt="Join EFF!" border="0"/>
+    </a>
+  </div>
+  )
+}
+
 export default function About () {
   return (
-  <div className="jumbotron mb-0"
-       style={{minHeight: "100vh"}}>
+  <div className="jumbotron mb-0">
      <h5 className="text-center pb-2">What is Public Key Cryptography?</h5>
     <div className="card-columns">
        <div className="card border-primary">
@@ -17,13 +26,26 @@ export default function About () {
          </div>
       </div>
 
+      <div className="card border-primary">
+        <div class="card-body">
+          <p>Here is how encryption works when communicating a message:</p>
+          <ol>
+            <li>A clearly readable message such as <cite>Hello Alice!</cite> is encrypted into an
+            incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
+            <li>The encrypted message is sent over the Internet, where eavesdroppers
+                can only see the scrambled message.</li>
+            <li>When it arrives at its destination, only the intended recipient
+                has the code to decrypting the transmission back into the original message.</li>
+          </ol>
+        </div>
+      </div>
+
       <div className="card border-info">
          <div class="card-body">
+            <p>But what if the parties don't have a way to agree on the encryption
+                      cipher in advance?</p>
             <p>Public key cryptography solves the chicken/egg problem of <cite>how to communicate securely with
-               somebody without already having a way to communicate securely.</cite>
-               Like if the two parties cannot meet to agree on a secret cipher for their messages.
-               With public-key cryptography, the people communicating don't have to have shared ahead
-               of time a secret key such as a password.
+               somebody without already being able to communicate securely.</cite>
                </p>
         </div>
       </div>
