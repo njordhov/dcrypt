@@ -76,7 +76,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
 
 export default function Encrypt (props) {
   const { userData, userSession } = useBlockstack()
-  const {username} = userData
+  const {username} = userData || {}
   const [content, setResult] = useState()
   const publicKey = usePublicKey()
   useEffect( () => {

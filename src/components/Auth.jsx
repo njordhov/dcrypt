@@ -23,9 +23,9 @@ function AuthButton ({signIn, signOut}) {
 
 export default function Auth (props) {
     const {userSession, userData, signIn, signOut, person} = useBlockstack()
-    const {name, avatarUrl} = person  // access functions
-    const avatar = avatarUrl && person.avatarUrl()
-    const {username, email} = userData
+    const {name, avatarUrl} = person || {} // access functions
+    const avatar = avatarUrl && person && person.avatarUrl()
+    const {username, email} = userData || {}
     if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
       console.log("Blockstack inconsistency: Already signed in yet signin is pending");
     }

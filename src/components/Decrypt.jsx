@@ -84,7 +84,7 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
 
 export default function Decrypt (props) {
   const { userData, userSession } = useBlockstack()
-  const {username} = userData
+  const {username} = userData || {}
 
   const [url, setUrl] = useState()
   const [filename, setName] = useState()
