@@ -125,7 +125,17 @@ export default function About () {
         </div>
       </div>
 
-
+     </div>
+     <div class="alert alert-dark mt-5">
+      <img src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
+           style={{marginLeft: "1em", marginRight: "1em", height: "2.5rem", float: "left"}}/>
+      Parts of this page has been adapted from
+      the <a target="_blank" href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
+      EFF Deep Dive on End-to-End Encryption</a> which is a good destination if you would
+      like to know more.
+      This content may be freely distributed under
+      the <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/us/">
+       Creative Commons license.</a>
      </div>
   </div>
   )

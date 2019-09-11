@@ -28,6 +28,9 @@ export default function KeyField (props) {
          </div>}
         <input className={"form-control key-field"}
                style={{maxWidth: "34rem"}}
+               dataToggle="tooltip"
+               title={privateKey ? "This is your private key used to decrypt messages. Keep it secret, keep it safe, and don't share it with anybody." :
+                      publicKey ? "This is your public key used to encrypt messages. It can be shared freely with others." : null }
                value={publicKey || privateKey} readOnly={true}
                type={hiddenKey? "text" : "text"}
                onClick={ toggleKey }/>
