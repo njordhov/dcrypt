@@ -25,6 +25,10 @@
 
 /* NavBar */
 
+#navbarNav {
+  opacity: 0.9;
+}
+
 html:not(.authenticated) #navbarNav .nav-tabs {
     display: none !important;
 }
@@ -107,6 +111,11 @@ main mark:hover{
   font-family: "text-security-square";
   color: gray;
 }
+
+.PrivateKeyField input.key-field:hover {
+  color: black;
+}
+
 
 
 .PublicKeyField input.key-field {
