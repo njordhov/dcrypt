@@ -94,22 +94,22 @@ export default function Encrypt (props) {
               label="Public Key" publicKey={publicKey}/>
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 pt-4 m-auto align-items-center"
+               style={{maxWidth: "40em"}}>
             <DropEncrypt setResult={setResult} gotResult={!!content}/>
+
+            { content &&
+               <div className="alert alert-info text-center mt-4">
+                  The file has been encrypted.
+                </div> }
+
+            <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+              <SaveButton content={content} onComplete={ resetForm }
+                          filename={saveName}>
+                Save Encrypted File
+              </SaveButton>
           </div>
-
-          { content &&
-             <div className="alert alert-info text-center mt-4">
-                The file has been encrypted.
-              </div> }
-
-          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-            <SaveButton content={content} onComplete={ resetForm }
-                        filename={saveName}>
-              Save Encrypted File
-            </SaveButton>
-          </div>
-
+        </div>
       </div>
     )
   }

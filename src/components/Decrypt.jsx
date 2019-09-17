@@ -116,7 +116,8 @@ export default function Decrypt (props) {
           label="Private Key" privateKey={privateKey} />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 pt-4 m-auto align-items-center"
+           style={{maxWidth: "40em"}}>
         <DropDecrypt setResult={setResult} gotResult={!!content} onError={onError}
                      filename={filename}/>
         { message &&
@@ -125,10 +126,10 @@ export default function Decrypt (props) {
           </div>
         }
         { content &&
-           <div className="alert alert-info text-center mt-4 w-100">
+           <div className="alert alert-info text-center mt-4">
               The file has been decrypted and the result is ready to be saved.
             </div> }
-        <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+        <div className="d-flex justify-content-center align-items-center mt-3">
           <SaveButton content={content} onComplete={ resetForm }
                       filename={filename}>
             Save Decrypted File
