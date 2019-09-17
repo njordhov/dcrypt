@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack, useProfile } from 'react-blockstack'
-import {lookupProfile } from 'blockstack'
 
 export default function KeyField (props) {
     const {className, label, publicKey, privateKey, username } = props
@@ -11,8 +10,8 @@ export default function KeyField (props) {
         }
     const [hiddenKey, setHidden] = useState(true)
     const toggleKey = () => setHidden(!hiddenKey)
-    const profile = useProfile(username, null) // FIX: Use profile
-    console.log("Profile:", profile)
+    //const profile = useProfile(username, null) // FIX: Use profile
+    //console.log("Profile:", profile)
     return (
     <div className={className}>
 
