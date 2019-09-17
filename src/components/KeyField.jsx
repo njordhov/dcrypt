@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useBlockstack } from 'react-blockstack'
+import { useBlockstack, useProfile } from 'react-blockstack'
+import {lookupProfile } from 'blockstack'
 
 export default function KeyField (props) {
     const {className, label, publicKey, privateKey, username } = props
     const url = window.location.origin + "/encrypt?public-key=" + publicKey
     const copyLink = () => {
           console.log("Copy encrypt link to clipboard")
-
+          // FIX: Implement copy functionality
         }
     const [hiddenKey, setHidden] = useState(true)
     const toggleKey = () => setHidden(!hiddenKey)
+    const profile = useProfile(username, null) // FIX: Use profile
+    console.log("Profile:", profile)
     return (
     <div className={className}>
 
@@ -22,14 +25,22 @@ export default function KeyField (props) {
          </div>}
         {username &&
          <div className="input-group-prepend">
-          <span className="input-group-text">
+         {privateKey &&
+          <span className="input-group-text">{username}</span>}
+         {publicKey &&
+          <button className="btn btn-outline-secondary dropdown-toggle bg-dark" type="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {username}
-          </span>
+          </button>}
+         {publicKey &&
+          <div class="dropdown-menu">
+            <p>The public key is associated with this Blockstack ID - yours.</p>
+          </div>}
          </div>}
         <input className={"form-control key-field"}
-               style={{maxWidth: "34rem"}}
+               style={{maxWidth: "6rem"}}
                dataToggle="tooltip"
-               title={privateKey ? "This is your private key used to decrypt messages. Keep it secret, keep it safe, and don't share it with anybody." :
+               title={privateKey ? "This is your private key used to decrypt messages. Keep it secret, keep it safe, and don't share your private key with anybody." :
                       publicKey ? "This is your public key used to encrypt messages. It can be shared freely with others." : null }
                value={publicKey || privateKey} readOnly={true}
                type={hiddenKey? "text" : "text"}
