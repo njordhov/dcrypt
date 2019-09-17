@@ -79,6 +79,7 @@ export default function Encrypt (props) {
   const {username} = userData || {}
   const [content, setResult] = useState()
   const publicKey = usePublicKey()
+  const saveName = content && content.filename && encryptedFilename(content.filename)
   useEffect( () => {
     if (publicKey && userSession) {
       userSession.putFile("public", JSON.stringify({publicKey: publicKey}))
@@ -97,15 +98,14 @@ export default function Encrypt (props) {
             <DropEncrypt setResult={setResult} gotResult={!!content}/>
           </div>
 
-          { content ?
+          { content &&
              <div className="alert alert-info text-center mt-4">
                 The file has been encrypted.
-              </div>
-            : null}
+              </div> }
 
           <div className="d-flex justify-content-center align-items-center w-100 mt-3">
             <SaveButton content={content} onComplete={ resetForm }
-                        filename={content && content.filename && encryptedFilename(content.filename)}>
+                        filename={saveName}>
               Save Encrypted File
             </SaveButton>
           </div>

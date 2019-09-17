@@ -31,14 +31,22 @@ function decryptHandler(file, decryptContent, setResult) {
       }
   })}}
 
+
 function decryptReducer (state, action) {
+  // shared for multiple components
   switch (action.type) {
     case "files":
       const files = action.files
       const file = files && files[0]
-      return({file: file, message: null})
+      return({...state, file: file, message: null})
+    case "content":
+      return({...state, content: action.content, message: null})
+    case "message":
+      return({...state, message: action.message})
+    case "reset":
+      return({})
     default:
-      throw new Error();
+      throw new Error("Unknown event option:", action.type);
   }
 }
 
@@ -70,7 +78,7 @@ export function DropDecrypt ({setResult, gotResult, onError, filename}) {
         { ((!isNull(gotResult) ? gotResult : file)
          ? <div className="mx-auto text-center">
               <div><i className="fas fa-unlock-alt m-auto"></i></div>
-              <div className="mt-2">{filename}</div>
+              <div className="mt-2">{filename || (file && file.name)}</div>
            </div>
          : <div className="mx-auto text-center">
              <div>
@@ -88,29 +96,17 @@ export function DropDecrypt ({setResult, gotResult, onError, filename}) {
 export default function Decrypt (props) {
   const { userData, userSession } = useBlockstack()
   const {username} = userData || {}
-
-  // const [url, setUrl] = useState()
-  const [content, setResult] = useState()
   const privateKey = usePrivateKey()
-  const [message, setMessage] = useState()
-  const filename = content && content.filename
-/*
-  const setResult = useCallback( decrypted => {
-    if (decrypted) {
-      const {filename} = decrypted
-      setName(decryptedFilename(filename))
-      // setUrl(window.URL.createObjectURL(decrypted))
-      setMessage(null)
-  }})*/
 
+  const [{content, message}, dispatch] = useReducer(decryptReducer, {});
+  const setResult = (content) => dispatch({type: "content", content: content})
+  const setMessage = (message) => dispatch({type: "message", message: message})
+  const filename  = content && content.filename && decryptedFilename(content.filename)
   const onError = ({type, message}) => {
     console.warn("Problem during decryption:", type, message)
     setMessage(message)
   }
-  const resetForm = () => {
-    setResult(null)
-    setMessage(null)
-  }
+  const resetForm = () => dispatch({type: "reset"})
   return (
     <div className="jumbotron">
 
@@ -122,20 +118,19 @@ export default function Decrypt (props) {
 
       <div className="mt-4">
         <DropDecrypt setResult={setResult} gotResult={!!content} onError={onError}
-                     filename={filename && decryptedFilename(filename)}/>
+                     filename={filename}/>
         { message &&
           <div className="alert alert-warning text-center mt-4">
             {message}
           </div>
         }
-        { content ?
+        { content &&
            <div className="alert alert-info text-center mt-4 w-100">
               The file has been decrypted and the result is ready to be saved.
-            </div>
-          : null}
+            </div> }
         <div className="d-flex justify-content-center align-items-center w-100 mt-3">
           <SaveButton content={content} onComplete={ resetForm }
-                      filename={filename && decryptedFilename(filename)}>
+                      filename={filename}>
             Save Decrypted File
           </SaveButton>
         </div>
