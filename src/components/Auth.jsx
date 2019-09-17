@@ -13,8 +13,9 @@ function AuthButton ({signIn, signOut}) {
       </button>
       : signIn ?
       <button
-        className="btn btn-primary"
+        className="btn btn-outline-primary"
         onClick={ signIn }>
+        <i className="fas fa-sign-in-alt mr-1" style={{fontSize: "1rem"}}></i>
         Sign In
       </button>
       : <span>...</span>
@@ -33,7 +34,7 @@ export default function Auth (props) {
     console.log("UserData:", avatarUrl)
     return (
       <div className="Auth">
-         { signOut ?
+         { signOut &&
           <div className="btn-group dropdown">
             <button className="btn text-muted dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,12 +52,16 @@ export default function Auth (props) {
                 <span className="ml-2">Sign out</span>
               </a>
             </div>
-          </div>
-          : null }
+          </div>}
 
-          <span hidden={true}>
-            <AuthButton signIn={signIn} signOut={signOut}/>
-          </span>
+        {(signIn || !signOut) &&
+           <button
+             className="btn btn-outline-primary"
+             disabled={!signIn}
+             onClick={ signIn }>
+             <i className="fas fa-sign-in-alt mr-1" style={{fontSize: "1rem"}}></i>
+             Sign In
+           </button>}
         </div>
     )
 }
