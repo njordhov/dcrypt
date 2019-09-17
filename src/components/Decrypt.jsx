@@ -117,21 +117,21 @@ export default function Decrypt (props) {
 
       <div className="mt-4">
         <DropDecrypt setResult={setResult} gotResult={!!url} onError={onError}/>
-      </div>
-      { message &&
-        <div className="alert alert-warning text-center mt-4">
-          {message}
-        </div>
-      }
-      { url ?
-         <div className="alert alert-info text-center mt-4">
-            The file has been decrypted and the result is ready to be saved.
+        { message &&
+          <div className="alert alert-warning text-center mt-4">
+            {message}
           </div>
-        : null}
-      <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-        <DownloadButton url={url} onComplete={ resetForm } filename={filename}>
-          Save Decrypted File
-        </DownloadButton>
+        }
+        { url ?
+           <div className="alert alert-info text-center mt-4 w-100">
+              The file has been decrypted and the result is ready to be saved.
+            </div>
+          : null}
+        <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+          <DownloadButton url={url} onComplete={ resetForm } filename={filename}>
+            Save Decrypted File
+          </DownloadButton>
+        </div>
       </div>
     </div>
   )
