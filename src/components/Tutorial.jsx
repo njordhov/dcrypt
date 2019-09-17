@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useReducer } from 'react'
+import React, { useState, useCallback, useReducer, useEffect } from 'react'
 import {DropEncrypt} from './Encrypt.jsx'
 import {DropDecrypt} from './Decrypt.jsx'
-import Dropzone, { SaveButton, OpenLink } from './Dropzone.jsx'
+import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import {usePublicKey, usePrivateKey} from './cipher.jsx'
 
 const classNames = (...list) => list.join(" ")
@@ -75,7 +75,8 @@ function SaveCard ({active, onComplete, completed, content}) {
             When you have completed the first step, there will be an encrypted file to save.
           </div>}
         <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-            <SaveButton content={content} onComplete={ onComplete }>
+            <SaveButton content={content} onComplete={ onComplete }
+                        filename={content && encryptedFilename(content.filename)}>
               Save Encrypted File
             </SaveButton>
         </div>
@@ -86,6 +87,9 @@ function SaveCard ({active, onComplete, completed, content}) {
 function DecryptStep ({active, completed, onCompleted}) {
   const [error, onError] = useState()
   const privateKey = usePrivateKey()
+  useEffect(() => {
+    if (completed) {onError(null)}
+  },[completed])
   const tooltip = privateKey && ("Your private key is " + privateKey + " but it's supposed to be a secret, so keep it to yourself.")
   return (
     <Card active={active}>
@@ -140,7 +144,8 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
         { !completed &&
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
-          : <SaveButton content={decrypted} onComplete={ onCompleted }/> )}
+          : <SaveButton content={decrypted} onComplete={ onCompleted }
+                        filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}/> )}
       </div>
     </Card>
 )}
