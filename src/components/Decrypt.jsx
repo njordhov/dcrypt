@@ -3,7 +3,7 @@ import { useBlockstack } from 'react-blockstack'
 import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
-import Dropzone, { DownloadButton, decryptedFilename } from './Dropzone.jsx'
+import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
 
 import css from 'text-security/dist/text-security.css'
 
@@ -42,7 +42,7 @@ function decryptReducer (state, action) {
   }
 }
 
-export function DropDecrypt ({setResult, gotResult, onError}) {
+export function DropDecrypt ({setResult, gotResult, onError, filename}) {
   const { userSession } = useBlockstack()
 
   const [{file}, dispatch] = useReducer(decryptReducer, {});
@@ -68,7 +68,10 @@ export function DropDecrypt ({setResult, gotResult, onError}) {
         <Dropzone className="Dropzone" onChange = { setFiles }
                   placeholder={placeholder}>
         { ((!isNull(gotResult) ? gotResult : file)
-         ? <i className="fas fa-unlock-alt m-auto"></i>
+         ? <div className="mx-auto text-center">
+              <div><i className="fas fa-unlock-alt m-auto"></i></div>
+              <div className="mt-2">{filename}</div>
+           </div>
          : <div className="mx-auto text-center">
              <div>
                <i className="fas fa-file-import m-auto"></i>
@@ -86,24 +89,26 @@ export default function Decrypt (props) {
   const { userData, userSession } = useBlockstack()
   const {username} = userData || {}
 
-  const [url, setUrl] = useState()
-  const [filename, setName] = useState()
+  // const [url, setUrl] = useState()
+  const [content, setResult] = useState()
   const privateKey = usePrivateKey()
   const [message, setMessage] = useState()
-
+  const filename = content && content.filename
+/*
   const setResult = useCallback( decrypted => {
     if (decrypted) {
+      const {filename} = decrypted
       setName(decryptedFilename(filename))
-      setUrl(window.URL.createObjectURL(decrypted))
+      // setUrl(window.URL.createObjectURL(decrypted))
       setMessage(null)
-  }})
+  }})*/
+
   const onError = ({type, message}) => {
-    console.warn("", type, message)
+    console.warn("Problem during decryption:", type, message)
     setMessage(message)
   }
   const resetForm = () => {
-    console.log("File saved, ready to reset the form")
-    setUrl(null)
+    setResult(null)
     setMessage(null)
   }
   return (
@@ -116,21 +121,23 @@ export default function Decrypt (props) {
       </div>
 
       <div className="mt-4">
-        <DropDecrypt setResult={setResult} gotResult={!!url} onError={onError}/>
+        <DropDecrypt setResult={setResult} gotResult={!!content} onError={onError}
+                     filename={filename && decryptedFilename(filename)}/>
         { message &&
           <div className="alert alert-warning text-center mt-4">
             {message}
           </div>
         }
-        { url ?
+        { content ?
            <div className="alert alert-info text-center mt-4 w-100">
               The file has been decrypted and the result is ready to be saved.
             </div>
           : null}
         <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-          <DownloadButton url={url} onComplete={ resetForm } filename={filename}>
+          <SaveButton content={content} onComplete={ resetForm }
+                      filename={filename && decryptedFilename(filename)}>
             Save Decrypted File
-          </DownloadButton>
+          </SaveButton>
         </div>
       </div>
     </div>

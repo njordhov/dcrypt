@@ -22,7 +22,7 @@ export function DownloadButton (props) {
 }
 
 export function decryptedFilename (filename) {
-  return (filename.replace(/.dcrypt$/, ""))
+  return (filename && filename.replace(/.dcrypt$/, ""))
 }
 
 export function encryptedFilename (filename) {
@@ -34,12 +34,13 @@ export function SaveButton (props) {
   const [url, setUrl] = useState()
   const [name, setName] = useState()
   useEffect( () => {
-      setName(filename || (content && encryptedFilename(content.filename))) //keeps it around beyond the click
-      setUrl(content? window.URL.createObjectURL(content) : null)
+      setName(filename || (content && content.filename)) //keeps it around beyond the click
+      setUrl(content ? window.URL.createObjectURL(content) : null)
     }, [content, filename])
   const custom = {url: url, filename: name}
   return ( DownloadButton(Object.assign({}, props, custom)) )
 }
+
 
 export function OpenLink (props) {
   const { content } = props
