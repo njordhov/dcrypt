@@ -13,3 +13,8 @@
 .Auth button:hover {
   color: white !important;
 }
+
+.Auth .btn:focus, .btn.focus {
+  /* eliminate bootstrap focus ring on show dropdown */
+  box-shadow: none;
+}
