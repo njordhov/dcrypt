@@ -3,6 +3,8 @@ import { useBlockstack } from 'react-blockstack'
 
 import css from './Auth.css'
 
+const profileManagerUrl = "https://browser.blockstack.org/profiles"
+
 function AuthButton ({signIn, signOut}) {
   return (
     signOut ?
@@ -20,6 +22,21 @@ function AuthButton ({signIn, signOut}) {
       </button>
       : <span>...</span>
   )
+}
+
+function MoreMenu (props) {
+  const { signOut } = useBlockstack()
+  return(
+  <div className="dropdown-menu">
+    <a className="dropdown-item" onClick={ signOut }>
+      <i className="fas fa-sign-out-alt"></i>
+      <span className="ml-2">Sign out</span>
+    </a>
+    <a className="dropdown-item" href={profileManagerUrl} target="_blank">
+      <i className="fas fa-user-cog"></i>
+      <span className="ml-2">Edit Profile</span>
+    </a>
+  </div>)
 }
 
 export default function Auth (props) {
@@ -46,12 +63,7 @@ export default function Auth (props) {
                 { username && username.replace(/.id.blockstack$/, "") }
               </span>
             </button>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" onClick={ signOut }>
-                <i className="fas fa-sign-out-alt"></i>
-                <span className="ml-2">Sign out</span>
-              </a>
-            </div>
+            <MoreMenu/>
           </div>}
 
         {(signIn || !signOut) &&

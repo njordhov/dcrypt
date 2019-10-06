@@ -18,3 +18,7 @@
   /* eliminate bootstrap focus ring on show dropdown */
   box-shadow: none;
 }
+
+.Auth a.dropdown-item {
+  color: white !important;
+}
