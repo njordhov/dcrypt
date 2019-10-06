@@ -53,10 +53,10 @@ export default function App () {
                 <Switch>
                   <Route key="home" path="/home" exact={true} component={goPane('home')} />
                   <Route key="about" path="/about" exact={true} component={goPane('about') } />
-                  <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />
-                  <Route key="custom" path="/to/:publicKey" exact={true} component={goPane('encrypt')} />
-                  <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />
-                  { userData ? <Redirect to="/about"/> : null }
+                  {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
+                  {userData && <Route key="custom" path="/to/:publicKey" exact={true} component={goPane('encrypt')} />}
+                  {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
+                  {userData ? <Redirect to="/about"/> : <Redirect to="/home"/>}
                 </Switch>
               </Router>
       </>
