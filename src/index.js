@@ -28,7 +28,7 @@ import style from './styles/style.css';
 
 const appConfig = new AppConfig(['store_write', 'publish_data'])
 
-initBlockstack(appConfig)
+initBlockstack({appConfig})
 
 ReactDOM.render(<Signin />, document.getElementById('signin-root'));
 ReactDOM.render(<App />, document.getElementById('app-root'));
