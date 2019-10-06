@@ -99,6 +99,11 @@ main mark:hover{
   font-size: 5.5rem;
 }
 
+#blockstack-login-info .alert {
+  background-color: transparent;
+  border: thin solid var(--blue);
+}
+
 /* Key Fields */
 
 /*

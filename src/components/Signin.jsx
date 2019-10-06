@@ -13,8 +13,8 @@ function AboutBlockstack (props) {
       <div id="blockstack-login-info" className="collapse hide">
         <div className="row">
           <p className="alert alert-info col-md-6 m-auto">
-            <a href="https://blockstack.org" target="_blank">Blockstack</a> is
-             a public benefit corporation,
+            <a href="https://blockstack.org" target="_blank">Blockstack PBC</a> is
+             an American public benefit corporation,
             creating a decentralized computing network and app ecosystem
             designed to protect digital rights.</p>
         </div>
