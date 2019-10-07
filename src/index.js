@@ -30,10 +30,10 @@ const appConfig = new AppConfig(['store_write', 'publish_data'])
 
 initBlockstack({appConfig})
 
-ReactDOM.render(<Signin />, document.getElementById('signin-root'));
-ReactDOM.render(<App />, document.getElementById('app-root'));
-ReactDOM.render(<Auth />, document.getElementById('auth-root'));
-ReactDOM.render(<About />, document.getElementById('about-root'));
-ReactDOM.render(<Tutorial />, document.getElementById('tutorial-root'));
-ReactDOM.render(<Encrypt />, document.getElementById('encrypt-root'));
-ReactDOM.render(<Decrypt />, document.getElementById('decrypt-root'));
+ReactDOM.render(<Signin/>, document.getElementById('signin-root'));
+ReactDOM.render(<App/>, document.getElementById('app-root'));
+ReactDOM.render(<Auth/>, document.getElementById('auth-root'));
+ReactDOM.render(<About/>, document.getElementById('about-root'));
+ReactDOM.render(<Tutorial/>, document.getElementById('tutorial-root'));
+ReactDOM.render(<Encrypt/>, document.getElementById('encrypt-root'));
+ReactDOM.render(<Decrypt/>, document.getElementById('decrypt-root'));

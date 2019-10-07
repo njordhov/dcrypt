@@ -1,5 +1,7 @@
 import React from 'react'
 
+import css from './About.css'
+
 const wikiBobAlice = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Public_key_encryption.svg/800px-Public_key_encryption.svg.png"
 //   align-items-center justify-content-center
 
@@ -13,9 +15,25 @@ function EFF (props) {
   )
 }
 
-export default function About () {
+function Credits () {
   return (
-  <div className="jumbotron mb-0">
+       <div class="alert alert-dark mt-5">
+        <img src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
+             style={{marginLeft: "1em", marginRight: "1em", height: "2.5rem", float: "left"}}/>
+        Parts of this page has been adapted from
+        the <a target="_blank" href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
+        EFF Deep Dive on End-to-End Encryption</a> which is a good destination if you would
+        like to know more.
+        This content may be freely distributed under
+        the <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/us/">
+         Creative Commons license.</a>
+       </div>
+     )
+}
+
+function AboutText () {
+  return (
+  <div className="jumbotron mb-0" id="AboutText">
      <h5 className="text-center pb-2">What is Public Key Cryptography?</h5>
     <div className="card-columns">
        <div className="card border-primary">
@@ -83,8 +101,8 @@ export default function About () {
             </div>
             <p>Public-key cryptography has many uses.
             For example, say you want to request funds from somebody
-          with a Bolt11 Lightning invoice but prefer to keep the content
-          of the invoice a secret. We'll show you how.
+            online but prefer to keep the content
+            of the invoice a secret. We'll show you how.
           </p>
          </div>
       </div>
@@ -126,17 +144,79 @@ export default function About () {
       </div>
 
      </div>
-     <div class="alert alert-dark mt-5">
-      <img src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
-           style={{marginLeft: "1em", marginRight: "1em", height: "2.5rem", float: "left"}}/>
-      Parts of this page has been adapted from
-      the <a target="_blank" href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
-      EFF Deep Dive on End-to-End Encryption</a> which is a good destination if you would
-      like to know more.
-      This content may be freely distributed under
-      the <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/us/">
-       Creative Commons license.</a>
-     </div>
+     <Credits/>
   </div>
   )
+}
+
+function Illustration ({src}) {
+  return (
+    <div className="alert alert-dark w-80 mt-4">
+      <img style={{maxWidth: "100%"}}
+           src={src}/>
+    </div>
+  )
+}
+
+function AboutVisual () {
+  return (
+    <div className="jumbotron mb-0">
+     <div style={{maxWidth: "60em", margin: "auto"}}>
+       <h5 className="text-center">A Primer On End-To-End Encryption:</h5>
+       <h5 className="text-center pb-2">How Does Public-Key Cryptography Work?</h5>
+
+      <p>End-to-end encryption let you communicate with others while
+         keeping your content confidential. The content is encrypted on your device and
+         first decrypted on the device of the receiver. No one can listen in and eavsdrop on
+         your communication.</p>
+
+      <Illustration src="https://ssd.eff.org/files/2018/11/20/7.comparison-encryptedmessage.png"/>
+
+       {/* <h5>What Does Encryption Do?</h5> */}
+          <p>Here is how encryption works when communicating a message:</p>
+          <ol>
+            <li>A clearly readable message such as <cite>Hello Alice!</cite> is encrypted into an
+            incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
+            <li>The encrypted message is sent over the Internet, where eavesdroppers
+                can only see the scrambled message.</li>
+            <li>When it arrives at its destination, only the intended recipient
+                has the code to decrypting the transmission back into the original message.</li>
+          </ol>
+
+          <Illustration src="https://ssd.eff.org/files/2018/05/14/6_0.png"/>
+ <p>Before you begin using end-to-end encryption tools, we strongly recommend
+taking the time to understand the basics of public key cryptography,
+the foundation for many end-to-end encryption systems.</p>
+
+        <p>Public key cryptography lets you encrypt and send messages safely to
+        anyone whose public key you know.</p>
+
+        <Illustration src="https://ssd.eff.org/files/2018/05/14/5_0.png"/>
+
+       <p>But how does the recipient get to know the key to decrypt your message if
+          you cannot communucate safely in the first place?</p>
+      <p>
+          Public key cryptography makes it so you don’t need to smuggle the decryption
+       key to the recipient of your secret message because that person already has the
+       decryption key. The decryption key is their private key. Therefore, all you need
+        to send a message is knowing your recipient’s matching public, encrypting key. And you
+         can obtain this easily because your recipient can share their public key
+         with anyone, since public keys are only used to encrypt messages, not decrypt
+         them.</p>
+
+        <Illustration src="https://ssd.eff.org/files/2018/11/20/2.symmetric-asymmetric.png"/>
+
+        <div className="alert alert-warning">
+          Keep your private key very safe. If somebody get to know your private key,
+          they can read your encrypted messages, even impersonate you. Only share your public key.
+        </div>
+       <Credits/>
+     </div>
+    </div>
+  )
+}
+
+export default function About ({visual}) {
+  const visual_mode = false
+  return (visual_mode ? <AboutVisual/> : <AboutText/>)
 }
