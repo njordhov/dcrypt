@@ -66,7 +66,7 @@ export default function Auth (props) {
             <MoreMenu/>
           </div>}
 
-        {(signIn || (!signOut && !userSession.isSignInPending())) &&
+        {(signIn || !signOut) &&
            <button
              className="btn btn-outline-primary"
              disabled={!signIn}

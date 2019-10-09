@@ -68,14 +68,14 @@ main .jumbotron {
   background-color: #181818;  /* original conflicts input-group colors */
 }
 
-main mark{
+main mark {
   border-radius: 5px;
   background-color: inherit;
   color: #fcf8e3;
   border: thin solid transparent;
 }
 
-main mark:hover{
+main mark:hover {
   border-radius: 5px;
   background-color: transparent;
   color: inherit;
@@ -105,11 +105,6 @@ main mark:hover{
 
 .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
-}
-
-#blockstack-login-info .alert {
-  background-color: transparent;
-  border: thin solid var(--blue);
 }
 
 /* Key Fields */
