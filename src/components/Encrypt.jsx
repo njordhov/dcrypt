@@ -6,6 +6,7 @@ import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import {usePublicKey} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
+import InfoBox, {InfoToggle} from './InfoBox'
 
 function saveEncrypted (files, encrypt) {
   // consider using filesaver package or similar
@@ -52,7 +53,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       console.log("Current files:", files)
       setFiles(files)
     }
-    const placeholder = <span>Drag &amp; drop a file here, or click to select from your filesystem.</span>
+    const placeholder = <span>Drag &amp; drop a file to encrypt it, or click to select from your filesystem.</span>
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
@@ -87,7 +88,9 @@ export default function Encrypt (props) {
   const resetForm = useCallback(() => {setResult(null); })
   return (
       <div className="jumbotron">
-
+          <InfoBox show={false}>
+            Encrypt a file using your public key.
+          </InfoBox>
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
               username={username}

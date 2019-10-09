@@ -32,8 +32,8 @@ export default function KeyField (props) {
             {username}
           </button>}
          {publicKey &&
-          <div class="dropdown-menu">
-            <p>The public key is associated with this Blockstack ID - yours.</p>
+          <div class="dropdown-menu px-3">
+            <p>The public key is associated with your own Blockstack ID. Use it to encrypt content for yourself, not others.</p>
           </div>}
          </div>}
         <input className={"form-control key-field"}

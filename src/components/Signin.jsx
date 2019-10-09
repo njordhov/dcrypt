@@ -1,22 +1,23 @@
 import React, { } from 'react'
 import { useBlockstack } from 'react-blockstack'
+import InfoBox, {InfoToggle} from './InfoBox'
 
 function AboutBlockstack (props) {
   return (
     <>
       <p className="mt-2"><small>Who's Blockstack?</small>
-        <i className="btn fas fa-info-circle text-info ml-1"
-           style={{fontSize: "1.3rem"}}
-           data-toggle="collapse" data-target="#blockstack-login-info">
-        </i>
+        <span className="ml-1">
+          <InfoToggle target="#blockstack-login-info"/>
+        </span>
       </p>
-      <div id="blockstack-login-info" className="collapse hide">
-        <div className="row">
-          <p className="alert alert-info col-md-6 m-auto">
-            <a href="https://blockstack.org" target="_blank">Blockstack PBC</a> is
+      <div className="row">
+        <div className="col-md-6 m-auto">
+          <InfoBox id="blockstack-login-info">
+            <a href="https://blockstack.org/about" target="_blank">Blockstack PBC</a> is
              an American public benefit corporation,
             creating a decentralized computing network and app ecosystem
-            designed to protect digital rights.</p>
+            designed to protect digital rights.
+          </InfoBox>
         </div>
       </div>
     </>)}

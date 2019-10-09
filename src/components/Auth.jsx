@@ -48,7 +48,7 @@ export default function Auth (props) {
       console.log("Blockstack inconsistency: Already signed in yet signin is pending");
     }
     const defaultAvatar = Math.random() < 0.7 ?  "fas fa-user-circle" : "fas fa-user-secret"
-    console.log("UserData:", avatarUrl)
+    // console.log("UserData:", avatarUrl)
     return (
       <div className="Auth">
          { signOut &&
@@ -58,7 +58,7 @@ export default function Auth (props) {
               <span className="avatar mr-3">
                 {avatar ?
                  <img src={ avatar }
-                      className="avatar-image" id="avatar-image" />
+                      className="avatar-image mr-3" id="avatar-image" />
                  : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
                 { username && username.replace(/.id.blockstack$/, "") }
               </span>
@@ -66,7 +66,7 @@ export default function Auth (props) {
             <MoreMenu/>
           </div>}
 
-        {(signIn || !signOut) &&
+        {(signIn || (!signOut && !userSession.isSignInPending())) &&
            <button
              className="btn btn-outline-primary"
              disabled={!signIn}
