@@ -59,14 +59,12 @@ export default function App () {
   const { userData } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
   const goPane = (id) => (props) => {
-    // console.debug("Go pane:", id, props)
-    // clickPane(id)
     dispatch({type: "goPane", pane: id})
     return (<Empty/>)
   }
-  const EncryptTo = (props) => {
+  const EncryptFor = (props) => {
     const {userId} = useParams()
-    console.debug("Encrypt To:", userId )
+    console.debug("Encrypt For:", userId )
     useEffect( () => dispatch({type: "encrypt", userId: userId}))
     return null
   }
@@ -90,7 +88,7 @@ export default function App () {
                   <Route key="about" path="/about" exact={true} component={goPane('about') } />
                   {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
                   {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
-                                  component={ EncryptTo } />}
+                                  component={ EncryptFor } />}
                   {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
                   {userData ? <Redirect to="/about"/> : <Redirect to="/home"/>}
                 </Switch>
