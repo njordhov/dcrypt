@@ -34,13 +34,14 @@ function decryptHandler(file, decryptContent, setResult) {
 
 function decryptReducer (state, action) {
   // shared for multiple components
+  console.debug("DECRYPT RED:", state, action)
   switch (action.type) {
     case "files":
       const files = action.files
       const file = files && files[0]
       return({...state, file: file, message: null})
     case "content":
-      return({...state, content: action.content, message: null})
+      return({...state, content: action.content})
     case "message":
       return({...state, message: action.message})
     case "reset":
@@ -107,6 +108,7 @@ export default function Decrypt (props) {
     setMessage(message)
   }
   const resetForm = () => dispatch({type: "reset"})
+  console.debug("DECRYPT:", content, message)
   return (
     <div className="jumbotron">
 
