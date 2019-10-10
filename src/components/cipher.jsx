@@ -8,14 +8,14 @@ function getPublicKeyFromPrivate(privateKey: string) {
   return keyPair.publicKey.toString('hex')
 }
 
-function createUserDataEffect(f) {
+function createUserDataEffect(f, ...args) {
   return ( () => {
     const [value, setValue] = useState()
     const { userData } = useBlockstack()
     useEffect( () => {
-      const result = f(userData)
+      const result = f(userData, ...args)
       setValue(result)
-    }, [userData])
+    }, [userData, ...args])
     return (value)
   })
 }

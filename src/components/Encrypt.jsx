@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import { isNil, isNull } from 'lodash'
+import { isNil, isNull, get } from 'lodash'
 import KeyField from './KeyField.jsx'
 import {usePublicKey} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
@@ -45,8 +45,9 @@ function encryptHandler(file, encryptContent, setResult) {
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
-    const encryptContent = useCallback(content => userSession.encryptContent(content, publicKey),
-                                      [userSession, publicKey])
+    const options = publicKey ? {publicKey: publicKey} : null
+    const encryptContent = useCallback(content => userSession.encryptContent(content, options),
+                                       [userSession, publicKey])
     const file = files && files[0]
     useEffect( (() => encryptHandler(file, encryptContent, setResult)),[file, encryptContent])
     const onChange = (files) => {
@@ -74,18 +75,44 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       </>
 )}
 
+const publicKeyFilename = "public"
+
+function publishPublicKey (userSession, publicKey) {
+  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), {encrypt: false})
+}
+
+function usePublishKey(publicKey) {
+  const { userSession } = useBlockstack()
+  useEffect( () => {publicKey && publishPublicKey(userSession, publicKey)}, [publicKey])
+}
+
+function useRemotePublicKey (username) {
+  // fetches the public key of another user
+  const { userSession } = useBlockstack()
+  const [value, setValue] = useState()
+  useEffect( () => {
+    if (username) {
+      userSession.getFile(publicKeyFilename, {username: username, decrypt: false})
+      .then((content) => (console.debug("Remote key:", content), content))
+      .then((content) => setValue(get(JSON.parse (content), "key")))
+      .catch((err) => console.warn("Failed to get remote public key:", err))
+    } else {
+      setValue(null)
+    }
+  }, [username])
+  return (value)
+}
 
 export default function Encrypt (props) {
-  const { userData, userSession } = useBlockstack()
+  const { userData, userSession, targetId } = useBlockstack()
   const {username} = userData || {}
-  const [content, setResult] = useState()
   const publicKey = usePublicKey()
+  const remoteKey = useRemotePublicKey(targetId)
+  const [content, setResult] = useState()
   const saveName = content && content.filename && encryptedFilename(content.filename)
-  useEffect( () => {
-    if (publicKey && userSession) {
-      userSession.putFile("public", JSON.stringify({publicKey: publicKey}))
-    }}, [publicKey, userSession])
   const resetForm = useCallback(() => {setResult(null); })
+  usePublishKey(publicKey)
+  const activeKey = remoteKey || publicKey
   return (
       <div className="jumbotron">
           <InfoBox show={false}>
@@ -93,13 +120,14 @@ export default function Encrypt (props) {
           </InfoBox>
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
-              username={username}
-              label="Public Key" publicKey={publicKey}/>
+              label="Public Key"
+              username={targetId || username}
+              publicKey={activeKey}/>
           </div>
 
           <div className="mt-4 pt-4 m-auto align-items-center"
                style={{maxWidth: "40em"}}>
-            <DropEncrypt setResult={setResult} gotResult={!!content}/>
+            <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>
 
             { content &&
                <div className="alert alert-info text-center mt-4">
