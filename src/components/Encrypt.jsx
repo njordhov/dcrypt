@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import { isNil, isNull, get } from 'lodash'
+import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
-import {usePublicKey} from './cipher.jsx'
+import {usePublicKey, usePublishKey, useRemotePublicKey} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 
@@ -74,34 +74,6 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
         </Dropzone>
       </>
 )}
-
-const publicKeyFilename = "public"
-
-function publishPublicKey (userSession, publicKey) {
-  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), {encrypt: false})
-}
-
-function usePublishKey(publicKey) {
-  const { userSession } = useBlockstack()
-  useEffect( () => {publicKey && publishPublicKey(userSession, publicKey)}, [publicKey])
-}
-
-function useRemotePublicKey (username) {
-  // fetches the public key of another user
-  const { userSession } = useBlockstack()
-  const [value, setValue] = useState()
-  useEffect( () => {
-    if (username) {
-      userSession.getFile(publicKeyFilename, {username: username, decrypt: false})
-      .then((content) => (console.debug("Remote key:", content), content))
-      .then((content) => setValue(get(JSON.parse (content), "key")))
-      .catch((err) => console.warn("Failed to get remote public key:", err))
-    } else {
-      setValue(null)
-    }
-  }, [username])
-  return (value)
-}
 
 export default function Encrypt (props) {
   const { userData, userSession, targetId } = useBlockstack()
