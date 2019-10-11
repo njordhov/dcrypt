@@ -1,22 +1,53 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import FileSaver, { saveAs } from 'file-saver'
 import {useDropzone} from 'react-dropzone'
 
 export function DownloadButton (props) {
-  const {url, filename, children, onComplete} = props
+  // Download file from URL
+  const {url, filename, children, onComplete, icon} = props
   return (
-    <div className="d-flex justify-content-center align-items-center w-100">
       <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
         <a className={[!url ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
          role="button"
          download = {"" + filename}
-         onClick={onComplete} // best we can do as there are no event triggered upon download complete
+         onClick={onComplete || undefined} // best we can do as there are no event triggered upon download complete
          disabled= { !url }
          aria-disabled={ !url }
          href={url} target="_blank">
-         <i className="fas fa-file-download mr-2"></i>
+         <i className={icon || "fas fa-file-download mr-2"}></i>
          {children || <span>Save File</span>}
         </a>
       </div>
+  )
+}
+
+function DownloadContentButton (props) {
+  // Using download link for client-side content
+  const { content, filename } = props
+  const [url, setUrl] = useState()
+  useEffect( () => {
+      setUrl(content ? window.URL.createObjectURL(content) : null)
+    }, [content])
+  const custom = Object.assign({}, props, {url: url})
+  return (DownloadButton(custom))
+}
+
+export function ExportContentButton (props) {
+  const { content, filename, children, onComplete, icon} = props
+  const saveFile = () => saveAs(content, filename)
+  const disabled = !content
+  if (content && !(content instanceof Blob)) {
+    throw ("Content is not a Blob")}
+  return (
+    <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
+      <a className={[disabled && "disabled", "btn btn-outline-primary center-text"].join(" ")}
+         role="button"
+         onClick={!disabled ? (() => {saveFile(); onComplete()}) : undefined}
+         disabled= { disabled }
+         aria-disabled={ disabled }>
+         <i className={icon || "fas fa-file-export mr-2"}></i>
+         { children }
+      </a>
     </div>
   )
 }
@@ -31,16 +62,16 @@ export function encryptedFilename (filename) {
 
 export function SaveButton (props) {
   const { content, filename } = props
-  const [url, setUrl] = useState()
   const [name, setName] = useState()
   useEffect( () => {
       setName(filename || (content && content.filename)) //keeps it around beyond the click
-      setUrl(content ? window.URL.createObjectURL(content) : null)
     }, [content, filename])
-  const custom = {url: url, filename: name}
-  return ( DownloadButton(Object.assign({}, props, custom)) )
+  const custom = Object.assign({}, props, {filename: name})
+  return (
+    <div className="d-flex justify-content-center align-items-center w-100">
+      {ExportContentButton(custom)}
+    </div>)
 }
-
 
 export function OpenLink (props) {
   const { content } = props

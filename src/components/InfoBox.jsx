@@ -10,11 +10,15 @@ export function InfoToggle ({target}) {
     </i>)
 }
 
-export default function InfoBox ({id, children, show}) {
+export default function InfoBox ({id, className, children, hide, dismissible}) {
   return(
-    <div id={id} className={"InfoBox collapse" + (!show && " hide")}>
-      <div className="alert alert-info text-center">
+    <div id={id} className={["InfoBox", className].join(" ")}>
+      <div className={["alert alert-info text-center", dismissible && "alert-dismissible", "collapse", (hide ? "hide" : "show"),].join(" ")}>
         {children}
+        {dismissible &&
+        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>}
       </div>
     </div>
   )

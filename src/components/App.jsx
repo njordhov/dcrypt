@@ -44,10 +44,18 @@ function initPanes () {
   console.log("route panes:", $('a[data-toggle="tab"]'))
 }
 
+function ensureEndsWith (s, ending) {
+  // after: string ends with ending if it didn't already
+  return (
+    s.endsWith(ending) ? s : s + ending
+  )
+}
+
 function appReducer (state, event) {
   switch (event.type) {
     case "encrypt":
-      return ({...state, pane: "encrypt", userId: event.userId})
+      const userId = ensureEndsWith(event.userId, ".id.blockstack")
+      return ({...state, pane: "encrypt", userId: userId})
     case "goPane":
       return (event.pane == state.pane ? state : {...state, pane: event.pane})
     default:

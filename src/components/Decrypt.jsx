@@ -111,15 +111,14 @@ export default function Decrypt (props) {
   console.debug("DECRYPT:", content, message)
   return (
     <div className="jumbotron">
-
+     <div className="m-auto" style={{maxWidth: "40em"}}>
       <div className="d-flex justify-content-center align-items-center w-100">
         <KeyField className="PrivateKeyField"
           username={username}
           label="Private Key" privateKey={privateKey} />
       </div>
 
-      <div className="mt-4 pt-4 m-auto align-items-center"
-           style={{maxWidth: "40em"}}>
+      <div className="mt-4 pt-4 m-auto align-items-center" >
         <DropDecrypt setResult={setResult} gotResult={!!content} onError={onError}
                      filename={filename}/>
         { message &&
@@ -137,6 +136,7 @@ export default function Decrypt (props) {
             Save Decrypted File
           </SaveButton>
         </div>
+       </div>
       </div>
     </div>
   )

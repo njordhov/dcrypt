@@ -8,27 +8,6 @@ import {usePublicKey, usePublishKey, useRemotePublicKey} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 
-function saveEncrypted (files, encrypt) {
-  // consider using filesaver package or similar
-    console.log("Save encrypted:", files)
-    //var file = new File(["Hello, world!"], "hello world.txt", {type: "text/plain;charset=utf-8"})
-    //FileSaver.saveAs(file)
-    // ## FIX: handle multiple files
-    // ## TODO: Notify blockstack that encryptContent should take a file (it's a blob)
-    const reader = new FileReader()
-    const file = files[0]
-    console.log("Save encrypted file:", file)
-    const url = window.URL.createObjectURL(file)
-    console.log("Save url:", url)
-    /*
-    reader.onload = e => {
-      const content = e.target.result
-      const encrypted = encrypt(content)
-      FileSaver.saveAs(JSON.stringify(encrypted))
-    }
-    reader.readAsArrayBuffer(file)*/
-  }
-
 function encryptHandler(file, encryptContent, setResult) {
   if (file) {
     var myReader = new FileReader()
@@ -54,7 +33,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       console.log("Current files:", files)
       setFiles(files)
     }
-    const placeholder = <span>Drag &amp; drop a file to encrypt it, or click to select from your filesystem.</span>
+    const placeholder = <span>Drag &amp; drop a file to encrypt it in the browser, or click to select from your filesystem.</span>
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
@@ -87,9 +66,17 @@ export default function Encrypt (props) {
   const activeKey = remoteKey || publicKey
   return (
       <div className="jumbotron">
-          <InfoBox show={false}>
-            Encrypt a file using your public key.
-          </InfoBox>
+        <div className="m-auto" style={{maxWidth: "40em"}}>
+          {!targetId &&
+           <InfoBox className="mb-4" dismissible={true}>
+            Securely encrypt a file in the browser using your public key.
+            The content is encrypted in the browser and kept on your computer.
+          </InfoBox>}
+          {targetId &&
+          <InfoBox className="mb-4" dismissible={true}>
+              Securely encrypt a file in the browser using the public key of
+              user&nbsp;{targetId.replace(/.id.blockstack/, "")}.
+          </InfoBox>}
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
               label="Public Key"
@@ -113,6 +100,7 @@ export default function Encrypt (props) {
               </SaveButton>
           </div>
         </div>
+       </div>
       </div>
     )
   }

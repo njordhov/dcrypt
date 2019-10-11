@@ -28,13 +28,13 @@ function MoreMenu (props) {
   const { signOut } = useBlockstack()
   return(
   <div className="dropdown-menu">
-    <a className="dropdown-item" onClick={ signOut }>
-      <i className="fas fa-sign-out-alt"></i>
-      <span className="ml-2">Sign out</span>
-    </a>
     <a className="dropdown-item" href={profileManagerUrl} target="_blank">
       <i className="fas fa-user-cog"></i>
       <span className="ml-2">Edit Profile</span>
+    </a>
+    <a className="dropdown-item" onClick={ signOut }>
+      <i className="fas fa-sign-out-alt"></i>
+      <span className="ml-2">Sign out</span>
     </a>
   </div>)
 }
