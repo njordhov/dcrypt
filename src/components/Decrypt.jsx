@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { isNil, isNull } from 'lodash'
+import { isNil, isNull, reduce } from 'lodash'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
@@ -15,8 +15,11 @@ function decryptHandler(file, decryptContent, setResult) {
     myReader.addEventListener("loadend", (e) => {
       var buffer = e.srcElement.result; //arraybuffer object
       if (buffer) {
-        console.log("decryptHandler", file, buffer.length)
-        var decodedString = String.fromCharCode.apply(null, new Uint8Array(buffer));
+        console.debug("decryptHandler", file, buffer.byteLength)
+        const bufferCharCodes = new Uint8Array(buffer)
+        // var decodedString = String.fromCharCode(...bufferCharCodes) -> buffer overflow for large files in some browsers
+        const f = (out, code, ix) => out += String.fromCharCode(code)
+        const decodedString = reduce(bufferCharCodes, f, "")
         const originalObject = decryptContent(decodedString)
         if (originalObject) {
           const decrypted = new Blob([originalObject])  // https://fileinfo.com/filetypes/encoded

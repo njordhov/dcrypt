@@ -145,7 +145,9 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
           : <SaveButton content={decrypted} onComplete={ onCompleted }
-                        filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}/> )}
+                        filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}>
+               Save decrypted file
+            </SaveButton> )}
       </div>
     </Card>
 )}
