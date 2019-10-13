@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
-import {usePublicKey, usePublishKey, useRemotePublicKey} from './cipher.jsx'
+import {usePublicKey, usePublishKey, useRemotePublicKey, trimId} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 
@@ -39,7 +39,7 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
         <Dropzone className="Dropzone" onChange = { onChange }>
           { (!isNull(gotResult) ? gotResult : file)
            ? <div className="m-auto text-center">
-                <div><i class="fas fa-shield-alt"></i></div>
+                <div><i className="fas fa-shield-alt"></i></div>
                 <div className="mt-2">{file.name}</div>
              </div>
            : <div className="mx-auto text-center">
@@ -54,6 +54,60 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       </>
 )}
 
+function ExplainDialog (props) {
+  const {open, targetId} = props
+  const { userData } = useBlockstack()
+  const ref = useRef(null)
+  const element = ref.current
+  useEffect(() => {
+    if (element) {
+      element.click()
+      // dialog.modal(open ? 'show' : 'hide')
+    }
+  }, [open, element])
+  return (
+  <>
+  <button hidden={true} ref={ref} type="button" className="btn btn-primary" data-toggle="modal" data-target="#ExplainDialog">
+    Explain
+  </button>
+  <div className="modal fade" id="ExplainDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className="mb-4 w-100 text-center" >
+            <img className="mx-auto" src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
+          </div>
+          <p>Hi! Welcome to <i>d</i>Crypt. Seems like somebody we know as <cite>{trimId(targetId)}</cite> directed you here
+             to encrypt a file so you can send it to them confidentially.</p>
+
+          <p>When receiving the encrypted file from you, they can decrypt it to restore the
+             original file you encrypted.</p>
+
+          <p>As soon as you close this dialog, you will find a page that takes you through
+             the steps to encrypt the file.</p>
+
+          <p>You are welcome to check out the rest of the site for explanations
+             about how such end-to-end cryptography works.</p>
+             {!userData &&
+               <p>After signing in, you
+                will get your own encryption key and have access to
+                a hands-on tutorial that walks you through the process.</p>}
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-primary" data-dismiss="modal">Enter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </>)
+}
+
 export default function Encrypt (props) {
   const { userData, userSession, targetId } = useBlockstack()
   const {username} = userData || {}
@@ -66,20 +120,27 @@ export default function Encrypt (props) {
   const activeKey = remoteKey || publicKey
   return (
       <div className="jumbotron">
+        {targetId && <ExplainDialog targetId={targetId}/>}
         <div className="m-auto" style={{maxWidth: "40em"}}>
           {!targetId &&
            <InfoBox className="mb-4" dismissible={true}>
-            Securely encrypt a file in the browser using your public key.
+            Securely encrypt a file using your public key.
             The content is encrypted in the browser and kept on your computer.
           </InfoBox>}
           {targetId &&
           <InfoBox className="mb-4" dismissible={true}>
               Securely encrypt a file in the browser using the public key of
-              user&nbsp;{targetId.replace(/.id.blockstack/, "")}.
+              &nbsp;<cite>{trimId(targetId)}.</cite>
+              <InfoToggle toggle="modal" target="#ExplainDialog"/>
+              {false &&
+               <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#ExplainDialog">
+                Explain
+               </button>}
           </InfoBox>}
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
               label="Public Key"
+              isOwner={!targetId}
               username={targetId || username}
               publicKey={activeKey}/>
           </div>

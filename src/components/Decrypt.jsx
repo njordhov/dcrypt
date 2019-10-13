@@ -4,6 +4,7 @@ import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
+import InfoBox, {InfoToggle} from './InfoBox'
 
 import css from 'text-security/dist/text-security.css'
 
@@ -112,6 +113,10 @@ export default function Decrypt (props) {
   return (
     <div className="jumbotron">
      <div className="m-auto" style={{maxWidth: "40em"}}>
+      <InfoBox className="mb-4" dismissible={true}>
+       Decrypt an encrypted file using your private key.
+       The content is decrypted in the browser and kept on your computer.
+     </InfoBox>
       <div className="d-flex justify-content-center align-items-center w-100">
         <KeyField className="PrivateKeyField"
           username={username}

@@ -1,4 +1,7 @@
 
+.InfoToggle {
+  cursor: pointer;
+}
 
 .InfoBox .alert {
   background-color: transparent;

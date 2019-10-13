@@ -3,6 +3,10 @@ import { useBlockstack } from 'react-blockstack'
 import { get } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 
+export function trimId (id) {
+  return (id.replace(/.id.blockstack/, ""))
+}
+
 function getPublicKeyFromPrivate(privateKey: string) {
   // from blockstack.js internal key module
   const keyPair = ECPair.fromPrivateKey(Buffer.from(privateKey, 'hex'))

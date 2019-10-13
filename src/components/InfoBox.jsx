@@ -2,11 +2,11 @@ import React from 'react'
 
 import css from './InfoBox.css'
 
-export function InfoToggle ({target}) {
+export function InfoToggle ({toggle, target}) {
   return(
     <i className="btn fas fa-info-circle text-info InfoToggle"
        style={{fontSize: "1.3rem"}}
-       data-toggle="collapse" data-target={target}>
+       data-toggle={toggle || "collapse"} data-target={target}>
     </i>)
 }
 
