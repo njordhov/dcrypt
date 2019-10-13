@@ -12,7 +12,7 @@ function AboutBlockstack (props) {
       </p>
       <div className="row">
         <div className="col-md-6 m-auto">
-          <InfoBox id="blockstack-login-info">
+          <InfoBox id="blockstack-login-info" hide={true}>
             <a href="https://blockstack.org/about" target="_blank">Blockstack PBC</a> is
              an American public benefit corporation,
             creating a decentralized computing network and app ecosystem
