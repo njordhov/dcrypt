@@ -3,7 +3,7 @@
   cursor: pointer;
 }
 
-.InfoBox .alert {
+.InfoBox.alert {
   background-color: transparent;
   border: thin solid var(--blue);
 }
