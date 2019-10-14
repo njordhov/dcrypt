@@ -45,10 +45,9 @@ export default function Auth (props) {
     const avatar = avatarUrl && person && person.avatarUrl()
     const {username, email} = userData || {}
     if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
-      console.log("Blockstack inconsistency: Already signed in yet signin is pending");
+      console.warn("Blockstack inconsistency: Already signed in yet signin is pending");
     }
     const defaultAvatar = Math.random() < 0.7 ?  "fas fa-user-circle" : "fas fa-user-secret"
-    // console.log("UserData:", avatarUrl)
     return (
       <div className="Auth">
          { signOut &&
