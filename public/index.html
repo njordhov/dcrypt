@@ -69,6 +69,13 @@
                  <i class="fas fa-unlock-alt mr-1"></i>
                  Decrypt</a>
             </li>
+            <li class="nav-item when-authenticated">
+              <a class="nav-link" id="share-tab" data-toggle="tab"
+                 href="#share" role="tab" aria-controls="share" aria-selected="false">
+                 <i class="fas fa-umbrella mr-1"></i>
+                 Share</a>
+            </li>
+
           </ul>
         </div>
       <div class="ml-auto mr-3">
@@ -85,27 +92,27 @@
             <section class="features-icons">
               <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
               <div class="row">
-              <div class="col col-12 col-md-4 p-5">
+              <div class="col col-12 col-md-6 col-lg-3 p-5">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                   <div class="features-icons-icon d-flex">
                     <i class="fas fa-graduation-cap m-auto text-primary"></i>
                   </div>
                   <h3>Learn</h3>
-                  <p class="lead mb-0">Get practical experience in end-to-end encryption with our tutorial.</p>
+                  <p class="lead mb-0">Get practical experience with end-to-end encryption.</p>
                 </div>
               </div>
-                <div class="col col-12 col-md-4 p-5">
+                <div class="col col-12 col-md-6 col-lg-3 p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-shield-alt m-auto text-primary"></i>
                     </div>
                     <h3>Encrypt</h3>
                     <p class="lead mb-0">
-                      Encrypt files with content you prefer to be kept secret.
+                      Encrypt files with content you prefer to be kept confidential.
                     </p>
                   </div>
                 </div>
-                <div class="col col-12 col-md-4 p-5">
+                <div class="col col-12 col-md-6 col-lg-3 p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-unlock-alt m-auto text-primary"></i>
@@ -116,7 +123,7 @@
                     </p>
                   </div>
                 </div>
-                <div hidden="true" class="col col-12 col-md-4 p-5">
+                <div hidden="true" class="col col-12 col-md-6 col-lg-3 p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-bullhorn m-auto text-primary"></i>
@@ -124,6 +131,15 @@
                     <h3>Advocate</h3>
                     <p class="lead mb-0">Introduce others to public-key cryptography.
                      <!-- when sending you files meant for your eyes only--></p>
+                  </div>
+                </div>
+                <div class="col col-12 col-md-6 col-lg-3 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                      <i class="fas fa-umbrella m-auto text-primary"></i>
+                    </div>
+                    <h3>Share</h3>
+                    <p class="lead mb-0">Invite others to secure communication.
                   </div>
                 </div>
               </div>
@@ -153,6 +169,11 @@
         <div class="tab-pane fade"
              id="decrypt" role="tabpanel" aria-labelledby="decrypt-tab">
           <div id="decrypt-root">[Decrypt]</div>
+        </div>
+
+        <div class="tab-pane fade"
+             id="share" role="tabpanel" aria-labelledby="share-tab">
+          <div id="share-root">[Share]</div>
         </div>
       </div>
 

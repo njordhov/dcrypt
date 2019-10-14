@@ -11,6 +11,7 @@ import About from './components/About.jsx';
 import Tutorial from './components/Tutorial.jsx';
 import Encrypt from './components/Encrypt.jsx';
 import Decrypt from './components/Decrypt.jsx';
+import Share from './components/Share.jsx';
 
 import $ from 'jquery'
 import Popper from 'popper.js'
@@ -37,3 +38,4 @@ ReactDOM.render(<About/>, document.getElementById('about-root'));
 ReactDOM.render(<Tutorial/>, document.getElementById('tutorial-root'));
 ReactDOM.render(<Encrypt/>, document.getElementById('encrypt-root'));
 ReactDOM.render(<Decrypt/>, document.getElementById('decrypt-root'));
+ReactDOM.render(<Share/>, document.getElementById('share-root'));

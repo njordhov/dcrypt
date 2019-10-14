@@ -65,3 +65,14 @@ export function useRemotePublicKey (username) {
   }, [username])
   return (value)
 }
+
+function encryptionUrl (username) {
+  const name = trimId(username)
+  return (window.location.origin + "/encrypt/for/" + encodeURIComponent(name))
+}
+
+export function useEncryptionUrl () {
+    const { userData } = useBlockstack()
+    const { username } = userData || {}
+    return (username && encryptionUrl(username) )
+}
