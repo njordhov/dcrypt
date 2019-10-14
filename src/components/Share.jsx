@@ -57,7 +57,7 @@ export default function Share (props) {
 
   return(
   <div className="jumbotron">
-    <div className="content">
+    <div className="container">
       <InfoBox className="mb-4" dismissible={true}>
         <p>Here you can find a link to your public key.
           Share the link with others so they can encrypt

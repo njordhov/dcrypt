@@ -128,8 +128,8 @@ export default function Encrypt (props) {
   }, [remoteKey])
   return (
       <div className="jumbotron">
+        <div className="container">
         {targetId && <ExplainDialog targetId={targetId}/>}
-        <div className="content">
           {!targetId &&
            <InfoBox className="mb-4" dismissible={true}>
             Securely encrypt a file using your public key.
@@ -153,8 +153,7 @@ export default function Encrypt (props) {
               publicKey={activeKey}/>
           </div>
 
-          <div className="mt-4 pt-4 m-auto align-items-center"
-               style={{maxWidth: "40em"}}>
+          <div className="mt-4 pt-4 m-auto align-items-center">
             <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>
 
             { content &&

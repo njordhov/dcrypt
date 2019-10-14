@@ -200,8 +200,8 @@ function SafeKeeping (props) {
 
 export default function Tutorial () {
   return (
-   <div className="jumbotron mb-0">
-     <div className="content">
+   <div className="jumbotron">
+     <div className="container">
         <SafeKeeping />
      </div>
    </div>
