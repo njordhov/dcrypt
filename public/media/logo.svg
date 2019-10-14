@@ -4,10 +4,11 @@
 
 <g>
   <title>dcrypt</title>
-  <path fill="blue" stroke="blue" stroke-width="3"
+  <path fill="#2A9FD6" stroke="gray" stroke-width="3"
+        transform="translate(0,2) scale(0.99)"
     d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z" class=""></path>
-  <g transform="translate(165,135) scale(0.4)" >
-    <path fill="gold" fill-opacity="0.95" stroke="black" stroke-width="3"
+  <g transform="translate(125,135) scale(0.4)" >
+    <path fill="gold" fill-opacity="0.95" stroke="gray" stroke-width="3"
       d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z" class=""></path>
   </g>
 </g>

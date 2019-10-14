@@ -42,7 +42,7 @@ function LinkCard (props) {
         </div>
         <div className="card-footer">
           <p>Copy the link and share it with others. You may tell them
-          it opens a webpage where they can encrypt a file that
+          it <a href={link} target="_blank">opens a webpage</a> where they can encrypt a file that
           only you will be able to decrypt.</p>
         </div>
       </div>
@@ -57,7 +57,7 @@ export default function Share (props) {
 
   return(
   <div className="jumbotron">
-    <div className="m-auto" style={{maxWidth: "40em"}}>
+    <div className="content">
       <InfoBox className="mb-4" dismissible={true}>
         <p>Here you can find a link to your public key.
           Share the link with others so they can encrypt
@@ -68,7 +68,7 @@ export default function Share (props) {
 
      <InfoBox className="my-4">
        <p>When you receive the
-       encrypted file, use the tool on 
+       encrypted file, use the tool on
        the <cite>decrypt</cite> pane to restore&nbsp;its&nbsp;content.</p>
     </InfoBox>
     </div>

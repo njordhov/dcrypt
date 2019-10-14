@@ -2,6 +2,7 @@ import React, { useState, useCallback, useReducer, useEffect } from 'react'
 import {DropEncrypt} from './Encrypt.jsx'
 import {DropDecrypt} from './Decrypt.jsx'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
+import InfoBox, {InfoToggle} from './InfoBox'
 import {usePublicKey, usePrivateKey} from './cipher.jsx'
 
 const classNames = (...list) => list.join(" ")
@@ -161,9 +162,8 @@ function SafeKeeping (props) {
   const onDecrypted = (decrypted) => dispatch({type: "decrypted", decrypted: decrypted})
   const onDone = () => dispatch({type: "done"})
   return (
-   <div className="mx-auto"
-        style={{width: "60em"}}>
-      <div className="alert alert-dark text-center mt-4">
+   <div className="mx-auto">
+      <InfoBox>
         This tutorial takes you through the steps of safekeeping a confidential file
         by encrypting it using your public key.
         { <button className="btn btn-outline-secondary btn-large ml-3"
@@ -171,7 +171,7 @@ function SafeKeeping (props) {
                 onClick={() => dispatch({type:"reset"})}>
            Restart
           </button>}
-      </div>
+      </InfoBox>
 
       <ul className="list-group">
         <li className="list-group-item">
@@ -201,6 +201,8 @@ function SafeKeeping (props) {
 export default function Tutorial () {
   return (
    <div className="jumbotron mb-0">
-      <SafeKeeping />
+     <div className="content">
+        <SafeKeeping />
+     </div>
    </div>
   )}

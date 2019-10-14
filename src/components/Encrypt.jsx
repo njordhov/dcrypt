@@ -129,7 +129,7 @@ export default function Encrypt (props) {
   return (
       <div className="jumbotron">
         {targetId && <ExplainDialog targetId={targetId}/>}
-        <div className="m-auto" style={{maxWidth: "40em"}}>
+        <div className="content">
           {!targetId &&
            <InfoBox className="mb-4" dismissible={true}>
             Securely encrypt a file using your public key.

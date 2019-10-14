@@ -115,7 +115,7 @@ export default function Decrypt (props) {
   console.debug("DECRYPT:", content, message)
   return (
     <div className="jumbotron">
-     <div className="m-auto" style={{maxWidth: "40em"}}>
+     <div className="content">
       <InfoBox className="mb-4" dismissible={true}>
        Decrypt an encrypted file using your private key.
        The content is decrypted in the browser and kept on your computer.
