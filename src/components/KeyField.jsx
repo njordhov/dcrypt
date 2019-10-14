@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack, useProfile } from 'react-blockstack'
+import { trimId } from './cipher'
 
 export default function KeyField (props) {
     const {className, label, publicKey, privateKey, username, isOwner } = props
@@ -31,12 +32,12 @@ export default function KeyField (props) {
           <span className="input-group-text">{username}</span>}
          {publicKey &&
            <button className="btn btn-outline-secondary bg-dark" type="button">
-             {username}
+             {trimId(username)}
            </button>}
          {false && publicKey &&
           <button className="btn btn-outline-secondary dropdown-toggle bg-dark" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {username}
+            {trimId(username)}
           </button>}
          {false && publicKey &&
           <div class="dropdown-menu px-3">
