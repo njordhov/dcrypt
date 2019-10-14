@@ -68,8 +68,8 @@ export default function Share (props) {
 
      <InfoBox className="my-4">
        <p>When you receive the
-       encrypted file, use the tool on the
-       <cite>decrypt</cite> pane to restore&nbsp;its&nbsp;content.</p>
+       encrypted file, use the tool on 
+       the <cite>decrypt</cite> pane to restore&nbsp;its&nbsp;content.</p>
     </InfoBox>
     </div>
   </div>
