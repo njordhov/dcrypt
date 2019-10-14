@@ -118,6 +118,14 @@ export default function Encrypt (props) {
   const resetForm = useCallback(() => {setResult(null); })
   usePublishKey(publicKey)
   const activeKey = remoteKey || publicKey
+  useEffect( () => {
+    if (remoteKey) {
+      document.documentElement.className += " encrypting"
+    } else {
+      document.documentElement.className =
+      document.documentElement.className.replace("encrypting", '')
+    }
+  }, [remoteKey])
   return (
       <div className="jumbotron">
         {targetId && <ExplainDialog targetId={targetId}/>}

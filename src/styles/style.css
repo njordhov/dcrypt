@@ -31,6 +31,10 @@ html:not(.authenticated) .when-authenticated {
     display: none !important;
 }
 
+html:not(.encrypting) .when-encrypting {
+    display: none !important;
+}
+
 /* NavBar */
 
 nav.navbar {
