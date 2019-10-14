@@ -53,6 +53,18 @@ html:not(.authenticated) #navbarNav .nav-tabs {
   background-color: transparent;
 }
 
+#navbarNav .nav-link i {
+  margin-right: 0.25em;
+}
+
+#navbarNav .nav-link.active {
+    opacity: 0.8;
+}
+
+#navbarNav .nav-link.active i {
+  color: var(--blue);
+}
+
 .avatar img {
   border-radius: 50%;
   height: 32px;
