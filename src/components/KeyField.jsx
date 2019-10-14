@@ -29,7 +29,7 @@ export default function KeyField (props) {
         {username &&
          <div className="input-group-prepend">
          {privateKey &&
-          <span className="input-group-text">{username}</span>}
+          <span className="input-group-text">{trimId(username)}</span>}
          {publicKey &&
            <button className="btn btn-outline-secondary bg-dark" type="button">
              {trimId(username)}
@@ -45,7 +45,7 @@ export default function KeyField (props) {
           </div>}
          </div>}
         <input className={"form-control key-field"}
-               style={{maxWidth: "6rem"}}
+               style={{maxWidth: "10rem"}}
                datatoggle="tooltip"
                title={tooltip}
                value={publicKey || privateKey} readOnly={true}
