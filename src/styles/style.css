@@ -31,7 +31,7 @@ html:not(.authenticated) .when-authenticated {
     display: none !important;
 }
 
-html:not(.encrypting) .when-encrypting {
+html:not(.encrypting):not(.authenticated) .when-encrypting {
     display: none !important;
 }
 
