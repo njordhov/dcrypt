@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import FileSaver, { saveAs } from 'file-saver'
 import {useDropzone} from 'react-dropzone'
 
+import css from './Dropzone.css'
+
 export function DownloadButton (props) {
   // Download file from URL
   const {url, filename, children, onComplete, icon} = props
@@ -96,10 +98,11 @@ export default function Dropzone(props) {
     }
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-
+  const rootProps = getRootProps(Object.assign({}, props, {className: isDragActive ? props.className + " dragging" : props.className})) 
+  const inputProps = getInputProps()
   return (
-    <div {...getRootProps(props)}>
-      <input {...getInputProps()} />
+    <div {...rootProps}>
+      <input {...inputProps} />
       {props.children ||
         (isDragActive ?
           <div>Drop the files here</div> :
