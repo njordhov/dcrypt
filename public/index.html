@@ -28,15 +28,17 @@
   </head>
   <body>
     <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark"> <!--  navbar-light bg-light -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <a class="navbar-brand mr-3" href="#" onclick="document.getElementById('home-tab').click()">
+        <a class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </a>
+        <a class="navbar-brand ml-2 ml-md-0 mr-3 " href="#"
+           onclick="document.getElementById('home-tab').click()">
             <img src="/media/logo.svg" width="32" height="32" />
             <i>d</i>Crypt</a>
         <div class="collapse navbar-collapse ml-2" id="navbarNav">
-          <ul class="nav nav-pills" role="tablist">
+          <ul class="navbar-nav nav nav-pills flex-column flex-md-row mt-2 mt-lg-0"
+              role="tablist">
             <li class="nav-item" style="display: none">
               <a class="nav-link" id="home-tab" data-toggle="tab"
                  href="#home" role="tab" aria-controls="home" aria-selected="true">
@@ -78,12 +80,13 @@
 
           </ul>
         </div>
-      <div class="ml-auto mr-3">
 
-        </div>
-      <div id="auth-root">Sign in</div>
+        <div class="ml-auto mr-3"></div>
+        <div class="" id="auth-root">Sign in</div>
     </nav>
-    <div class="navbar" style="opacity: 0">&nbsp;</div>
+
+    <div class="navbar" style="opacity: 0">Filler for navbar</div>
+
     <main>
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active"
