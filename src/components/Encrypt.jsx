@@ -55,8 +55,9 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
 )}
 
 function ExplainDialog (props) {
-  const {open, targetId} = props
+  const {open, targetId, publicKey} = props
   const { userData } = useBlockstack()
+  const username = trimId(targetId)
   const ref = useRef(null)
   const element = ref.current
   useEffect(() => {
@@ -70,7 +71,7 @@ function ExplainDialog (props) {
   <button hidden={true} ref={ref} type="button" className="btn btn-primary" data-toggle="modal" data-target="#ExplainDialog">
     Explain
   </button>
-  <div className="modal fade" id="ExplainDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal fade" id="ExplainDialog" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div className="modal-dialog modal-dialog-centered" role="document">
       <div className="modal-content">
         <div className="modal-header">
@@ -83,14 +84,25 @@ function ExplainDialog (props) {
           <div className="mb-4 w-100 text-center" >
             <img className="mx-auto" src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
           </div>
-          <p>Hi! Welcome to <i>d</i>Crypt. Seems like somebody we know as <cite>{trimId(targetId)}</cite> directed you here
+          <p>Hi! Welcome to <i>d</i>Crypt. Seems like somebody we know as <cite>{username}</cite> directed you here
              to encrypt a file so you can send it to them confidentially.</p>
 
+          { isNull(publicKey) &&
+          <div className="alert alert-warning">
+            Unfortunately, the public key of {username} is not available.
+            Possible they haven't yet signed in to the app.
+          </div>
+          }
+
+          { publicKey &&
           <p>When receiving the encrypted file from you, they can decrypt it to restore the
              original file you encrypted.</p>
+           }
 
+          {publicKey &&
           <p>As soon as you close this dialog, you will find a page that takes you through
              the steps to encrypt the file.</p>
+           }
 
           <p>You are welcome to check out the rest of the site for explanations
              about how such end-to-end cryptography works.</p>
@@ -118,6 +130,8 @@ export default function Encrypt (props) {
   const resetForm = useCallback(() => {setResult(null); })
   usePublishKey(publicKey)
   const activeKey = remoteKey || publicKey
+  const activeId = remoteKey ? targetId : username
+  const isRemote = !!remoteKey
   useEffect( () => {
     if (remoteKey) {
       document.documentElement.className += " encrypting"
@@ -129,13 +143,13 @@ export default function Encrypt (props) {
   return (
       <div className="jumbotron">
         <div className="container">
-        {targetId && <ExplainDialog targetId={targetId}/>}
-          {!targetId &&
+          {targetId && <ExplainDialog targetId={targetId} publicKey={remoteKey}/>}
+          {!isRemote &&
            <InfoBox className="mb-4" dismissible={true}>
             Securely encrypt a file using your public key.
             The content is encrypted in the browser and kept on your computer.
           </InfoBox>}
-          {targetId &&
+          {isRemote &&
           <InfoBox className="mb-4" dismissible={true}>
               Securely encrypt a file in the browser using the public key of
               &nbsp;<cite>{trimId(targetId)}.</cite>
@@ -148,8 +162,8 @@ export default function Encrypt (props) {
           <div className="d-flex justify-content-center align-items-center w-100">
             <KeyField className="PublicKeyField"
               label="Public Key"
-              isOwner={!targetId}
-              username={targetId || username}
+              isOwner={!isRemote}
+              username={activeId}
               publicKey={activeKey}/>
           </div>
 

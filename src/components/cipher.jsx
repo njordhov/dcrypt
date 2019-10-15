@@ -59,6 +59,7 @@ export function usePublishKey(publicKey) {
 
 export function useRemotePublicKey (username) {
   // fetches the public key of another user
+  //value is undefined if not yet determined, usually a string, but null if not existing
   const { userSession } = useBlockstack()
   const [value, setValue] = useState()
   useEffect( () => {
@@ -73,7 +74,11 @@ export function useRemotePublicKey (username) {
           .then((content) => setValue(content && get(JSON.parse (content), "key")))
           .catch((err) => console.warn("Failed to get unsigned public key:", err))
         }})
-      .catch((err) => console.warn("Failed to get remote public key:", err))
+      .catch((err) => {
+        console.warn("Failed to get remote public key:", err)
+        // FIX: verify file was not found before setting value to null
+        setValue(null)
+      })
     } else {
       setValue(null)
     }
