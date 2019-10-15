@@ -35,6 +35,10 @@ html:not(.encrypting):not(.authenticated) .when-encrypting {
     display: none !important;
 }
 
+body {
+  --orange: #d6612a; /* Complements the blue */
+}
+
 /* NavBar */
 
 nav.navbar {
@@ -127,6 +131,7 @@ main mark:hover {
 
 .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
+  color: var(--yellow) !important;
 }
 
 /* Key Fields */
