@@ -4,15 +4,8 @@ import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blo
 import Enter from './Enter.jsx'
 import About from './About.jsx'
 import Signin from './Signin.jsx'
+import { ensureEndsWith } from './library'
 import $ from 'jquery'
-
-function Exit (props) {
-
-}
-
-function Empty (props) {
-  return (<span></span>)
-}
 
 function clickPane (id) {
   const tab = document.getElementById("" + id + "-tab")
@@ -27,7 +20,7 @@ function goPane (id) {
   return (props) => {
     console.log("Go pane:", id, props)
     useEffect( () => clickPane(id))
-    return (<Empty/>)
+    return (null)
   }
 }
 
@@ -42,13 +35,6 @@ function initPanes () {
   }
   $('a[data-toggle="tab"]').on('show.bs.tab', handleTabShown)
   console.log("route panes:", $('a[data-toggle="tab"]'))
-}
-
-function ensureEndsWith (s, ending) {
-  // after: string ends with ending if it didn't already
-  return (
-    s.endsWith(ending) ? s : s + ending
-  )
 }
 
 function appReducer (state, event) {
@@ -68,7 +54,7 @@ export default function App () {
   const [state, dispatch] = useReducer(appReducer, {})
   const goPane = (id) => (props) => {
     dispatch({type: "goPane", pane: id})
-    return (<Empty/>)
+    return (null)
   }
   const EncryptFor = (props) => {
     const {userId} = useParams()

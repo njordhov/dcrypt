@@ -2,9 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
 import { get } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
+import { trimEnding, ensureEndsWith } from './library'
 
 export function trimId (id) {
-  return (id.replace(/.id.blockstack/, ""))
+  return (trimEnding(id, ".id.blockstack"))
 }
 
 function getPublicKeyFromPrivate(privateKey: string) {
