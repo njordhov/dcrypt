@@ -36,7 +36,7 @@
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "react": "^16.9.0",
-    "react-blockstack": "^0.6.1",
+    "react-blockstack": "^0.6.3",
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.6",
     "react-router-dom": "^5.1.2",

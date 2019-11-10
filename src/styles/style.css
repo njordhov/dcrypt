@@ -69,6 +69,10 @@ html:not(.authenticated) #navbarNav .nav-tabs {
   color: var(--blue);
 }
 
+#navbarNav .nav-link:not(.active):hover i {
+  color: var(--yellow);
+}
+
 .avatar img {
   border-radius: 50%;
   height: 32px;
@@ -108,7 +112,7 @@ main mark:hover {
   border: thin solid yellow;
 }
 
-/* FEATURES */
+/* LANDING PAGE FEATURES */
 
 .features-icons {
   padding-top: 3rem;
@@ -129,10 +133,15 @@ main mark:hover {
   transition: font-size 0.2s ease-in-out;
 }
 
-.features-icons .features-icons-item:hover .features-icons-icon i {
+.authenticated .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
   color: var(--yellow) !important;
 }
+
+/*   Hack to disable pane links unless authenticated 
+html:not(.authenticated) .features-icons a.nav-link {
+  color:inherit !important;
+}*/
 
 /* Key Fields */
 
