@@ -17,9 +17,10 @@ function EFF (props) {
 
 function Credits () {
   return (
-       <div class="alert alert-dark mt-5">
-        <img src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
-             style={{marginLeft: "1em", marginRight: "1em", height: "2.5rem", float: "left"}}/>
+      <div class="Credits d-flex alert alert-dark mt-5">
+        <img className="mx-2 mh-100" src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
+             alt="Creative Commons logo"/>
+        <div className="flex-grow-1">
         Parts of this page has been adapted from
         the <a target="_blank" href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
         EFF Deep Dive on End-to-End Encryption</a> which is a good destination if you would
@@ -27,6 +28,7 @@ function Credits () {
         This content may be freely distributed under
         the <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/us/">
          Creative Commons license.</a>
+         </div>
        </div>
      )
 }
@@ -217,6 +219,6 @@ the foundation for many end-to-end encryption systems.</p>
 }
 
 export default function About ({visual}) {
-  const visual_mode = false
+  const visual_mode = true
   return (visual_mode ? <AboutVisual/> : <AboutText/>)
 }

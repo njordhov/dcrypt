@@ -1,5 +1,10 @@
 
 
 #AboutText .card:hover {
-  
+
+}
+
+.Credits {
+  margin: auto;
+  max-width: 60em;
 }
