@@ -50,7 +50,7 @@ function AboutText () {
         <div class="card-body">
           <p>Here is how encryption works when communicating a message:</p>
           <ol>
-            <li>A clearly readable message such as <cite>Hello Alice!</cite> is encrypted into an
+            <li>A clearly readable message such as <cite>"Meet me in the garden"</cite> is encrypted into an
             incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
             <li>The encrypted message is sent over the Internet, where eavesdroppers
                 can only see the scrambled message.</li>
