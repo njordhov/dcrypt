@@ -5,7 +5,13 @@ import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-l
 import { trimEnding, ensureEndsWith } from './library'
 
 export function trimId (id) {
-  return (trimEnding(id, ".id.blockstack"))
+  // Only case is when id ends with "blockstack.id" and the result is single name (no periods)
+  const short = trimEnding(id, ".blockstack.id")
+  return (short.includes(".") ? id : short)
+}
+
+export function untrimId (id) {
+  return (id.includes(".") ? id : ensureEndsWith(id, ".blockstack.id"))
 }
 
 function getPublicKeyFromPrivate(privateKey: string) {

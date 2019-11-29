@@ -4,7 +4,7 @@ import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blo
 import Enter from './Enter.jsx'
 import About from './About.jsx'
 import Signin from './Signin.jsx'
-import { ensureEndsWith } from './library'
+import { untrimId } from './cipher'
 import $ from 'jquery'
 
 function clickPane (id) {
@@ -40,7 +40,7 @@ function initPanes () {
 function appReducer (state, event) {
   switch (event.type) {
     case "encrypt":
-      const userId = ensureEndsWith(event.userId, ".id.blockstack")
+      const userId = untrimId(event.userId)
       return ({...state, pane: "encrypt", userId: userId})
     case "goPane":
       return (event.pane == state.pane ? state : {...state, pane: event.pane})
