@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { getFileUrl } from 'blockstack'
 import { useBlockstack } from 'react-blockstack'
 import { get } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { trimEnding, ensureEndsWith } from './library'
 
+// /encrypt/for/x1234567.id.blockstack
+
+const defaultIdEnding = ".id.blockstack" // can abbreviate ids with this ending
+
 export function trimId (id) {
-  // Only case is when id ends with "blockstack.id" and the result is single name (no periods)
-  const short = trimEnding(id, ".blockstack.id")
+  // Only case is when id ends with the default and the result is single name (no periods)
+  const short = trimEnding(id, defaultIdEnding)
   return (short.includes(".") ? id : short)
 }
 
 export function untrimId (id) {
-  return (id.includes(".") ? id : ensureEndsWith(id, ".blockstack.id"))
+  return (id.includes(".") ? id : ensureEndsWith(id, defaultIdEnding))
 }
 
 function getPublicKeyFromPrivate(privateKey: string) {
@@ -66,7 +71,8 @@ export function usePublishKey(publicKey) {
 
 export function useRemotePublicKey (username) {
   // fetches the public key of another user
-  //value is undefined if not yet determined, usually a string, but null if not existing
+  // value is undefined if not yet determined, usually a string, but null if not existing
+  // Important: user may not be logged in so don't depend on userSession
   const { userSession } = useBlockstack()
   const [value, setValue] = useState()
   useEffect( () => {
