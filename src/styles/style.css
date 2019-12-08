@@ -1,4 +1,19 @@
 
+:root  {
+  /* https://projects.invisionapp.com/boards/HE2VVROFSGB27 */
+  --brand-background: #270F34;
+  --brand-lines: #4B3457;
+  /* Blockstack colors */
+  --brand-dark: #211F6D;
+  --brand-mild: #C4D8E5;
+  --brand-greyish: #F1F6F9;
+  --brand-bright: #3700FF;
+  --brand-accent: #00D4FF;
+    /* Blockstack authentication colors */
+  --brand-login-background: #2F2161;
+  --brand-login-accent: #A56DFF;
+}
+
 .inspect {
   border: thin solid red;
 }
@@ -138,7 +153,7 @@ main mark:hover {
   color: var(--yellow) !important;
 }
 
-/*   Hack to disable pane links unless authenticated 
+/*   Hack to disable pane links unless authenticated
 html:not(.authenticated) .features-icons a.nav-link {
   color:inherit !important;
 }*/
