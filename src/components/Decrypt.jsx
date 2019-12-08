@@ -9,6 +9,8 @@ import InfoBox, {InfoToggle} from './InfoBox'
 
 import css from 'text-security/dist/text-security.css'
 
+// TODO: Simplify using the similar code in dCrypt Drop
+
 function decryptHandler(file, decryptContent, setResult) {
   if (file) {
     var myReader = new FileReader()
