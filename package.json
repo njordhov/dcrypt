@@ -33,6 +33,7 @@
     "blockstack": "^19.3.0",
     "file-saver": "^2.0.2",
     "jquery": "~3.4.1",
+    "node-sass": "^4.13.0",
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "react": "^16.9.0",
