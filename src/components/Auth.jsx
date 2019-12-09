@@ -32,6 +32,7 @@ function MoreMenu (props) {
       <i className="fas fa-user-cog"></i>
       <span className="ml-2">Edit Profile</span>
     </a>
+    <div className="dropdown-divider"></div>
     <a className="dropdown-item" onClick={ signOut }>
       <i className="fas fa-sign-out-alt"></i>
       <span className="ml-2">Sign out</span>
