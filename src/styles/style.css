@@ -127,6 +127,14 @@ main mark:hover {
   border: thin solid yellow;
 }
 
+main .btn-primary:hover {
+  background-color: var(--yellow);
+}
+
+main a:hover {
+  color: var(--yellow);
+}
+
 /* LANDING PAGE FEATURES */
 
 .features-icons {
