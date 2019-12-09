@@ -5,26 +5,38 @@ import InfoBox, {InfoToggle} from './InfoBox'
 import ClipButton from './ClipButton'
 import { useEncryptionUrl, usePublicKey } from './cipher'
 
+import css from './Share.css'
+
+function LinkField ({link}) {
+  const linkRef = useRef()
+  return (
+  <div className="LinkField">
+    <div className="input-group input-group-lg mx-auto my-4">
+      <div className="input-group-prepend">
+        <span className="input-group-text bg-dark">
+          <i class="fas fa-link text-primary"></i>
+        </span>
+      </div>
+      <span ref={linkRef} class="link" className="input-group-text bg-dark">
+        {link}
+      </span>
+      <div className="input-group-append">
+        <ClipButton targetRef={linkRef}/>
+      </div>
+    </div>
+  </div>
+  )
+}
+
 function LinkCard (props) {
   const link = useEncryptionUrl()
-  const linkRef = useRef()
   return (
    <div className="card border-light">
       <div class="card-body">
         <h5 className="card-title text-center">Link to Share</h5>
         <div className="d-flex justify-content-center align-items-center w-100">
           <div>
-            <div className="input-group input-group-lg mx-auto my-4">
-              <div className="input-group-prepend">
-                <span className="input-group-text bg-dark">
-                  <i class="fas fa-link text-primary"></i>
-                </span>
-              </div>
-              <span ref={linkRef} id="link" className="input-group-text bg-dark">{link}</span>
-              <div className="input-group-append">
-                <ClipButton targetRef={linkRef}/>
-              </div>
-            </div>
+            <LinkField link={link}/>
           </div>
         </div>
         <div className="card-footer">
