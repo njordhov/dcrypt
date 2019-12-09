@@ -19,10 +19,11 @@ export default function KeyField (props) {
     return (
     <div className={className}>
 
-      <div className="input-group">
+      <div className="input-group input-group-lg">
         {label &&
          <div className="input-group-prepend">
           <span className="input-group-text">
+            <i class="fas fa-key mr-2 text-primary"></i>
             {label}
           </span>
          </div>}
@@ -31,10 +32,11 @@ export default function KeyField (props) {
          {privateKey &&
           <span className="input-group-text">{trimId(username)}</span>}
          {publicKey &&
-           <button className="btn btn-outline-secondary bg-dark" type="button"
-                   title="The owner of the public key">
+           <span className="input-group-text"
+                   title={isOwner ? "You are the owner of this public key"
+                                  : "The owner of the public key"}>
              {trimId(username)}
-           </button>}
+           </span>}
          {false && publicKey &&
           <button className="btn btn-outline-secondary dropdown-toggle bg-dark" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,7 +47,7 @@ export default function KeyField (props) {
             <p>The public key is associated with your own Blockstack ID. Use it to encrypt content for yourself, not others.</p>
           </div>}
          </div>}
-        <input className={"form-control key-field"}
+        <input className={"form-control key-field text-truncate"}
                style={{maxWidth: "10rem"}}
                datatoggle="tooltip"
                title={tooltip}

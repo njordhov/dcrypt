@@ -145,12 +145,12 @@ export default function Encrypt (props) {
         <div className="container">
           {targetId && <ExplainDialog targetId={targetId} publicKey={remoteKey}/>}
           {!isRemote &&
-           <InfoBox className="mb-4" dismissible={true}>
+           <InfoBox className="mb-5" dismissible={true}>
             Securely encrypt a file using your public key.
             The content is encrypted in the browser and kept on your computer.
           </InfoBox>}
           {isRemote &&
-          <InfoBox className="mb-4" dismissible={true}>
+          <InfoBox className="mb-5" dismissible={true}>
               Securely encrypt a file in the browser using the public key of
               &nbsp;<cite>{trimId(targetId)}.</cite>
               <InfoToggle toggle="modal" target="#ExplainDialog"/>

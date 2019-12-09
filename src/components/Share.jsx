@@ -15,6 +15,11 @@ function LinkCard (props) {
         <div className="d-flex justify-content-center align-items-center w-100">
           <div>
             <div className="input-group input-group-lg mx-auto my-4">
+              <div className="input-group-prepend">
+                <span className="input-group-text bg-dark">
+                  <i class="fas fa-link text-primary"></i>
+                </span>
+              </div>
               <span ref={linkRef} id="link" className="input-group-text bg-dark">{link}</span>
               <div className="input-group-append">
                 <ClipButton targetRef={linkRef}/>

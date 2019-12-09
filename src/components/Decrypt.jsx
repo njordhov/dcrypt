@@ -119,7 +119,7 @@ export default function Decrypt (props) {
   return (
     <div className="jumbotron">
      <div className="container">
-      <InfoBox className="mb-4" dismissible={true}>
+      <InfoBox className="mb-5" dismissible={true}>
        Decrypt an encrypted file using your private key.
        The content is decrypted in the browser and kept on your computer.
      </InfoBox>
