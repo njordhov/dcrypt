@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 
 function copyToClipboard({target}) {
     const range = document.createRange()
@@ -12,14 +12,12 @@ function copyToClipboard({target}) {
   }
 
 export default function ClipButton ({targetRef}) {
-  console.log("CLIP:", targetRef.current)
-  const copyAction = () => {
-    copyToClipboard({target: targetRef.current})
-  }
+  const copyAction = useCallback(() => {
+    copyToClipboard({target: targetRef.current}) // ref not reactive...
+  })
   return(
   <button className="btn btn-primary" type="button"
           dataToggle="tooltip" dataPlacement="top" title="Copy link to clipboard"
-          disabled={!targetRef.current}
           onClick={copyAction}>
     <i className="fas fa-clone"></i>
   </button>

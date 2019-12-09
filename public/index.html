@@ -11,6 +11,9 @@
         document.documentElement.className =
         document.documentElement.className.replace("loading", '')
       };
+      function clickTab(id) {
+        document.getElementById(id).click()
+      }
     </script>
 
 
@@ -38,7 +41,7 @@
             <i>d</i>Crypt</a>
         <div class="collapse navbar-collapse ml-2" id="navbarNav">
 
-          <ul class="navbar-nav nav nav-pills flex-column flex-md-row nav-fill w-100 mr-5 mt-0 mt-lg-0"
+          <ul class="navbar-nav nav nav-pills flex-column flex-md-row ml-md-2 mr-auto mt-0 mt-lg-0"
               role="tablist">
             <li class="nav-item" style="display: none">
               <a class="nav-link" id="home-tab" data-toggle="tab"
@@ -46,33 +49,33 @@
                 Home
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-md-2">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
                  <i class="far fa-question-circle"></i>
                 About
               </a>
             </li>
-            <li class="nav-item when-authenticated">
+            <li class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="tutorial-tab" data-toggle="tab"
                  href="#tutorial" role="tab" aria-controls="tutorial" aria-selected="false">
                  <i class="fas fa-graduation-cap"></i>
                 Learn
               </a>
             </li>
-            <li class="nav-item when-encrypting">
+            <li class="nav-item when-encrypting mr-md-2">
               <a class="nav-link" id="encrypt-tab" data-toggle="tab"
                  href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
                  <i class="fas fa-shield-alt"></i>
                  Encrypt </a>
             </li>
-            <li class="nav-item when-authenticated">
+            <li class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="decrypt-tab" data-toggle="tab"
                  href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
                  <i class="fas fa-unlock-alt"></i>
                  Decrypt</a>
             </li>
-            <li class="nav-item when-authenticated">
+            <li class="nav-item when-authenticated mr-md-1">
               <a class="nav-link" id="share-tab" data-toggle="tab"
                  href="#share" role="tab" aria-controls="share" aria-selected="false">
                  <i class="fas fa-umbrella"></i>
@@ -147,20 +150,19 @@
             <section class="features-icons">
               <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
               <div class="row">
-              <div class="col col-12 col-md-6 col-lg-3 p-5"
-                   onclick="document.getElementById('tutorial-tab').click()">
-                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="col col-12 col-md-6 col-lg-3 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
+                       onclick="clickTab('tutorial-tab')">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-graduation-cap m-auto text-primary"></i>
                     </div>
                     <h3>Learn</h3>
                     <p class="lead mb-0">Get practical experience with end-to-end encryption.</p>
                   </div>
-                <!--</a>-->
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5"
-                   onclick="document.getElementById('encrypt-tab').click()">
-                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="col col-12 col-md-6 col-lg-3 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
+                       onclick="clickTab('encrypt-tab')">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-shield-alt m-auto text-primary"></i>
                     </div>
@@ -170,9 +172,9 @@
                     </p>
                   </div>
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5"
-                   onclick="document.getElementById('decrypt-tab').click()">
-                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="col col-12 col-md-6 col-lg-3 p-5">
+                  <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
+                       onclick="clickTab('decrypt-tab')">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-unlock-alt m-auto text-primary"></i>
                     </div>
@@ -182,9 +184,9 @@
                     </p>
                   </div>
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5"
-                   onclick="document.getElementById('share-tab').click()">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="col col-12 col-md-6 col-lg-3 p-5">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
+                     onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-umbrella m-auto text-primary"></i>
                     </div>

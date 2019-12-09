@@ -17,7 +17,7 @@ export default function KeyField (props) {
            privateKey ? "This is your private key used to decrypt messages. Keep it secret, keep it safe, and don't share your private key with anybody." :
            publicKey ? "This is your public key used to encrypt messages. It can be shared freely with others." : null
     return (
-    <div className={className}>
+    <div className={["KeyField", className].join(" ")}>
 
       <div className="input-group input-group-lg">
         {label &&
@@ -48,7 +48,6 @@ export default function KeyField (props) {
           </div>}
          </div>}
         <input className={"form-control key-field text-truncate"}
-               style={{maxWidth: "10rem"}}
                datatoggle="tooltip"
                title={tooltip}
                value={publicKey || privateKey} readOnly={true}
