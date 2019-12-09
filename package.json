@@ -41,7 +41,7 @@
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.6",
     "react-router-dom": "^5.1.2",
-    "bolt11": "1.2.5",
+    "reactstrap": "^8.1.1",
     "text-security": "^1.2.0"
   },
   "devDependencies": {
