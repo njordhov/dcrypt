@@ -1,32 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import KeyField from './KeyField.jsx'
+import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
-import { useEncryptionUrl, usePublicKey } from './cipher.jsx'
-
-function copyToClipboard(id) {
-    var range = document.createRange();
-    range.selectNode(document.getElementById(id));
-    window.getSelection().removeAllRanges(); // clear current selection
-    window.getSelection().addRange(range); // to select text
-    document.execCommand("copy");
-    window.getSelection().removeAllRanges();// to deselect
-  }
-
-function ClipButton ({target}) {
-  return(
-  <button className="btn btn-primary" type="button"
-          dataToggle="tooltip" dataPlacement="top" title="Copy link to clipboard"
-          onClick={() => copyToClipboard(target)}>
-    <i className="fas fa-clone"></i>
-  </button>
-  )
-}
-
-//  input-group-lg my-4 mx-auto
+import ClipButton from './ClipButton'
+import { useEncryptionUrl, usePublicKey } from './cipher'
 
 function LinkCard (props) {
   const link = useEncryptionUrl()
+  const linkRef = useRef()
   return (
    <div className="card border-light">
       <div class="card-body">
@@ -34,9 +15,9 @@ function LinkCard (props) {
         <div className="d-flex justify-content-center align-items-center w-100">
           <div>
             <div className="input-group input-group-lg mx-auto my-4">
-              <span id="link" className="input-group-text bg-dark">{link}</span>
+              <span ref={linkRef} id="link" className="input-group-text bg-dark">{link}</span>
               <div className="input-group-append">
-                <ClipButton target="link"/>
+                <ClipButton targetRef={linkRef}/>
               </div>
             </div>
           </div>
