@@ -31,7 +31,8 @@ export default function KeyField (props) {
          {privateKey &&
           <span className="input-group-text">{trimId(username)}</span>}
          {publicKey &&
-           <button className="btn btn-outline-secondary bg-dark" type="button">
+           <button className="btn btn-outline-secondary bg-dark" type="button"
+                   title="The owner of the public key">
              {trimId(username)}
            </button>}
          {false && publicKey &&

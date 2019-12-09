@@ -16,6 +16,7 @@ function copyToClipboard(id) {
 function ClipButton ({target}) {
   return(
   <button className="btn btn-primary" type="button"
+          dataToggle="tooltip" dataPlacement="top" title="Copy link to clipboard"
           onClick={() => copyToClipboard(target)}>
     <i className="fas fa-clone"></i>
   </button>
