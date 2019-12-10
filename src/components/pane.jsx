@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import $ from 'jquery'
 
-export function clickPane (id) {
+function clickPane (id) {
   const tab = document.getElementById("" + id + "-tab")
   if (tab) {
     tab.click()
@@ -10,15 +10,7 @@ export function clickPane (id) {
   }
 }
 
-function goPane (id) {
-  return (props) => {
-    console.log("Go pane:", id, props)
-    useEffect( () => clickPane(id))
-    return (null)
-  }
-}
-
-export function initPanes () {
+function initPanes (setPane) {
   // going beyond bootstraps events to control panes
   const handleTabShown = (e) => {
       //e.target // newly activated tab
@@ -26,15 +18,21 @@ export function initPanes () {
       const id = e.target.getAttribute("aria-controls")
       console.log("Routing pane", id, e.target.tab, e.target, e.relatedTarget)
       window.history.replaceState({}, document.title, "/" + id)
+      setPane(id)
   }
   $('a[data-toggle="tab"]').on('show.bs.tab', handleTabShown)
   console.log("route panes:", $('a[data-toggle="tab"]'))
 }
 
-export function usePane (pane) {
-  initPanes()
+export function usePane (init) {
+  const [pane, setPane] = useState(init || null)
+  useEffect(() => {
+    initPanes(setPane)
+  }, [])
   useEffect( () => {
     if (pane) {
       clickPane(pane)
-    }}, [pane])
+    }
+  }, [pane])
+  return [pane, setPane]
 }
