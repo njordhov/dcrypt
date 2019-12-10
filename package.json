@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "blockstack": "^19.3.0",
+    "copy-text-to-clipboard": "^2.1.1",
     "file-saver": "^2.0.2",
     "jquery": "~3.4.1",
     "node-sass": "^4.13.0",
