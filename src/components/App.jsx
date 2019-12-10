@@ -11,9 +11,9 @@ function appReducer (state, event) {
   switch (event.type) {
     case "encrypt":
       const userId = untrimId(event.userId)
-      return ({...state, pane: "encrypt", userId: userId})
-    case "goPane":
-      return (event.pane == state.pane ? state : {...state, pane: event.pane})
+      return ({...state, userId: userId})
+    // case "goPane":
+    //  return (event.pane == state.pane ? state : {...state, pane: event.pane})
     default:
       return (state)
   }
@@ -22,19 +22,23 @@ function appReducer (state, event) {
 export default function App () {
   const { userData } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
+  const [pane, setPane] = usePane()
   const goPane = (id) => (props) => {
+    // dispatch({type: "goPane", pane: id})
     console.log("GoPane:", id)
-    dispatch({type: "goPane", pane: id})
+    setPane(id)
     return (null)
   }
   const EncryptFor = (props) => {
     const {userId} = useParams()
     console.debug("Encrypt For:", userId )
-    useEffect( () => dispatch({type: "encrypt", userId: userId}))
+    useEffect( () => {
+      setPane("encrypt")
+      dispatch({type: "encrypt", userId: userId})
+    })
     return null
   }
-  const {pane, userId} = state
-  usePane(pane)
+  const {userId} = state
   useEffect( () => {
     if (userId) {
       setContext({targetId: userId})
