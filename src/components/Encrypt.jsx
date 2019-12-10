@@ -84,7 +84,7 @@ function ExplainDialog (props) {
           <div className="mb-4 w-100 text-center" >
             <img className="mx-auto" src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
           </div>
-          <p>Hi! Welcome to <i>d</i>Crypt. Seems like somebody we know as <cite>{username}</cite> directed you here
+          <p>Hi! Welcome to <i>d</i>Crypt Drop. Seems like somebody we know as <cite>{username}</cite> directed you here
              to encrypt a file so you can send it to them confidentially.</p>
 
           { isNull(publicKey) &&
@@ -104,7 +104,7 @@ function ExplainDialog (props) {
              the steps to encrypt the file.</p>
            }
 
-          <p>You are welcome to check out the rest of the site for explanations
+          <p hidden="true">You are welcome to check out the rest of the site for explanations
              about how such end-to-end cryptography works.</p>
              {!userData &&
                <p>After signing in, you

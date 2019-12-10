@@ -18,6 +18,7 @@ function LinkField ({link, className}) {
         </span>
       </div>
       <input className="form-control text-truncate"
+             ref={linkRef}
              type="text" value={link} readOnly={true}/>
       <div className="input-group-append">
         <ClipButton targetRef={linkRef}/>

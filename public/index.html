@@ -37,8 +37,14 @@
         </a>
         <a class="navbar-brand ml-2 ml-md-0 mr-3 " href="#"
            onclick="document.getElementById('home-tab').click()">
-            <img src="/media/logo.svg" width="32" height="32" />
-            <i>d</i>Crypt</a>
+           <div class="border-primary circle mr-2"
+           style="display: inline-block; width: 32px; height: 32px; transform: rotate(-45deg);position: relative; top: -5px;">
+              <i class="fas fa-key text-primary"></i>
+              <i class="fas fa-key"
+                 style="transform: rotate(180deg); color: #5a9200; position: relative; left: -10px; top: 10px;"></i>
+            </div>
+            <i>d</i>Crypt drop
+        </a>
         <div class="collapse navbar-collapse ml-2" id="navbarNav">
 
           <ul class="navbar-nav nav nav-pills flex-column flex-md-row ml-md-2 mr-auto mt-0 mt-lg-0"
@@ -49,14 +55,14 @@
                 Home
               </a>
             </li>
-            <li class="nav-item mr-md-2">
+            <li class="nav-item mr-md-2" style="display: none">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
                  <i class="far fa-question-circle"></i>
                 About
               </a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2">
+            <li class="nav-item when-authenticated mr-md-2" style="display: none">
               <a class="nav-link" id="tutorial-tab" data-toggle="tab"
                  href="#tutorial" role="tab" aria-controls="tutorial" aria-selected="false">
                  <i class="fas fa-graduation-cap"></i>
@@ -146,11 +152,12 @@
       <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active"
              id="home" role="tabpanel" aria-labelledby="home-tab">
-          <div class="jumbotron mb-0">
-            <section class="features-icons">
-              <h2 class="col col-12 text-center">Public-key cryptography<br />made easy.</h2>
+          <div class="jumbotron mb-0 pt-0">
+            <section class="features-icons m-auto">
+              <h2 class="col col-12 text-center">Secure Cryptography<br/>
+                  made easy.</h2>
               <div class="row">
-              <div class="col col-12 col-md-6 col-lg-3 p-5">
+              <div class="col d-none">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
                        onclick="clickTab('tutorial-tab')">
                     <div class="features-icons-icon d-flex">
@@ -160,7 +167,7 @@
                     <p class="lead mb-0">Get practical experience with end-to-end encryption.</p>
                   </div>
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5">
+              <div class="col p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
                        onclick="clickTab('encrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -168,11 +175,11 @@
                     </div>
                     <h3>Encrypt</h3>
                     <p class="lead mb-0">
-                      Encrypt files with content you like to keep confidential.
+                      Encrypt files with your public key.
                     </p>
                   </div>
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5">
+              <div class="col p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
                        onclick="clickTab('decrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -180,11 +187,11 @@
                     </div>
                     <h3>Decrypt</h3>
                     <p class="lead mb-0">
-                      Decrypt files to restore their original&nbsp;content.
+                      Decrypt files with your private key.
                     </p>
                   </div>
               </div>
-              <div class="col col-12 col-md-6 col-lg-3 p-5">
+              <div class="col p-5">
                 <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
                      onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">

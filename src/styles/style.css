@@ -12,6 +12,7 @@
     /* Blockstack authentication colors */
   --brand-login-background: #2F2161;
   --brand-login-accent: #A56DFF;
+  --brand-login-complement: #5a9200;
 }
 
 .inspect {
@@ -26,6 +27,20 @@
   border: thin solid green;
 }
 
+/* Theme Customization */
+
+:root {
+  --primary: var(--brand-login-background);
+}
+
+.text-primary {
+  color: var(--brand-login-accent) !important;
+}
+
+.navbar.bg-dark {
+  background-color: var(--brand-background) !important;
+}
+
 .alert-info {
   background-color: var(--blue);
 }
@@ -33,6 +48,29 @@
 .text-info {
   color: var(--blue) !important;
 }
+
+.btn-primary:hover {
+  background-color: var(--brand-login-complement);
+}
+
+.btn-primary {
+  background-color: var(--brand-login-accent);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--brand-login-complement);
+}
+
+a:hover {
+  color: var(--brand-login-complement);
+}
+
+a[href] {
+  color: var(--brand-login-accent);
+  opacity: 0.9;
+}
+
+/* ===== */
 
 html.authenticated .unless-authenticated {
   display: none !important;
@@ -53,7 +91,7 @@ body {
 /* NavBar */
 
 nav.navbar {
-  opacity: 1.0;
+  opacity: 0.9;
 }
 
 html:not(.authenticated) #navbarNav .nav-tabs {
@@ -77,11 +115,11 @@ html:not(.authenticated) #navbarNav .nav-tabs {
 }
 
 #navbarNav .nav-link.active i {
-  color: var(--blue);
+  color: var(--brand-login-accent);
 }
 
 #navbarNav .nav-link:not(.active):hover i {
-  color: var(--yellow);
+  color: var(--brand-login-complement);
 }
 
 .avatar img {
@@ -123,18 +161,6 @@ main mark:hover {
   border: thin solid yellow;
 }
 
-main .btn-primary:hover {
-  background-color: var(--yellow);
-}
-
-main .btn-outline-primary:hover {
-  background-color: var(--yellow);
-}
-
-main a:hover {
-  color: var(--yellow);
-}
-
 /* LANDING PAGE FEATURES */
 
 .features-icons {
@@ -158,7 +184,7 @@ main a:hover {
 
 .authenticated .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
-  color: var(--yellow) !important;
+  color: var(--brand-login-complement) !important;
 }
 
 /* Disable pane links unless authenticated */

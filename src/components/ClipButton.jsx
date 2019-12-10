@@ -13,7 +13,8 @@ function copyToClipboard({target}) {
 
 export default function ClipButton ({targetRef}) {
   const copyAction = useCallback(() => {
-    copyToClipboard({target: targetRef.current}) // ref not reactive...
+    console.log("Clip:", targetRef.current)
+    copyToClipboard({target: targetRef.current})  // ref not reactive
   })
   return(
   <button className="btn btn-primary" type="button"
