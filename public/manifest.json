@@ -1,6 +1,6 @@
 {
-  "name": "dCrypt",
-  "start_url": "https://dcrypt.app",
+  "name": "dCrypt Drop",
+  "start_url": "https://drop.dcrypt.app",
   "description": "Public-key cryptography made easy",
   "icons": [{
     "src": "https://dcrypt.app/media/logo.svg",

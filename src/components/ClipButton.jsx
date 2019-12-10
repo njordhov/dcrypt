@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react'
+import intoClipboard from 'copy-text-to-clipboard'
 
 function copyToClipboard({target}) {
     const range = document.createRange()
@@ -13,8 +14,8 @@ function copyToClipboard({target}) {
 
 export default function ClipButton ({targetRef}) {
   const copyAction = useCallback(() => {
-    console.log("Clip:", targetRef.current)
-    copyToClipboard({target: targetRef.current})  // ref not reactive
+    // copyToClipboard({target: targetRef.current}) // ref not reactive...
+    intoClipboard(targetRef.current.value)
   })
   return(
   <button className="btn btn-primary" type="button"
