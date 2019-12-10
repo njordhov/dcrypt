@@ -2,21 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { AppConfig } from 'blockstack'
 import { initBlockstack } from 'react-blockstack'
-import Signin from './components/Signin.jsx';
-import App from './components/App.jsx';
-import Auth from './components/Auth.jsx';
-import About from './components/About.jsx';
-import Tutorial from './components/Tutorial.jsx';
-import Encrypt from './components/Encrypt.jsx';
-import Decrypt from './components/Decrypt.jsx';
-import Share from './components/Share.jsx';
+import Signin from './components/Signin';
+import App from './components/App';
+import Auth from './components/Auth';
+import About from './components/About';
+import Tutorial from './components/Tutorial';
+import Encrypt from './components/Encrypt';
+import Decrypt from './components/Decrypt';
+import Share from './components/Share';
 
 // include google fonts to avoid tracking
 import './styles/cyborg.scss';
 
 // import bootstrap from 'bootstrap/dist/css/bootstrap.css'
-import bootstrap from 'bootswatch/dist/cyborg/bootstrap.css'
-import style from './styles/style.css'
+import 'bootswatch/dist/cyborg/bootstrap.css'
+import './styles/style.css'
 
 import $ from 'jquery'
 import Popper from 'popper.js'

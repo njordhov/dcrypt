@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack, useProfile } from 'react-blockstack'
 import { trimId } from './cipher'
+import './KeyField.css'
 
 export default function KeyField (props) {
     const {className, label, publicKey, privateKey, username, isOwner } = props

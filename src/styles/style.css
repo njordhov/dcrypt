@@ -34,10 +34,6 @@
   color: var(--blue) !important;
 }
 
-.PublicKeyField input {
-  width: 100%;
-}
-
 html.authenticated .unless-authenticated {
   display: none !important;
 }
@@ -131,6 +127,10 @@ main .btn-primary:hover {
   background-color: var(--yellow);
 }
 
+main .btn-outline-primary:hover {
+  background-color: var(--yellow);
+}
+
 main a:hover {
   color: var(--yellow);
 }
@@ -169,19 +169,7 @@ html:not(.authenticated) .features-icons .features-icons-item {
 
 /* Key Fields */
 
-/*
-.PrivateKeyField input.key-field:not(:focus) {
-  color: transparent;
-  text-shadow: 0 0 4px rgba(0,0,0,0.5);
-}*/
-
 .KeyField input.key-field{
-}
-
-.PublicKeyField input.key-field {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .PrivateKeyField input.key-field:not(:focus) {
@@ -191,12 +179,6 @@ html:not(.authenticated) .features-icons .features-icons-item {
 
 .PrivateKeyField input.key-field:hover {
   color: black;
-}
-
-.PrivateKeyField input.key-field {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 /* Footer */

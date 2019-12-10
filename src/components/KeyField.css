@@ -1,13 +1,8 @@
 
-.LinkField input.form-control {
-  border-top: 0;
-  border-bottom: 0;
-
-}
 
 /* Remove focus indicator for readonly input */
 
-.LinkField input.form-control[readonly]:focus {
+.KeyField input.form-control[readonly]:focus {
   box-shadow: none;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;

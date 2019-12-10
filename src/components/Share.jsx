@@ -7,19 +7,18 @@ import { useEncryptionUrl, usePublicKey } from './cipher'
 
 import css from './Share.css'
 
-function LinkField ({link}) {
+function LinkField ({link, className}) {
   const linkRef = useRef()
   return (
-  <div className="LinkField">
-    <div className="input-group input-group-lg mx-auto my-4">
+  <div className={["LinkField", className].join(" ")}>
+    <div className="input-group input-group-lg">
       <div className="input-group-prepend">
         <span className="input-group-text bg-dark">
-          <i class="fas fa-link text-primary"></i>
+          <i className="fas fa-link text-primary"></i>
         </span>
       </div>
-      <span ref={linkRef} class="link" className="input-group-text bg-dark">
-        {link}
-      </span>
+      <input className="form-control text-truncate"
+             type="text" value={link} readOnly={true}/>
       <div className="input-group-append">
         <ClipButton targetRef={linkRef}/>
       </div>
@@ -34,10 +33,8 @@ function LinkCard (props) {
    <div className="card border-light">
       <div class="card-body">
         <h5 className="card-title text-center">Link to Share</h5>
-        <div className="d-flex justify-content-center align-items-center w-100">
-          <div>
-            <LinkField link={link}/>
-          </div>
+        <div className="my-4">
+          <LinkField link={link}/>
         </div>
         <div className="card-footer">
           <p>Copy the link and share it with others. You may tell them

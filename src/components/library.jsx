@@ -14,3 +14,5 @@ export function ensureEndsWith (s, ending) {
     s.endsWith(ending) ? s : s + ending
   )
 }
+
+export const classNames = (...list) => list.join(" ")
