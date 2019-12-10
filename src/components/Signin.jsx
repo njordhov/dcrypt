@@ -25,7 +25,7 @@ function AboutBlockstack (props) {
 export default function Signin (props) {
     const { signIn } = useBlockstack()
     return ( signIn &&
-      <div className="text-center">
+      <div className="alert alert-light text-dark text-center m-auto pt-4 mb-0">
         <p className="lead mb-4">
           Get your own public key and gain access to encryption tools:
         </p>
