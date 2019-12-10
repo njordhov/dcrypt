@@ -15,6 +15,18 @@
   --brand-login-complement: #5a9200;
 }
 
+#signin-button {
+  background-color: var(--brand-login-background);
+  border-color: var(--brand-lines);
+  color: var(--brand-greyish);
+}
+
+#signin-button:hover {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
+}
+
+
 .inspect {
   border: thin solid red;
 }
@@ -55,6 +67,11 @@
 
 .btn-primary {
   background-color: var(--brand-login-accent);
+}
+
+.btn-outline-primary {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
 }
 
 .btn-outline-primary:hover {
@@ -165,7 +182,6 @@ main mark:hover {
 
 .features-icons {
   padding-top: 3rem;
-  padding-bottom: 3rem;
 }
 
 .features-icons .features-icons-item {
@@ -174,7 +190,7 @@ main mark:hover {
 }
 
 .features-icons .features-icons-item .features-icons-icon {
-  height: 7rem;
+  min-height: 7rem;
 }
 
 .features-icons .features-icons-item .features-icons-icon i {
