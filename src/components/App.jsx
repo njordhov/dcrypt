@@ -23,6 +23,7 @@ export default function App () {
   const { userData } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
   const goPane = (id) => (props) => {
+    console.log("GoPane:", id)
     dispatch({type: "goPane", pane: id})
     return (null)
   }
@@ -50,8 +51,8 @@ export default function App () {
               {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
                               component={ EncryptFor } />}
               {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
-              {userData ? <Redirect to="/about"/> : <Redirect to="/home"/>}
-              <Redirect to="/home"/>
+              {userData ? <Redirect to="/about"/>
+                        : <Redirect to="/home"/>}
             </Switch>
           </Router>
       </>
