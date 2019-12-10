@@ -51,6 +51,7 @@ export default function App () {
                               component={ EncryptFor } />}
               {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
               {userData ? <Redirect to="/about"/> : <Redirect to="/home"/>}
+              <Redirect to="/home"/>
             </Switch>
           </Router>
       </>
