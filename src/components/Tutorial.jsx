@@ -71,12 +71,12 @@ function ImportCard ({active, completed, onComplete, publicKey, username}) {
     <Card active={active}>
       <StepHeader completed={completed}>Step 1: Encrypt a File</StepHeader>
       <div className="card-body">
-        { active &&
-          <div className="alert alert-primary text-center">
+        { !completed &&
+          <div className={classNames("alert text-center", active ? "alert-primary" : "alert-dark")}>
             Add a file to be encrypted using&nbsp;
             <mark data-toggle="tooltip" title={tooltip}>your public key:</mark>
           </div>}
-        { !active &&
+        { (!active && completed) &&
           <div className="alert alert-success text-center">
             The file has been encrypted with your
             <mark data-toggle="tooltip" title={tooltip}>your public key.</mark>
