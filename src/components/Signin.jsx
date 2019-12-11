@@ -27,7 +27,8 @@ export default function Signin (props) {
     return ( signIn &&
       <div className="alert alert-light text-dark text-center m-auto pt-4 mb-0">
         <p className="lead mb-4">
-          Get your own public key and gain access to encryption tools:
+          Get your own <mark title="This consist of a Public Key used for encryption and a Private Key used for decryption.">
+            keypair</mark> and gain access to encryption tools:
         </p>
         <button
             className="btn btn-primary btn-lg"
