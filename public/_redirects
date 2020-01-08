@@ -1,2 +1,3 @@
 /media/* /media/:splat
+/fonts.googleapis.com/* https:///fonts.googleapis.com/:splat 200
 /* /index.html 200
