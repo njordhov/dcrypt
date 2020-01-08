@@ -60,6 +60,7 @@ export default function Auth (props) {
                  <img src={ avatar }
                       className="avatar-image mr-3" id="avatar-image" />
                  : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
+                 // FIX: USe library function to generate canonical id?
                 { username && username.replace(/.id.blockstack$/, "") }
               </span>
             </button>

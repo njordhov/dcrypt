@@ -208,7 +208,7 @@ the foundation for many end-to-end encryption systems.</p>
 
         <Illustration src="https://ssd.eff.org/files/2018/11/20/2.symmetric-asymmetric.png"/>
 
-        <div className="alert alert-warning">
+        <div className="alert alert-warning mt-2">
           Keep your private key very safe. If somebody get to know your private key,
           they can read your encrypted messages, even impersonate you. Only share your public key.
         </div>
