@@ -1,3 +1,4 @@
 /media/* /media/:splat
-/fonts.googleapis.com/* https:///fonts.googleapis.com/:splat 200
+/fonts.googleapis.com/* https://fonts.googleapis.com/:splat 200
+/proxy/* https://:splat 200
 /* /index.html 200
