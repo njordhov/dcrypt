@@ -2,14 +2,22 @@ import React from 'react'
 
 import css from './About.css'
 
+import effJoinImg from "../assets/eff-join1.png"
+import comparison_encryptedmessage from "../assets/7.comparison-encryptedmessage.png"
+import public_private_6_0 from "../assets/6_0.png"
+import transmission_5_0 from "../assets/5_0.png"
+import symmetric_asymmetric from "../assets/2.symmetric-asymmetric.png"
+import creative_commons from "../assets/creative-commons-88x31.png"
+
 const wikiBobAlice = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Public_key_encryption.svg/800px-Public_key_encryption.svg.png"
 //   align-items-center justify-content-center
+
 
 function EFF (props) {
   return (
   <div>
     <a href="https://www.eff.org/join">
-      <img src="https://www.eff.org/files/eff-join1.png" alt="Join EFF!" border="0"/>
+      <img src={effJoinImg} alt="Join EFF!" border="0"/>
     </a>
   </div>
   )
@@ -18,7 +26,7 @@ function EFF (props) {
 function Credits () {
   return (
       <div class="Credits d-flex alert alert-dark mt-5">
-        <img className="mx-2 mh-100" src="https://i.creativecommons.org/l/by/3.0/us/88x31.png"
+        <img className="mx-2 mh-100" src={creative_commons}
              alt="Creative Commons logo"/>
         <div className="flex-grow-1">
         Parts of this page has been adapted from
@@ -172,7 +180,7 @@ function AboutVisual () {
          first decrypted on the device of the receiver. No one can listen in and eavsdrop on
          your communication.</p>
 
-      <Illustration src="https://ssd.eff.org/files/2018/11/20/7.comparison-encryptedmessage.png"/>
+      <Illustration src={comparison_encryptedmessage}/>
 
        {/* <h5>What Does Encryption Do?</h5> */}
           <p>Here is how encryption works when communicating a message:</p>
@@ -185,7 +193,7 @@ function AboutVisual () {
                 has the code to decrypting the transmission back into the original message.</li>
           </ol>
 
-          <Illustration src="https://ssd.eff.org/files/2018/05/14/6_0.png"/>
+          <Illustration src={public_private_6_0}/>
  <p>Before you begin using end-to-end encryption tools, we strongly recommend
 taking the time to understand the basics of public key cryptography,
 the foundation for many end-to-end encryption systems.</p>
@@ -193,7 +201,7 @@ the foundation for many end-to-end encryption systems.</p>
         <p>Public key cryptography lets you encrypt and send messages safely to
         anyone whose public key you know.</p>
 
-        <Illustration src="https://ssd.eff.org/files/2018/05/14/5_0.png"/>
+        <Illustration src={transmission_5_0}/>
 
        <p>But how does the recipient get to know the key to decrypt your message if
           you cannot communucate safely in the first place?</p>
@@ -206,7 +214,7 @@ the foundation for many end-to-end encryption systems.</p>
          with anyone, since public keys are only used to encrypt messages, not decrypt
          them.</p>
 
-        <Illustration src="https://ssd.eff.org/files/2018/11/20/2.symmetric-asymmetric.png"/>
+        <Illustration src={symmetric_asymmetric}/>
 
         <div className="alert alert-warning mt-2">
           Keep your private key very safe. If somebody get to know your private key,
