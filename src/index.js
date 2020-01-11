@@ -11,7 +11,11 @@ import Encrypt from './components/Encrypt';
 import Decrypt from './components/Decrypt';
 import Share from './components/Share';
 
+<<<<<<< HEAD
 // include google fonts to avoid tracking (not working)
+=======
+// include google fonts to avoid tracking (not working?)
+>>>>>>> master
 import './styles/cyborg.scss'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
