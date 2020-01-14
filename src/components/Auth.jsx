@@ -1,5 +1,6 @@
 import React from 'react';
 import { useBlockstack } from 'react-blockstack'
+import { usePerson } from './library'
 
 import css from './Auth.css'
 
@@ -42,12 +43,7 @@ function MoreMenu (props) {
 
 export default function Auth (props) {
     const {userSession, userData, signIn, signOut, person} = useBlockstack()
-    const {name, avatarUrl} = person || {} // access functions
-    const avatar = avatarUrl && person && person.avatarUrl()
-    const {username, email} = userData || {}
-    if ( userSession && userSession.isUserSignedIn() && userSession.isSignInPending()) {
-      console.warn("Blockstack inconsistency: Already signed in yet signin is pending");
-    }
+    const { avatarUrl, username } = usePerson()
     const defaultAvatar = "fas fa-user-secret"
     return (
       <div className="Auth">
@@ -56,8 +52,8 @@ export default function Auth (props) {
             <button className="btn text-muted dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span className="avatar mr-3">
-                {avatar ?
-                 <img src={ avatar }
+                {avatarUrl ?
+                 <img src={ avatarUrl }
                       className="avatar-image mr-3" id="avatar-image" />
                  : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
                  {/* FIX: USe library function to generate canonical id? */}
