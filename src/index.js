@@ -11,7 +11,7 @@ import Encrypt from './components/Encrypt';
 import Decrypt from './components/Decrypt';
 import Share from './components/Share';
 
-// include google fonts to avoid tracking (not working?)
+// include icon fonts for landing page etc (not working?)
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
 // import bootstrap from 'bootstrap/dist/css/bootstrap.css'
