@@ -42,19 +42,22 @@
 /* Theme Customization */
 
 :root {
-  --primary: var(--brand-login-background);
+  --primary: var(--brand-login-accent);
+  --primary-complement: var(--brand-login-complement);
+  --navbar: var(--brand-background);
+  --alert: var(--blue);
 }
 
 .text-primary {
-  color: var(--brand-login-accent) !important;
+  color: var(--primary) !important;
 }
 
 .navbar.bg-dark {
-  background-color: var(--brand-background) !important;
+  background-color: var(--navbar) !important;
 }
 
 .alert-info {
-  background-color: var(--blue);
+  background-color: var(--alert);
 }
 
 .text-info {
@@ -62,28 +65,28 @@
 }
 
 .btn-primary:hover {
-  background-color: var(--brand-login-complement);
+  background-color: var(--primary-complement);
 }
 
 .btn-primary {
-  background-color: var(--brand-login-accent);
+  background-color: var(--primary);
 }
 
 .btn-outline-primary {
-  border-color: var(--brand-login-accent);
-  color: var(--brand-login-accent);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .btn-outline-primary:hover {
-  background-color: var(--brand-login-complement);
+  background-color: var(--primary-complement);
 }
 
 a:hover {
-  color: var(--brand-login-complement);
+  color: var(--primary-complement);
 }
 
 a[href] {
-  color: var(--brand-login-accent);
+  color: var(--primary);
   opacity: 0.9;
 }
 
@@ -99,10 +102,6 @@ html:not(.authenticated) .when-authenticated {
 
 html:not(.encrypting):not(.authenticated) .when-encrypting {
     display: none !important;
-}
-
-body {
-  --orange: #d6612a; /* Complements the blue */
 }
 
 /* NavBar */
