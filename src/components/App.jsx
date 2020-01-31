@@ -51,6 +51,7 @@ export default function App () {
             <Switch>
               <Route key="home" path="/home" exact={true} component={goPane('home')} />
               <Route key="about" path="/about" exact={true} component={goPane('about') } />
+              <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />
               {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
               {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
                               component={ EncryptFor } />}
