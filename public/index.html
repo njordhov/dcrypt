@@ -51,12 +51,12 @@
         <a class="navbar-brand ml-2 ml-md-0 mr-3 " href="#"
            onclick="document.getElementById('home-tab').click()">
            <div class="border-primary circle mr-2"
-           style="display: inline-block; width: 32px; height: 32px; transform: rotate(-45deg);position: relative; top: -5px;">
-              <i class="fas fa-key text-primary"></i>
+           style="display: inline-block; width: 32px; height: 32px; transform: rotate(-0deg);position: relative; top: -5px;">
+              <i class="fas fa-envelope text-primary"></i>
               <i class="fas fa-key"
                  style="transform: rotate(180deg); color: #5a9200; position: relative; left: -10px; top: 10px;"></i>
             </div>
-            <i>d</i>Crypt drop
+            <i>d</i>Crypt msg
         </a>
         <div class="collapse navbar-collapse ml-2" id="navbarNav">
 
@@ -68,7 +68,7 @@
                 Home
               </a>
             </li>
-            <li class="nav-item mr-md-2" style="display: none">
+            <li class="nav-item mr-md-2">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
                  <i class="far fa-question-circle"></i>
@@ -82,7 +82,7 @@
                 Learn
               </a>
             </li>
-            <li class="nav-item when-encrypting mr-md-2 d-none">
+            <li class="nav-item when-encrypting mr-md-2">
               <a class="nav-link" id="encrypt-tab" data-toggle="tab"
                  href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
                  <i class="fas fa-shield-alt"></i>
@@ -98,7 +98,7 @@
             <li class="nav-item when-authenticated mr-md-2 order-3">
               <a class="nav-link" id="share-tab" data-toggle="tab"
                  href="#share" role="tab" aria-controls="share" aria-selected="false">
-                 <i class="fas fa-inbox"></i>
+                 <i class="fas fa-envelope"></i>
                  Receive</a>
             </li>
           </ul>
@@ -136,7 +136,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <p><strong>The <i>d</i>Crypt app is free and open-source.</strong> Inital development is funded by
+            <p><strong>All apps in the <i>d</i>Crypt family are free and open-source.</strong> Inital development is funded by
                an award from Blockstack PBC, an American public benefit corporation creating a
                decentralized computing network and app ecosystem designed to protect digital rights.</p>
           <!--  <p>To help us get funding for further development,
@@ -167,7 +167,7 @@
              id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="jumbotron mb-0 pt-0">
             <section class="features-icons m-auto">
-              <h2 class="col col-12 text-center">Secure Cryptography<br/>
+              <h2 class="col col-12 text-center">Encrypted Messages<br/>
                   made easy.</h2>
               <div class="row">
               <div class="col p-5">
@@ -180,7 +180,7 @@
                     <p class="lead mb-0">Learn how to use secure encryption.</p>
                   </div>
               </div>
-              <div class="col p-5" hidden={true}>
+              <div class="col p-5">
                   <div class="features-icons-item mx-auto mb-3 mb-md-0"
                        onclick="clickTab('encrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -188,7 +188,7 @@
                     </div>
                     <h3>Encrypt</h3>
                     <p class="lead mb-0">
-                      Encrypt files with
+                      Encrypt messages with
                       your Public Key.
                     </p>
                   </div>
@@ -199,10 +199,10 @@
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-unlock-alt m-auto text-primary"></i>
                     </div>
-                    <h3>Decrypt</h3>
+                    <h3>Decipher</h3>
                     <p class="lead mb-0">
                       <!-- or decipher -->
-                      Decrypt files with
+                      Decipher messages with
                       your Private Key.
                     </p>
                   </div>
@@ -211,11 +211,11 @@
                 <div class="features-icons-item mx-auto mb-3 mb-md-0"
                      onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">
-                      <i class="fas fa-inbox m-auto text-primary"></i>
+                      <i class="fas fa-envelope m-auto text-primary"></i>
                     </div>
                     <h3>Receive</h3>
                     <p class="lead mb-0">
-                      Receive confidential files securely.
+                      Receive confidential messages securely.
                     </p>
                 </div>
               </div>
