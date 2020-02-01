@@ -98,12 +98,12 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
   const done = useCallback(() => {
     if (state.message) {
       const markup = editorMarkup(state.message)
-      console.log("markup:", markup)
+      console.log("Markup:", markup, "from", state.message)
       onChange && onChange(markup)
       onComplete()
     }
   }, [state.message])
-  const disabled = (state.message === undefined)
+  const disabled = (state.message === undefined || state.message == "")
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -111,9 +111,9 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
       </StepHeader>
       {features.message &&
        <div className="card-body">
-         <Editor onChange={onMessageChange}/>
+         <Editor active={active} onChange={onMessageChange}/>
          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-           <a className={[disabled ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
+           <a className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
               onClick={done}
               disabled={disabled}>
               Done

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useReducer, useEffect } from 'react'
+import React, { useState, useCallback, useReducer, useEffect, useRef } from 'react'
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import { Editor as DraftEditor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -14,21 +14,33 @@ const toolbar = {
             inline: {options: ['bold', 'italic', 'underline']}}
 }
 
-export default function Editor ({onChange}) {
+export default function Editor ({active, onChange}) {
   // https://github.com/jpuri/react-draft-wysiwyg
-  const [content, setContent] = useState()
+  const [editorState, setEditorState] = useState({})
+  const editor = useRef(null);
+  function focusEditor() {
+    editor && editor.current && editor.current.focus()
+  }
   useEffect(() => {
-    onChange && content && onChange(content)
-  }, [content, onChange])
+    if (active) {
+      focusEditor()
+    }
+  }, [active])
+  useEffect(() => {
+    onChange && editorState && onChange(editorState)
+  }, [editorState, onChange])
   return(
     <div className="MsgEditor w-100 border-primary bg-dark text-dark border border-dark"
          style={{minHeight: "20em"}}>
       <DraftEditor
+        editorRef={(ref) => {editor.current = ref}}
+        //initialContentState={editorState}
+        //editorState={editorState}
+        onContentStateChange={setEditorState}
         wrapperClassName=""
         editorClassName="text-light mx-2 my-0"
         toolbarClassName=""
         toolbar={toolbar.basic}
-        onChange={setContent}
       />
     </div>
   )
