@@ -12,7 +12,7 @@
     /* Blockstack authentication colors */
   --brand-login-background: #2F2161;
   --brand-login-accent: #A56DFF;
-  --brand-login-complement: #5a9200;
+  --brand-login-complement: var(--brand-accent);
 }
 
 #signin-button {
@@ -50,7 +50,7 @@
 }
 
 .navbar.bg-dark {
-  background-color: var(--brand-background) !important;
+  background-color: var(--brand-login-background) !important;
 }
 
 .alert-info {
