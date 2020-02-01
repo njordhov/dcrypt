@@ -3,6 +3,12 @@ import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import { Editor as DraftEditor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
+const toolbar = {
+  empty: {options: []},
+  basic: {options: ['blockType', 'inline', 'link', 'colorPicker', 'emoji', 'history'],
+            inline: {options: ['bold', 'italic', 'underline']}}
+}
+
 export default function Editor ({onChange}) {
   // https://github.com/jpuri/react-draft-wysiwyg
   const [content, setContent] = useState()
@@ -16,8 +22,7 @@ export default function Editor ({onChange}) {
         wrapperClassName=""
         editorClassName="text-light mx-2 my-0"
         toolbarClassName=""
-        toolbar={{options: ['blockType', 'inline', 'link', 'colorPicker', 'emoji', 'history'],
-                  inline: {options: ['bold', 'italic', 'underline']}}}
+        toolbar={toolbar.empty}
         onChange={setContent}
       />
     </div>

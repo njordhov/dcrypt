@@ -251,8 +251,10 @@ function SafeKeeping (props) {
   return (
    <div className="mx-auto">
       <InfoBox>
-        This tutorial takes you through the steps of safekeeping a confidential file
-        by encrypting it using your public key then restore it with your private key.
+        <div>This tutorial takes you through the steps of safekeeping a
+        confidential {features.message ? "message" : "file"} by
+        encrypting it using your public key then restore it with your&nbsp;private&nbsp;key.
+        </div>
         { <button className={classNames("m-3 btn", isInitial ? "btn-primary" : "btn-outline-primary")}
                 disabled={!isInitial && !encrypted}
                 onClick={() => dispatch({type:"reset"})}>
