@@ -5,8 +5,11 @@ import {DropDecrypt} from './Decrypt'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 import KeyField from './KeyField'
+import Editor from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
+
+const features = {message: true, files: false}
 
 function Card (props) {
   return (
@@ -20,6 +23,8 @@ function Card (props) {
 function safekeepingReducer (state, event) {
   console.log("Reduce:", state, event)
   switch (event.type) {
+    case "content":
+      return({...state, content: event.content, step: "save"})
     case "encrypted":
       return({...state, encrypted: event.encrypted, step: "save"})
     case "saved":
@@ -65,12 +70,43 @@ function PrivateKeyField ({username, privateKey, className}) {
     )
 }
 
-function ImportCard ({active, completed, onComplete, publicKey, username}) {
+function contentReducer (state, event) {
+  switch (event.action) {
+    case "message":
+      return {...state, message: event.message}
+    case "files":
+      return {...state, files: event.files}
+    default:
+      return state
+  }
+}
+
+function ImportCard ({active, completed, onComplete, onChange, publicKey, username}) {
   const tooltip = publicKey && ("Your public key is " + publicKey + " and can be freely shared.")
+  const [state, dispatch] = useReducer(contentReducer, {version: 1})
+  const onMessageChange = useCallback((message) => {
+    dispatch({action: "message", message: message})
+  }, [dispatch])
+  const onFilesChange = useCallback((files) => {
+    dispatch({action: "files", files: files})
+  }, [dispatch])
+  useEffect(() => {
+    onChange && onChange(state)
+  }, [state])
   return (
     <Card active={active}>
-      <StepHeader completed={completed}>Step 1: Encrypt a File</StepHeader>
-      <div className="card-body">
+      <StepHeader completed={completed}>
+        Step 1: Encrypt a {features.message ? "Message" : "File"}
+      </StepHeader>
+      {features.message &&
+       <div className="card-body">
+         <Editor onChange={onMessageChange}/>
+         <button className="btn btn-secondary" action={onComplete}>
+           Done
+         </button>
+       </div>}
+      {features.files &&
+       <div className="card-body">
         { !completed &&
           <div className={classNames("alert text-center", active ? "alert-primary" : "alert-dark")}>
             Add a file to be encrypted using&nbsp;
@@ -84,7 +120,7 @@ function ImportCard ({active, completed, onComplete, publicKey, username}) {
           </div>}
         <DropEncrypt disabled={ !active } setResult={onComplete}
                      gotResult={ completed }/>
-      </div>
+       </div>}
    </Card>
  )
 }
@@ -109,7 +145,7 @@ function SaveCard ({active, onComplete, completed, content}) {
           </div>}
         <div className="d-flex justify-content-center align-items-center w-100 mt-1">
             <SaveButton content={content} onComplete={ onComplete }
-                        filename={content && encryptedFilename(content.filename)}>
+                        filename={content && content.filename && encryptedFilename(content.filename)}>
               Save Encrypted File
             </SaveButton>
         </div>
@@ -190,13 +226,24 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
 )}
 
 function SafeKeeping (props) {
-  const {userData} = useBlockstack()
+  const {userData, userSession} = useBlockstack()
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
-  const [{step, encrypted, saved, decrypted, done}, dispatch]
+  const [{step, content, encrypted, saved, decrypted, done}, dispatch]
         = useReducer(safekeepingReducer, {step: null})
+  const onContent = (content) => dispatch({type: "content", content: content})
   const onEncrypted = (encrypted) => dispatch({type: "encrypted", encrypted: encrypted})
+  useEffect(() => {
+    if (content) {
+      const options = publicKey ? {publicKey: publicKey} : null
+      console.log("Content:", content)
+      const cipherObject = userSession.encryptContent(JSON.stringify(content), options)
+      const encrypted = new Blob([cipherObject], { type: "ECIES" })
+      console.log("ENCRYPT:", encrypted)
+      onEncrypted(encrypted)
+    }
+  }, [userSession, content, publicKey])
   const onSaved = () => dispatch({type: "saved"})
   const onDecrypted = (decrypted) => dispatch({type: "decrypted", decrypted: decrypted})
   const onDone = () => dispatch({type: "done"})
@@ -218,7 +265,9 @@ function SafeKeeping (props) {
           <div className="alert alert-secondary">
             <PublicKeyField className="" username={username} publicKey={publicKey}/>
           </div>
-          <ImportCard active={(step == "import")} completed={!!encrypted} onComplete={onEncrypted}
+          <ImportCard active={(step == "import")} completed={!!encrypted}
+                      onComplete={onEncrypted}
+                      onChange={onContent}
                       username={username} publicKey={publicKey}/></li>
         <li className="list-group-item mt-4">
           <SaveCard active={(step == "save")} completed={!!saved} content={encrypted}

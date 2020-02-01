@@ -4,22 +4,9 @@ import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { isNil, isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
-import {usePublicKey, usePublishKey, useRemotePublicKey, trimId} from './cipher.jsx'
+import {usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
-
-function encryptHandler(file, encryptContent, setResult) {
-  if (file) {
-    var myReader = new FileReader()
-    myReader.readAsArrayBuffer(file)
-    myReader.addEventListener("loadend", (e) => {
-      var buffer = e.srcElement.result;  //arraybuffer object
-      const cipherObject = encryptContent(buffer)
-      if (cipherObject) {
-        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-        content.filename = file.name
-        setResult(content)}
-  })}}
 
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const { userSession } = useBlockstack()
