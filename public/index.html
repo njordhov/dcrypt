@@ -68,7 +68,7 @@
                 Home
               </a>
             </li>
-            <li class="nav-item mr-md-2">
+            <li class="nav-item mr-md-2 d-none">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
                  <i class="far fa-question-circle"></i>
@@ -82,20 +82,20 @@
                 Learn
               </a>
             </li>
-            <li class="nav-item when-encrypting mr-md-2">
+            <li class="nav-item when-encrypting mr-md-2 d-none">
               <a class="nav-link" id="encrypt-tab" data-toggle="tab"
                  href="#encrypt" role="tab" aria-controls="encrypt" aria-selected="false">
                  <i class="fas fa-shield-alt"></i>
                  Encrypt
                </a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2 order-4">
+            <li class="nav-item when-authenticated mr-md-2 order-4 d-none">
               <a class="nav-link" id="decrypt-tab" data-toggle="tab"
                  href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
                  <i class="fas fa-unlock-alt"></i>
                  Decrypt</a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2 order-3">
+            <li class="nav-item when-authenticated mr-md-2 order-3 d-none">
               <a class="nav-link" id="share-tab" data-toggle="tab"
                  href="#share" role="tab" aria-controls="share" aria-selected="false">
                  <i class="fas fa-envelope"></i>
@@ -180,7 +180,7 @@
                     <p class="lead mb-0">Learn how to use secure encryption.</p>
                   </div>
               </div>
-              <div class="col p-5">
+              <div class="col p-5 d-none">
                   <div class="features-icons-item mx-auto mb-3 mb-md-0"
                        onclick="clickTab('encrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -193,7 +193,7 @@
                     </p>
                   </div>
               </div>
-              <div class="col p-5 order-4">
+              <div class="col p-5 order-4 d-none">
                   <div class="features-icons-item mx-auto mb-3 mb-md-0"
                        onclick="clickTab('decrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -207,7 +207,7 @@
                     </p>
                   </div>
               </div>
-              <div class="col p-5 order-3">
+              <div class="col p-5 order-3 d-none">
                 <div class="features-icons-item mx-auto mb-3 mb-md-0"
                      onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">
