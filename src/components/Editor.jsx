@@ -2,6 +2,11 @@ import React, { useState, useCallback, useReducer, useEffect } from 'react'
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
 import { Editor as DraftEditor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import draftToHtml from 'draftjs-to-html';
+
+export function editorMarkup (raw) {
+  return (draftToHtml(raw))
+}
 
 const toolbar = {
   empty: {options: []},
@@ -13,7 +18,7 @@ export default function Editor ({onChange}) {
   // https://github.com/jpuri/react-draft-wysiwyg
   const [content, setContent] = useState()
   useEffect(() => {
-    onChange && content && onChange(convertFromRaw(content))
+    onChange && content && onChange(content)
   }, [content, onChange])
   return(
     <div className="MsgEditor w-100 border-primary bg-dark text-dark border border-dark"
@@ -22,7 +27,7 @@ export default function Editor ({onChange}) {
         wrapperClassName=""
         editorClassName="text-light mx-2 my-0"
         toolbarClassName=""
-        toolbar={toolbar.empty}
+        toolbar={toolbar.basic}
         onChange={setContent}
       />
     </div>

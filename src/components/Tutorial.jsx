@@ -5,7 +5,7 @@ import {DropDecrypt} from './Decrypt'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 import KeyField from './KeyField'
-import Editor from './Editor'
+import Editor, { editorMarkup } from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
 
@@ -90,9 +90,20 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
   const onFilesChange = useCallback((files) => {
     dispatch({action: "files", files: files})
   }, [dispatch])
+  /*
   useEffect(() => {
     onChange && onChange(state)
   }, [state])
+  */
+  const done = useCallback(() => {
+    if (state.message) {
+      const markup = editorMarkup(state.message)
+      console.log("markup:", markup)
+      onChange && onChange(markup)
+      onComplete()
+    }
+  }, [state.message])
+  const disabled = (state.message === undefined)
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -101,9 +112,13 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
       {features.message &&
        <div className="card-body">
          <Editor onChange={onMessageChange}/>
-         <button className="btn btn-secondary" action={onComplete}>
-           Done
-         </button>
+         <div className="d-flex justify-content-center align-items-center w-100 mt-3">
+           <a className={[disabled ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
+              onClick={done}
+              disabled={disabled}>
+              Done
+           </a>
+          </div>
        </div>}
       {features.files &&
        <div className="card-body">
@@ -126,6 +141,9 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
 }
 
 function SaveCard ({active, onComplete, completed, content}) {
+  const filename = (content && content.filename)
+                    ? encryptedFilename(content.filename)
+                    : "message.html.dcrypt"
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -139,13 +157,14 @@ function SaveCard ({active, onComplete, completed, content}) {
           (active && !completed) ?
           <div className="alert alert-info text-center mb-4">
                The encrypted file is ready to be saved:
+               {"" + content}
           </div> :
           <div className="alert alert-dark text-center mb-4">
             When you have completed the first step, there will be an encrypted file to save.
           </div>}
         <div className="d-flex justify-content-center align-items-center w-100 mt-1">
             <SaveButton content={content} onComplete={ onComplete }
-                        filename={content && content.filename && encryptedFilename(content.filename)}>
+                        filename={filename}>
               Save Encrypted File
             </SaveButton>
         </div>
@@ -238,7 +257,7 @@ function SafeKeeping (props) {
     if (content) {
       const options = publicKey ? {publicKey: publicKey} : null
       console.log("Content:", content)
-      const cipherObject = userSession.encryptContent(JSON.stringify(content), options)
+      const cipherObject = userSession.encryptContent(content, options)
       const encrypted = new Blob([cipherObject], { type: "ECIES" })
       console.log("ENCRYPT:", encrypted)
       onEncrypted(encrypted)
