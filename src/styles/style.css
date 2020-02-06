@@ -184,6 +184,10 @@ main .alert-light a:not(:hover) {
   color: var(--app-link-accent) !important;
 }
 
+main .KeyPair {
+  max-width: 40em;
+}
+
 /* Disable pane links unless authenticated */
 
 html:not(.authenticated) .features-icons .features-icons-item {
