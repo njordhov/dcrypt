@@ -3,7 +3,13 @@
   cursor: pointer;
 }
 
+.InfoToggle:hover {
+  cursor: pointer;
+  color: var(--app-link-accent) !important;
+}
+
+
 .InfoBox.alert {
   background-color: transparent;
-  border: thin solid var(--blue);
+  border: thin solid var(--app-info-color);
 }

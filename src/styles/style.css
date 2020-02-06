@@ -13,6 +13,9 @@
   --brand-login-background: #2F2161;
   --brand-login-accent: #A56DFF;
   --brand-login-complement: var(--brand-accent);
+    /* Custom app colors */
+  --app-info-color: var(--blue);
+  --app-link-accent: var(--yellow);
 }
 
 #signin-button {
@@ -25,8 +28,6 @@
   border-color: var(--brand-login-accent);
   color: var(--brand-login-accent);
 }
-
-
 
 .inspect {
   border: thin solid red;
@@ -41,11 +42,11 @@
 }
 
 .alert-info {
-  background-color: var(--blue);
+  background-color: var(--app-info-color);
 }
 
 .text-info {
-  color: var(--blue) !important;
+  color: var(--app-info-color) !important;
 }
 
 html.authenticated .unless-authenticated {
@@ -91,11 +92,11 @@ html:not(.authenticated) #navbarNav .nav-tabs {
 }
 
 #navbarNav .nav-link.active i {
-  color: var(--blue);
+  color: var(--app-info-color);
 }
 
 #navbarNav .nav-link:not(.active):hover i {
-  color: var(--yellow);
+  color: var(--app-link-accent);
 }
 
 .avatar img {
@@ -134,19 +135,19 @@ main mark:hover {
   border-radius: 5px;
   background-color: transparent;
   color: inherit;
-  border: thin solid yellow;
+  border: thin solid var(--app-link-accent);
 }
 
 main .btn-primary:hover {
-  background-color: var(--yellow);
+  background-color: var(--app-link-accent);
 }
 
 main .btn-outline-primary:hover {
-  background-color: var(--yellow);
+  background-color: var(--app-link-accent);
 }
 
 main a:hover {
-  color: var(--yellow);
+  color: var(--app-link-accent);
 }
 
 /* LANDING PAGE FEATURES */
@@ -172,7 +173,7 @@ main a:hover {
 
 .authenticated .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
-  color: var(--yellow) !important;
+  color: var(--app-link-accent) !important;
 }
 
 /* Disable pane links unless authenticated */
