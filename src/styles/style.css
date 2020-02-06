@@ -154,6 +154,10 @@ main a:hover {
   color: var(--app-link-accent);
 }
 
+main .alert-light a:not(:hover) {
+  color: white;
+}
+
 /* LANDING PAGE FEATURES */
 
 .features-icons {

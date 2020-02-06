@@ -16,7 +16,7 @@ function AboutBlockstack (props) {
             <a href="https://blockstack.org/about" target="_blank">Blockstack PBC</a> is
              an American public benefit corporation,
             creating a decentralized computing network and app ecosystem
-            designed to protect digital rights.
+            designed to protect&nbsp;digital&nbsp;rights.
           </InfoBox>
         </div>
       </div>
@@ -25,6 +25,7 @@ function AboutBlockstack (props) {
 export default function Signin (props) {
     const { signIn } = useBlockstack()
     return (
+    <div className="alert alert-light text-dark text-center m-auto pt-4 mb-0">
       <div className="text-center">
         <p className="lead mb-4">
           Get your own public key and gain access to encryption tools:
@@ -39,5 +40,6 @@ export default function Signin (props) {
           </button>
         <AboutBlockstack/>
       </div>
+    </div>
     )
   }
