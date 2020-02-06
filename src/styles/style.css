@@ -71,6 +71,10 @@ nav.navbar {
   opacity: 1.0;
 }
 
+nav.navbar .navbar-brand:hover {
+  color: var(--app-link-accent);
+}
+
 html:not(.authenticated) #navbarNav .nav-tabs {
     display: none !important;
 }
