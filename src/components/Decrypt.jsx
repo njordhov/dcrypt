@@ -75,6 +75,13 @@ export function DropDecrypt ({setResult, gotResult, onError, filename}) {
       return(null)
     }
   }), [userSession])
+
+  useEffect(() => {
+    if (!gotResult) {
+      setFiles([])
+    }
+  }, [gotResult])
+  
   const placeholder = <span>Drag & drop a <cite>dCrypt</cite> encrypted file here, or click to select from your filesystem.</span>
 
   useEffect( () => decryptHandler(file, decryptContent, setResult), [file, decryptContent])
@@ -83,19 +90,27 @@ export function DropDecrypt ({setResult, gotResult, onError, filename}) {
       <>
         <Dropzone className="Dropzone" onChange = { setFiles }
                   placeholder={placeholder}>
-        { ((!isNull(gotResult) ? gotResult : file)
-         ? <div className="mx-auto text-center">
+        { !file ?
+          <div className="mx-auto text-center">
+              <div>
+                <i className="fas fa-file-import m-auto"></i>
+              </div>
+              <div className="mt-4">
+                {placeholder}
+              </div>
+            </div>
+          : !gotResult ?
+          <div className="m-auto text-center">
+              <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Decrypting...</span>
+              </div>
+           </div>
+          : gotResult ?
+           <div className="mx-auto text-center">
               <div><i className="fas fa-unlock-alt m-auto"></i></div>
               <div className="mt-2">{filename || (file && file.name)}</div>
            </div>
-         : <div className="mx-auto text-center">
-             <div>
-               <i className="fas fa-file-import m-auto"></i>
-             </div>
-             <div className="mt-4">
-               {placeholder}
-             </div>
-           </div>)}
+         : <div>Error</div>}
          </Dropzone>
       </>
     );
