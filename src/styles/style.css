@@ -12,7 +12,21 @@
     /* Blockstack authentication colors */
   --brand-login-background: #2F2161;
   --brand-login-accent: #A56DFF;
+  --brand-login-complement: var(--brand-accent);
 }
+
+#signin-button {
+  background-color: var(--brand-login-background);
+  border-color: var(--brand-lines);
+  color: var(--brand-greyish);
+}
+
+#signin-button:hover {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
+}
+
+
 
 .inspect {
   border: thin solid red;
