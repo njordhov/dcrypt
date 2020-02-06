@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
-import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams, useLocation, useHistory } from 'react-router-dom'
 import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
 import Enter from './Enter'
 import About from './About'
@@ -61,7 +61,7 @@ function KeyPair (props) {
   )
 }
 
-export default function App () {
+function Routes () {
   const { userData } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
   const [pane, setPane] = usePane()
@@ -86,21 +86,29 @@ export default function App () {
       setContext({targetId: userId})
     }}, [userId])
   return (
-      <>
-         <AuthenticatedDocumentClass name="authenticated" />
-         <Router>
-            <KeyPair/>
-            <Switch>
-              <Route key="home" path="/home" exact={true} component={goPane('home')} />
-              <Route key="about" path="/about" exact={true} component={goPane('about') } />
-              {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
-              {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
-                              component={ EncryptFor } />}
-              {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
-              {userData ? <Redirect to="/about"/> : <Redirect to="/home"/>}
-              <Redirect to="/home"/>
-            </Switch>
-          </Router>
-      </>
+      <Switch>
+        <Route key="home" path="/home" exact={true} component={goPane('home')} />
+        <Route key="about" path="/about" exact={true} component={goPane('about') } />
+        <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />
+        {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
+        {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
+                        component={ EncryptFor } />}
+        {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
+        <Route key="share" path="/share" exact={true} component={goPane('share') } />
+        {(false && userData) ? <Redirect to="/about"/> : <Redirect to="/home"/>}
+        <Redirect to="/home"/>
+      </Switch>
     )
+}
+
+export default function App () {
+  return (
+    <>
+      <AuthenticatedDocumentClass name="authenticated" />
+      <Router>
+        <KeyPair/>
+        <Routes/>
+      </Router>
+    </>
+  )
 }
