@@ -5,7 +5,7 @@ import {DropDecrypt} from './Decrypt'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 import KeyField from './KeyField'
-import Editor, { editorMarkup } from './Editor'
+import Editor, { editorMarkup, draftFromMarkup } from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
 
@@ -111,12 +111,16 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
       </StepHeader>
       {features.message &&
        <div className="card-body">
+         { !completed &&
+         <div className={classNames("alert text-center", active ? "alert-primary" : "alert-dark")}>
+           Type a message into the editor, then click the button below to encrypt it.
+         </div>}
          <Editor active={active} onChange={onMessageChange}/>
          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
            <a className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
               onClick={done}
               disabled={disabled}>
-              Done
+              Encrypt
            </a>
           </div>
        </div>}
@@ -147,7 +151,7 @@ function SaveCard ({active, onComplete, completed, content}) {
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
-        Step 2: Save the Encrypted File
+        Step 2: Save as Encrypted File
       </StepHeader>
       <div className="card-body">
         { completed ?
@@ -157,7 +161,6 @@ function SaveCard ({active, onComplete, completed, content}) {
           (active && !completed) ?
           <div className="alert alert-info text-center mb-4">
                The encrypted file is ready to be saved:
-               {"" + content}
           </div> :
           <div className="alert alert-dark text-center mb-4">
             When you have completed the first step, there will be an encrypted file to save.
@@ -213,19 +216,38 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
   )
 }
 
+function ViewEditor ({active, decrypted}) {
+  const [editorState, setEditorState] = useState(null)
+  console.log("DECRYPTED:", decrypted, (typeof decrypted), editorState)
+  useEffect(() => {
+    // decrypted is a blob
+    if (typeof decrypted === "object") {
+      decrypted.text()
+      .then((markup) => setEditorState(draftFromMarkup(markup)))
+    }
+  }, [decrypted])
+  return (
+    editorState && <Editor active={active} readOnly={true} defaultEditorState={editorState}/>
+  )
+}
+
 function FinalStep ({active, decrypted, completed, onCompleted}) {
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
-        Step 4: Save the Restored File
+        Step 4: Save the Restored {features.message ? "Message" : "File"}
       </StepHeader>
       <div className="card-body">
         {(!completed && !active) &&
           <div className="alert alert-dark text-center mb-4">
             When you've completed the earlier steps, you will be able to save a
-            decrypted file that should have the same content as the original.
+            decrypted file that has the same content as the original.
           </div>}
-        {active &&
+        {(active && features.message && decrypted) &&
+         <div className="card-body">
+           <ViewEditor active={active} decrypted={decrypted}/>
+         </div>}
+        {(active && !features.message) &&
           <div className="alert alert-info text-center mb-4">
             You can now open the file - it should have the same content as the original.
           </div>}
