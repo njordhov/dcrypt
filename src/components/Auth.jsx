@@ -29,7 +29,7 @@ function MoreMenu (props) {
   const { signOut } = useBlockstack()
   return(
   <div className="dropdown-menu">
-    <a className="dropdown-item" href={profileManagerUrl} target="_blank">
+    <a className="dropdown-item" href={profileManagerUrl} target="_blank" rel="noopener noreferrer">
       <i className="fas fa-user-cog"></i>
       <span className="ml-2">Edit Profile</span>
     </a>

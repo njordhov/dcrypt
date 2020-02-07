@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState, useCallback } from 'react'
 import $ from 'jquery'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 
 function clickPane (id) {
   const tab = document.getElementById("" + id + "-tab")
@@ -10,14 +11,15 @@ function clickPane (id) {
   }
 }
 
-function initPanes (setPane) {
+function initPanes (setPane, history) {
   // going beyond bootstraps events to control panes
   const handleTabShown = (e) => {
       //e.target // newly activated tab
       //e.relatedTarget // previous active tab
       const id = e.target.getAttribute("aria-controls")
       console.log("Routing pane", id, e.target.tab, e.target, e.relatedTarget)
-      window.history.replaceState({}, document.title, "/" + id)
+      // window.history.replaceState({}, document.title, "/" + id)
+      history.push("/" + id)
       setPane(id)
   }
   $('a[data-toggle="tab"]').on('show.bs.tab', handleTabShown)
@@ -26,8 +28,9 @@ function initPanes (setPane) {
 
 export function usePane (init) {
   const [pane, setPane] = useState(init || null)
+  const history = useHistory()
   useEffect(() => {
-    initPanes(setPane)
+    initPanes(setPane, history)
   }, [])
   useEffect( () => {
     if (pane) {

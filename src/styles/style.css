@@ -12,7 +12,18 @@
     /* Blockstack authentication colors */
   --brand-login-background: #2F2161;
   --brand-login-accent: #A56DFF;
-  --brand-login-complement: var(--brand-accent);
+  --brand-login-complement: #5A9200;
+}
+
+#signin-button {
+  background-color: var(--brand-login-background);
+  border-color: var(--brand-lines);
+  color: var(--brand-greyish);
+}
+
+#signin-button:hover {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
 }
 
 #signin-button {
@@ -42,11 +53,16 @@
 /* Theme Customization */
 
 :root {
-  --primary: var(--brand-login-background);
+  --primary: var(--brand-login-accent);
+  --primary-complement: var(--brand-login-complement);
+  --navbar: var(--brand-background);
+  --alert: var(--blue);
+  --app-info-color: var(--blue);
+  --app-link-accent: var(--primary-complement);
 }
 
 .text-primary {
-  color: var(--brand-login-accent) !important;
+  color: var(--primary) !important;
 }
 
 .navbar.bg-dark {
@@ -54,36 +70,36 @@
 }
 
 .alert-info {
-  background-color: var(--blue);
+  background-color: var(--app-info-color);
 }
 
 .text-info {
-  color: var(--blue) !important;
+  color: var(--app-info-color) !important;
 }
 
 .btn-primary:hover {
-  background-color: var(--brand-login-complement);
+  background-color: var(--primary-complement);
 }
 
 .btn-primary {
-  background-color: var(--brand-login-accent);
+  background-color: var(--primary);
 }
 
 .btn-outline-primary {
-  border-color: var(--brand-login-accent);
-  color: var(--brand-login-accent);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .btn-outline-primary:hover {
-  background-color: var(--brand-login-complement);
+  background-color: var(--primary-complement);
 }
 
 a:hover {
-  color: var(--brand-login-complement);
+  color: var(--primary-complement);
 }
 
 a[href] {
-  color: var(--brand-login-accent);
+  color: var(--primary);
   opacity: 0.9;
 }
 
@@ -101,14 +117,14 @@ html:not(.encrypting):not(.authenticated) .when-encrypting {
     display: none !important;
 }
 
-body {
-  --orange: #d6612a; /* Complements the blue */
-}
-
 /* NavBar */
 
 nav.navbar {
   opacity: 0.9;
+}
+
+nav.navbar .navbar-brand:hover {
+  color: var(--app-link-accent);
 }
 
 html:not(.authenticated) #navbarNav .nav-tabs {
@@ -175,7 +191,23 @@ main mark:hover {
   border-radius: 5px;
   background-color: transparent;
   color: inherit;
-  border: thin solid yellow;
+  border: thin solid var(--app-link-accent);
+}
+
+main .btn-primary:hover {
+  background-color: var(--app-link-accent);
+}
+
+main .btn-outline-primary:hover {
+  background-color: var(--app-link-accent);
+}
+
+main a:hover {
+  color: var(--app-link-accent);
+}
+
+main .alert-light a:not(:hover) {
+  color: white;
 }
 
 /* LANDING PAGE FEATURES */
@@ -200,7 +232,11 @@ main mark:hover {
 
 .authenticated .features-icons .features-icons-item:hover .features-icons-icon i {
   font-size: 5.5rem;
-  color: var(--brand-login-complement) !important;
+  color: var(--app-link-accent) !important;
+}
+
+main .KeyPair {
+  max-width: 40em;
 }
 
 /* Disable pane links unless authenticated */

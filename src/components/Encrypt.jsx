@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import { isNil, isNull } from 'lodash'
+import { isNil, isNull, isEmpty } from 'lodash'
 import KeyField from './KeyField.jsx'
 import {usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
@@ -20,23 +20,36 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
       console.log("Current files:", files)
       setFiles(files)
     }
+    useEffect(() => {
+      if (!gotResult) {
+        setFiles([])
+      }
+    }, [gotResult])
     const placeholder = <span>Drag &amp; drop a file to encrypt it in the browser, or click to select from your filesystem.</span>
     return (
        <>
         <Dropzone className="Dropzone" onChange = { onChange }>
-          { (!isNull(gotResult) ? gotResult : file)
-           ? <div className="m-auto text-center">
+          { !file ?
+            <div className="mx-auto text-center">
+                <div>
+                  <i className="fas fa-file-import m-auto"></i>
+                </div>
+                <div className="mt-4">
+                  {placeholder}
+                </div>
+              </div>
+            : !gotResult ?
+            <div className="m-auto text-center">
+                <div class="spinner-border text-success" role="status">
+                  <span class="sr-only">Encrypting...</span>
+                </div>
+             </div>
+           : gotResult ?
+           <div className="m-auto text-center">
                 <div><i className="fas fa-shield-alt"></i></div>
                 <div className="mt-2">{file.name}</div>
              </div>
-           : <div className="mx-auto text-center">
-               <div>
-                 <i className="fas fa-file-import m-auto"></i>
-               </div>
-               <div className="mt-4">
-                 {placeholder}
-               </div>
-             </div>}
+           : <div>Error</div>}
         </Dropzone>
       </>
 )}
