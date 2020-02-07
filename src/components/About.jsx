@@ -221,6 +221,11 @@ the foundation for many end-to-end encryption systems.</p>
           they can read your encrypted messages, even impersonate you. Only share your public key.
         </div>
        <Credits/>
+       <button className="btn btn-primary btn-lg mt-4 mb-2 mx-auto d-none"
+               onClick={() => document.getElementById('tutorial-tab').click()}>
+           <i class="fas fa-graduation-cap mr-2"></i>
+           Learn More
+       </button>
      </div>
     </div>
   )

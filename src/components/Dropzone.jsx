@@ -4,6 +4,14 @@ import {useDropzone} from 'react-dropzone'
 
 import css from './Dropzone.css'
 
+function useObjectUrl (content) {
+  const [url, setUrl] = useState()
+  useEffect( () => {
+      setUrl(content ? window.URL.createObjectURL(content) : null)
+    }, [content])
+  return (url)
+}
+
 export function DownloadButton (props) {
   // Download file from URL
   const {url, filename, children, onComplete, icon} = props
@@ -15,6 +23,7 @@ export function DownloadButton (props) {
          onClick={onComplete || undefined} // best we can do as there are no event triggered upon download complete
          disabled= { !url }
          aria-disabled={ !url }
+         rel="noopener noreferrer"
          href={url} target="_blank">
          <i className={icon || "fas fa-file-download mr-2"}></i>
          {children || <span>Save File</span>}
@@ -26,10 +35,7 @@ export function DownloadButton (props) {
 function DownloadContentButton (props) {
   // Using download link for client-side content
   const { content, filename } = props
-  const [url, setUrl] = useState()
-  useEffect( () => {
-      setUrl(content ? window.URL.createObjectURL(content) : null)
-    }, [content])
+  const url = useObjectUrl(content)
   const custom = Object.assign({}, props, {url: url})
   return (DownloadButton(custom))
 }
@@ -77,14 +83,13 @@ export function SaveButton (props) {
 
 export function OpenLink (props) {
   const { content } = props
-  const [url, setUrl] = useState()
-  useEffect( () => {
-      setUrl(content? window.URL.createObjectURL(content) : null)
-    }, [content])
+  const url = useObjectUrl(content)
   return (
-  <a href={url} target="_blank">{props.children}</a>)
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      {props.children}
+    </a>
+  )
 }
-
 
 export default function Dropzone(props) {
   console.log("Dropzone:", props)
@@ -98,7 +103,7 @@ export default function Dropzone(props) {
     }
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-  const rootProps = getRootProps(Object.assign({}, props, {className: isDragActive ? props.className + " dragging" : props.className})) 
+  const rootProps = getRootProps(Object.assign({}, props, {className: isDragActive ? props.className + " dragging" : props.className}))
   const inputProps = getInputProps()
   return (
     <div {...rootProps}>
