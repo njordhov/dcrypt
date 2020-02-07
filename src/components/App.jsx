@@ -53,7 +53,7 @@ function KeyPair (props) {
         <Link to="/about">
           <button className="btn btn-primary btn-lg mt-4 mb-2">
             <i class="far fa-question-circle mr-2"></i>
-            About Encryption
+            About Cryptography
           </button>
         </Link>
       </div>
