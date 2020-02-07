@@ -120,7 +120,7 @@ html:not(.encrypting):not(.authenticated) .when-encrypting {
 /* NavBar */
 
 nav.navbar {
-  opacity: 0.9;
+  opacity: 0.97;
 }
 
 nav.navbar .navbar-brand:hover {

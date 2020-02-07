@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button, CardBody, Card, Collapse, UncontrolledCollapse } from 'reactstrap'
 
 import css from './About.css'
 
@@ -231,7 +232,156 @@ the foundation for many end-to-end encryption systems.</p>
   )
 }
 
+function FaqCard1 ({children, parentId}) {
+  const expanded = false
+  const id = ""+ Math.random()
+  const button_id = "FaqCard_button" + id
+  const target_id = "FaqCard_target" + id
+  return (
+    <div className="FaqCard card">
+      <div class="card-header" id={button_id}>
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse"
+                  data-target={"#" + target_id} aria-expanded={expanded ? "true" : "false"}
+                  aria-controls={target_id}>
+            Collapsible Group Item {target_id}
+          </button>
+        </h2>
+      </div>
+      <div id={target_id} class="collapse show" aria-labelledby={button_id} data-parent={"#" + parentId}>
+        <div class="card-body">
+         {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FaqCard ({children, parentId, title, defaultOpen}) {
+  const expanded = false
+  const id = "FaqCard" + Math.floor(Math.random() * 10000000)
+  return (
+    <div className="FaqCard card m-0">
+      <div class="card-header text-center" id={id} >
+        <h5 class="mb-0">
+            {title || id}
+        </h5>
+      </div>
+      <UncontrolledCollapse toggler={"#" + id} defaultOpen={defaultOpen}>
+        <div class="card-body">
+         {children}
+        </div>
+      </UncontrolledCollapse>
+    </div>
+  )
+}
+
+
+function AboutFaq () {
+  return (
+  <div className="AboutFaq jumbotron mb-0">
+    <div id="AboutFaq" className="accordion mx-auto" style={{maxWidth: "60em"}}>
+      <ul className="list-group">
+        <li className="list-group-item">
+          <FaqCard parentId="AboutFaq" title="What is Cryptography?" defaultOpen={true}>
+          <p>Cryptography is technology to transmit information securely, allowing
+            it to be viewed only by the intended recipient. It is related to encryption,
+            which turns information into unreadable gibberish for others than
+            those that have the correct decryption key to decipher the data.</p>
+            <Illustration src={comparison_encryptedmessage}/>
+          </FaqCard>
+        </li>
+        <li className="list-group-item">
+        <FaqCard parentId="AboutFaq" title="What is End-to-End Encryption?">
+          <p>End-to-end encryption let you communicate with others while
+             keeping your content confidential. The content is encrypted on your device and
+             first decrypted on the device of the receiver. No one can listen in and eavsdrop on
+             your communication.</p>
+        </FaqCard>
+      </li>
+      <li className="list-group-item">
+        <FaqCard parentId="AboutFaq" title="How Does Encryption Work?">
+              <p>Here is how encryption works when communicating a message:</p>
+              <ol>
+                <li>A clearly readable message such as <cite>Hello Alice!</cite> is encrypted into an
+                incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
+                <li>The encrypted message is sent over the Internet, where eavesdroppers
+                    can only see the scrambled message.</li>
+                <li>When it arrives at its destination, only the intended recipient
+                    has the code to decrypting the transmission back into the original message.</li>
+              </ol>
+
+              <Illustration src={public_private_6_0}/>
+        </FaqCard>
+      </li>
+      <li className="list-group-item">
+        <FaqCard parentId="AboutFaq" title="What is Public Key Cryptography?">
+           <p>Before you begin using end-to-end encryption tools, we strongly recommend
+          taking the time to understand the basics of public key cryptography,
+          the foundation for many end-to-end encryption systems.</p>
+
+            <p>Public key cryptography lets you encrypt and send messages safely to
+            anyone whose public key you know. Only those with the corresponding
+            <mark>private key</mark> can decipher the message.</p>
+
+            <Illustration src={transmission_5_0}/>
+         </FaqCard>
+       </li>
+       <li className="list-group-item">
+         <FaqCard parentId="AboutFaq" title="Why Use Different Keys to Encrypt and Decrypt?">
+           <p>How does the recipient get to know the key to decrypt your message if
+              you cannot communucate safely in the first place?</p>
+          <p>Public-key cryptography uses a pair of keys: A public key that can be
+             disseminated widely, and a private key which is known only to the owner.
+             Your public key is used by others to encrypt a message that
+             only you can decrypt with your private key.</p>
+          <p>
+              Public key cryptography makes it so you don’t need to smuggle the decryption
+           key to the recipient of your secret message because that person already has the
+           decryption key. The decryption key is their private key. Therefore, all you need
+            to send a message is knowing your recipient’s matching public, encrypting key. And you
+             can obtain this easily because your recipient can share their public key
+             with anyone, since public keys are only used to encrypt messages, not decrypt
+             them.</p>
+
+
+
+            <Illustration src={symmetric_asymmetric}/>
+
+
+         </FaqCard>
+       </li>
+       <li className="list-group-item">
+         <FaqCard parentId="AboutFaq" title="How Secure is dCrypt Encryption?">
+
+              <p>This software the same <mark>elliptic curve cryptography</mark>
+               as Bitcoin and many other cryptocurrencies and blockchains:
+               &nbsp;<i>secp256k1</i>.
+              </p>
+
+              <div className="alert alert-warning mt-2">Keep your private key very safe. If somebody get to know your private key,
+              they can read your encrypted messages, even impersonate you.
+              Only share your public key.</div>
+
+         </FaqCard>
+       </li>
+     </ul>
+     <Credits/>
+     <button className="btn btn-primary btn-lg mt-4 mb-2 mx-auto d-none"
+           onClick={() => document.getElementById('tutorial-tab').click()}>
+       <i class="fas fa-graduation-cap mr-2"></i>
+       Learn More
+     </button>
+   </div>
+  </div>
+  )
+}
+
 export default function About ({visual}) {
-  const visual_mode = true
-  return (visual_mode ? <AboutVisual/> : <AboutText/>)
+  const mode = "faq"
+  switch (mode) {
+    case "faq": return <AboutFaq/>
+    case "visual": return <AboutVisual/>
+    default: return <AboutText/>
+  }
 }
