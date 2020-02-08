@@ -7,6 +7,7 @@ import InfoBox, {InfoToggle} from './InfoBox'
 import KeyField from './KeyField'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
+import {features} from './config'
 
 function Card (props) {
   return (
