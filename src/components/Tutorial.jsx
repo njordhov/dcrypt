@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useReducer, useEffect } from 'react'
 import { useBlockstack } from 'react-blockstack'
+import { Atom, swap, useAtom, deref} from "@dbeining/react-atom"
+import { isNil } from 'lodash'
 import {DropEncrypt} from './Encrypt'
 import {DropDecrypt} from './Decrypt'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
@@ -18,6 +20,16 @@ function Card (props) {
   </div>
   )
 }
+
+function useAtomReducer (atom, reducer) {
+  const state = useAtom(atom)
+  const dispatch = useCallback((event) => swap(atom, (state) => reducer(state, event)))
+  return [state, dispatch]
+}
+
+const tutorialAtom = Atom.of({step: null})
+
+const useTutorialReducer = (reducer) => useAtomReducer(tutorialAtom, reducer)
 
 function safekeepingReducer (state, event) {
   console.log("Reduce:", state, event)
@@ -70,7 +82,8 @@ function PrivateKeyField ({username, privateKey, className}) {
 }
 
 function contentReducer (state, event) {
-  switch (event.action) {
+  // console.log("contentReducer:", state, event)
+  switch (event.type) {
     case "message":
       return {...state, message: event.message}
     case "files":
@@ -82,27 +95,23 @@ function contentReducer (state, event) {
 
 function ImportCard ({active, completed, onComplete, onChange, publicKey, username}) {
   const tooltip = publicKey && ("Your public key is " + publicKey + " and can be freely shared.")
-  const [state, dispatch] = useReducer(contentReducer, {version: 1})
+  const [state, dispatch] = useTutorialReducer(contentReducer)
+  const {message} = state
   const onMessageChange = useCallback((message) => {
-    dispatch({action: "message", message: message})
+    dispatch({type: "message", message: message})
   }, [dispatch])
   const onFilesChange = useCallback((files) => {
-    dispatch({action: "files", files: files})
+    dispatch({type: "files", files: files})
   }, [dispatch])
-  /*
-  useEffect(() => {
-    onChange && onChange(state)
-  }, [state])
-  */
   const done = useCallback(() => {
-    if (state.message) {
-      const markup = editorMarkup(state.message)
-      console.log("Markup:", markup, "from", state.message)
+    if (message) {
+      const markup = editorMarkup(message)
+      console.log("Markup:", markup, "from", message)
       onChange && onChange(markup)
       onComplete()
     }
-  }, [state.message])
-  const disabled = (state.message === undefined || state.message == "")
+  }, [message])
+  const disabled = (message === undefined || message == "")
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -114,7 +123,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
          <div className={classNames("alert text-center", active ? "alert-primary" : "alert-dark")}>
            Type a message into the editor, then click the button below to encrypt it.
          </div>}
-         <Editor active={active} onChange={onMessageChange}/>
+         <Editor active={active} onChange={onMessageChange} content={message}/>
          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
            <a className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
               onClick={done}
@@ -219,13 +228,15 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
-        Step 4: Save the Restored {features.message ? "Message" : "File"}
+        Step 4: {features.message ? "View the Deciphered Message"
+                                  : "Save the Restored File"}
       </StepHeader>
       <div className="card-body">
         {(!completed && !active) &&
           <div className="alert alert-dark text-center mb-4">
-            When you've completed the earlier steps, you will be able to save a
-            decrypted file that has the same content as the original.
+            When you've completed the earlier steps, you will be able to
+            {features.message ? " view the decrypted message from the file."
+                              : " save a decrypted file that has the same content as the original."}
           </div>}
         {(active && features.message && decrypted) &&
          <div className="card-body">
@@ -242,10 +253,13 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
         { !completed &&
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
-          : <SaveButton content={decrypted} onComplete={ onCompleted }
+          : !features.message ?
+            <SaveButton content={decrypted} onComplete={ onCompleted }
                         filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}>
                Save decrypted file
-            </SaveButton> )}
+            </SaveButton>
+          : null
+          )}
       </div>
     </Card>
 )}
@@ -256,7 +270,7 @@ function SafeKeeping (props) {
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
   const [{step, content, encrypted, saved, decrypted, done}, dispatch]
-        = useReducer(safekeepingReducer, {step: null})
+        = useTutorialReducer(safekeepingReducer)
   const onContent = (content) => dispatch({type: "content", content: content})
   const onEncrypted = (encrypted) => dispatch({type: "encrypted", encrypted: encrypted})
   useEffect(() => {
