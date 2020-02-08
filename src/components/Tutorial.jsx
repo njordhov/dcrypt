@@ -5,7 +5,7 @@ import {DropDecrypt} from './Decrypt'
 import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
 import KeyField from './KeyField'
-import Editor, { editorMarkup, draftFromMarkup } from './Editor'
+import Editor, { editorMarkup, draftFromMarkup, ViewEditor } from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
 import { features } from './config'
@@ -212,21 +212,6 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
                       onError={onError}/>
        </div>
     </Card>
-  )
-}
-
-function ViewEditor ({active, decrypted}) {
-  const [editorState, setEditorState] = useState(null)
-  console.log("DECRYPTED:", decrypted, (typeof decrypted), editorState)
-  useEffect(() => {
-    // decrypted is a blob
-    if (typeof decrypted === "object") {
-      decrypted.text()
-      .then((markup) => setEditorState(draftFromMarkup(markup)))
-    }
-  }, [decrypted])
-  return (
-    editorState && <Editor active={active} readOnly={true} defaultEditorState={editorState}/>
   )
 }
 

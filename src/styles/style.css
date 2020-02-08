@@ -92,6 +92,7 @@
 
 .btn-outline-primary:hover {
   background-color: var(--primary-complement);
+  color: var(--white) !important;
 }
 
 a:hover {

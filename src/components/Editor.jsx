@@ -19,7 +19,7 @@ export function draftFromMarkup (markup) {
 
 const toolbar = {
   none: {options: []},
-  basic: {options: ['blockType', 'inline', 'link', 'colorPicker', 'emoji', 'history'],
+  basic: {options: ['blockType', 'inline', 'link', 'emoji', 'history'],
             inline: {options: ['bold', 'italic', 'underline']}}
 }
 
@@ -53,5 +53,20 @@ export default function Editor ({active, onChange, defaultEditorState, readOnly}
         toolbar={readOnly ? toolbar.none : toolbar.basic}
       />
     </div>
+  )
+}
+
+export function ViewEditor ({active, decrypted}) {
+  const [editorState, setEditorState] = useState(null)
+  console.log("DECRYPTED:", decrypted, (typeof decrypted), editorState)
+  useEffect(() => {
+    // decrypted is a blob
+    if (decrypted && (typeof decrypted === "object")) {
+      decrypted.text()
+      .then((markup) => setEditorState(draftFromMarkup(markup)))
+    }
+  }, [decrypted])
+  return (
+    editorState && <Editor active={active} readOnly={true} defaultEditorState={editorState}/>
   )
 }
