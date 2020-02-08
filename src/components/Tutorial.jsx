@@ -8,8 +8,7 @@ import KeyField from './KeyField'
 import Editor, { editorMarkup, draftFromMarkup } from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
-
-const features = {message: true, files: false}
+import {features} from './config'
 
 function Card (props) {
   return (
