@@ -354,9 +354,9 @@ function AboutFaq () {
        <li className="list-group-item">
          <FaqCard parentId="AboutFaq" title="How Secure is dCrypt Encryption?">
 
-              <p>This software the same <mark>elliptic curve cryptography</mark>
+              <p>This software the same strong cryptography
                as Bitcoin and many other cryptocurrencies and blockchains:
-               &nbsp;<i>secp256k1</i>.
+               elliptic curve &nbsp;<i>secp256k1</i>.
               </p>
 
               <div className="alert alert-warning mt-2">Keep your private key very safe. If somebody get to know your private key,
