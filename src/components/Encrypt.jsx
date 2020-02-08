@@ -145,24 +145,27 @@ export default function Encrypt (props) {
   }, [remoteKey])
   const onMessageChange = useCallback((message) => {
     // TODO: factor out, slow so may cause lag if called for every change
-    const markup = editorMarkup(message)
-    const options = publicKey ? {publicKey: publicKey} : null
-    const cipherObject = userSession.encryptContent(markup, options)
-    const encrypted = new Blob([cipherObject], { type: "ECIES" })
-    setResult(encrypted)
-  }, [setResult])
+    if (publicKey) {
+      const markup = editorMarkup(message)
+      const options = publicKey ? {publicKey: publicKey} : null
+      const cipherObject = userSession.encryptContent(markup, options)
+      const encrypted = new Blob([cipherObject], { type: "ECIES" })
+      setResult(encrypted)
+    }
+  }, [setResult, userSession, publicKey])
   return (
       <div className="jumbotron">
         <div className="container">
           {targetId && <ExplainDialog targetId={targetId} publicKey={remoteKey}/>}
           {!isRemote &&
            <InfoBox className="mb-5" dismissible={true}>
-            Securely encrypt a file using your public key.
-            The content is encrypted in the browser and kept on your computer.
+            Securely encrypt a {features.message ? "message" : "file"} using your public key.
+            The content is encrypted in the browser and never leaves your computer.
           </InfoBox>}
           {isRemote &&
           <InfoBox className="mb-5" dismissible={true}>
-              Securely encrypt a file in the browser using the public key of
+              Securely encrypt a {features.message ? "message" : "file"} in the browser
+              using the public key of
               &nbsp;<cite>{trimId(targetId)}.</cite>
               <InfoToggle toggle="modal" target="#ExplainDialog"/>
               {false &&
