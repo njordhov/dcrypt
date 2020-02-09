@@ -15,7 +15,7 @@ import { features } from './config'
 function Card (props) {
   return (
   <div className={classNames("card bg-secondary", props.active && "border-warning", props.className)}
-       {...props}>
+       {...props} active={null}>
     {props.children}
   </div>
   )
@@ -225,10 +225,11 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
 }
 
 function FinalStep ({active, decrypted, completed, onCompleted}) {
+  console.log("FinalStep:", active, decrypted, completed)
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
-        Step 4: {features.message ? "View the Deciphered Message"
+        Step 4: {features.message ? "View Deciphered Message"
                                   : "Save the Restored File"}
       </StepHeader>
       <div className="card-body">
