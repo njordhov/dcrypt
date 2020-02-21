@@ -132,7 +132,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
            </a>
           </div>
        </div>}
-      {features.files &&
+      {!features.message && features.files &&
        <div className="card-body">
         { !completed &&
           <div className={classNames("alert text-center", active ? "alert-primary" : "alert-dark")}>

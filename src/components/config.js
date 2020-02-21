@@ -1,5 +1,5 @@
 
 
-export const features = {message: false, files: true}
+export const features = {message: true, files: true}
 
 export default {features}
