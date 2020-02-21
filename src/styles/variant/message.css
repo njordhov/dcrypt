@@ -6,4 +6,5 @@
   --alert: var(--blue);
   --app-info-color: var(--blue);
   --app-link-accent: var(--primary-complement);
+  --app-navbar-background: var(--brand-login-background);
 }

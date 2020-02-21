@@ -17,8 +17,8 @@
 :root  {
   --app-info-color: var(--blue);
   --app-link-accent: var(--yellow);
+  --primary-complement: var(--yellow);
 }
-
 
 .inspect {
   border: thin solid red;
@@ -55,13 +55,13 @@
 }
 
 html:not(.message-app) .message-only {
-  display: none
+  display: none !important;
 }
 
 html:not(.drop-app) .drop-only {
-  display: none
+  display: none !important;
 }
 
 html:not(.dcrypt-app) .dcrypt-only {
-  display: none
+  display: none !important;
 }

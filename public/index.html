@@ -50,12 +50,15 @@
         </a>
         <a class="navbar-brand ml-2 ml-md-0 mr-3 " href="#"
            onclick="document.getElementById('home-tab').click()">
-           <div class="border-primary circle mr-2"
-           style="display: inline-block; width: 32px; height: 32px; transform: rotate(-0deg);position: relative; top: -5px;">
+           <img class="dcrypt-only" src="/media/logo.svg" width="32" height="32" />
+           <div class="drop-only"></div>
+           <div class="d-inline-block message-only border-primary circle mr-2"
+                style="width: 32px; height: 32px; transform: rotate(-0deg);position: relative; top: -5px;">
               <i class="fas fa-envelope text-primary"></i>
               <i class="fas fa-key"
                  style="transform: rotate(180deg); color: #5a9200; position: relative; left: -10px; top: 10px;"></i>
             </div>
+
             <i>d</i>Crypt
             <span class="message-only">message</span>
             <span class="drop-only">drop</span>
@@ -70,11 +73,13 @@
                 Home
               </a>
             </li>
-            <li class="nav-item mr-md-2 d-none">
+            <li class="nav-item mr-md-2">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
-                 <i class="far fa-question-circle"></i>
-                About
+                <span class="dcrypt-only">
+                   <i class="far fa-question-circle"></i>
+                   About
+                </span>
               </a>
             </li>
             <li class="nav-item when-authenticated mr-md-2">
@@ -100,8 +105,19 @@
             <li class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="share-tab" data-toggle="tab"
                  href="#share" role="tab" aria-controls="share" aria-selected="false">
-                 <i class="fas fa-envelope"></i>
-                 Receive</a>
+                 <span class="dcrypt-only">
+                   <i class="fas fa-umbrella"></i>
+                   Share
+                 </span>
+                 <span class="drop-only">
+                   <i class="fas fa-inbox"></i>
+                   Receive
+                 </span>
+                 <span class="message-only">
+                   <i class="fas fa-envelope"></i>
+                   Receive
+                 </span>
+               </a>
             </li>
           </ul>
 
@@ -169,8 +185,17 @@
              id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="jumbotron mb-0 pt-0">
             <section class="features-icons m-auto">
-              <h2 class="col col-12 text-center">Encrypted Messages<br/>
-                  made easy.</h2>
+              <h2 class="col col-12 text-center">
+                <span class="dcrypt-only">
+                  Public-key cryptography<br/>made easy.
+                </span>
+                <span class="drop-only">
+                  Secure cryptography<br/>made easy.
+                </span>
+                <span class="message-only">
+                  Encrypted Messages<br/>made easy.
+                </span>
+              </h2>
               <div class="row">
               <div class="col p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
@@ -179,7 +204,11 @@
                       <i class="fas fa-graduation-cap m-auto text-primary"></i>
                     </div>
                     <h3>Learn</h3>
-                    <p class="lead mb-0">Learn how to use secure encryption.</p>
+                    <p class="lead mb-0">
+                      <span class="dcrypt-only">Get practical experience with end-to-end encryption.</span>
+                      <span class="drop-only">Learn how to use secure encryption.</span>
+                      <span class="message-only">Learn how to use secure encryption.</span>
+                    </p>
                   </div>
               </div>
               <div class="col p-5">
@@ -190,8 +219,9 @@
                     </div>
                     <h3>Encrypt</h3>
                     <p class="lead mb-0">
-                      Encrypt messages with
-                      your Public Key.
+                      <span class="dcrypt-only">Encrypt files with content you like to keep confidential.</span>
+                      <span class="drop-only">Encrypt files with your Public Key.</span>
+                      <span class="message-only">Encrypt messages with your Public Key.</span>
                     </p>
                   </div>
               </div>
@@ -201,11 +231,15 @@
                     <div class="features-icons-icon d-flex">
                       <i class="fas fa-unlock-alt m-auto text-primary"></i>
                     </div>
-                    <h3>Decipher</h3>
+                    <h3>
+                      <span class="dcrypt-only">Decrypt</span>
+                      <span class="drop-only">Decrypt</span>
+                      <span class="message-only">Decipher</span>
+                    </h3>
                     <p class="lead mb-0">
-                      <!-- or decipher -->
-                      Decipher messages with
-                      your Private Key.
+                      <span class="dcrypt-only">Decrypt files to restore their original content.</span>
+                      <span class="drop-only">Decrypt files with your Private Key.</span>
+                      <span class="message-only">Decipher messages with your Private Key.</span>
                     </p>
                   </div>
               </div>
@@ -213,11 +247,19 @@
                 <div class="features-icons-item mx-auto mb-3 mb-md-0"
                      onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">
-                      <i class="fas fa-envelope m-auto text-primary"></i>
+                      <i class="dcrypt-only fas fa-umbrella m-auto text-primary"></i>
+                      <i class="drop-only fas fa-inbox m-auto text-primary"></i>
+                      <i class="message-only fas fa-envelope m-auto text-primary"></i>
                     </div>
-                    <h3>Receive</h3>
+                    <h3>
+                      <span class="dcrypt-only">Share</span>
+                      <span class="drop-only">Receive</span>
+                      <span class="message-only">Receive</span>
+                    </h3>
                     <p class="lead mb-0">
-                      Receive confidential messages securely.
+                      <span class="dcrypt-only">Invite others to communicate securely with you.</span>
+                      <span class="drop-only">Receive confidential files securely.</span>
+                      <span class="message-only">Receive confidential messages securely.</span>
                     </p>
                 </div>
               </div>
@@ -281,12 +323,7 @@
               <img src="/media/eff-join2_0.png" alt="Join EFF!" border="0"/>
             </a>
           </div>
-        <!-- /.container -->
     </footer>
 
-    <!--
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
-          rel="stylesheet">
-    -->
   </body>
 </html>
