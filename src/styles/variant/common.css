@@ -14,6 +14,12 @@
   --brand-login-complement: #5A9200;
 }
 
+:root  {
+  --app-info-color: var(--blue);
+  --app-link-accent: var(--yellow);
+}
+
+
 .inspect {
   border: thin solid red;
 }
@@ -46,4 +52,16 @@
 #signin-button:hover {
   border-color: var(--brand-login-accent);
   color: var(--brand-login-accent);
+}
+
+html:not(.message-app) .message-only {
+  display: none
+}
+
+html:not(.drop-app) .drop-only {
+  display: none
+}
+
+html:not(.dcrypt-app) .dcrypt-only {
+  display: none
 }
