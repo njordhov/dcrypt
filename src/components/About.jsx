@@ -293,22 +293,21 @@ function AboutFaq () {
         </li>
         <li className="list-group-item">
         <FaqCard parentId="AboutFaq" title="What is End-to-End Encryption?">
-          <p>End-to-end encryption let you communicate with others while
-             keeping your content confidential. The content is encrypted on your device and
-             first decrypted on the device of the receiver. No one can listen in and eavsdrop on
-             your communication.</p>
+          <p>End-to-end encryption lets you communicate with others while
+             keeping your content confidential. Content is encrypted on your device and first decrypted on
+             the device of the receiver. No one can listen in and eavesdrop on your communication.</p>
         </FaqCard>
       </li>
       <li className="list-group-item">
         <FaqCard parentId="AboutFaq" title="How Does Encryption Work?">
               <p>Here is how encryption works when communicating a message:</p>
               <ol>
-                <li>A clearly readable message such as <cite>Hello Alice!</cite> is encrypted into an
-                incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
+                <li>A clearly readable message such as <cite>Meet me in the garden</cite> is encrypted into an
+                    incomprehensible scrambled message like <cite>6EB6957008E03CE4</cite>.</li>
                 <li>The encrypted message is sent over the Internet, where eavesdroppers
                     can only see the scrambled message.</li>
-                <li>When it arrives at its destination, only the intended recipient
-                    has the code to decrypting the transmission back into the original message.</li>
+                <li>When it arrives at its destination, only the intended recipient has the code (private key)
+                    to decrypt the transmission back into the original message.</li>
               </ol>
 
               <Illustration src={public_private_6_0}/>
@@ -317,11 +316,11 @@ function AboutFaq () {
       <li className="list-group-item">
         <FaqCard parentId="AboutFaq" title="What is Public Key Cryptography?">
            <p>Before you begin using end-to-end encryption tools, we strongly recommend
-          taking the time to understand the basics of public key cryptography,
-          the foundation for many end-to-end encryption systems.</p>
+            taking the time to understand the basics of public key cryptography,
+            the foundation for many end-to-end encryption systems.</p>
 
-            <p>Public key cryptography lets you encrypt and send messages safely to
-            anyone whose public key you know. Only those with the corresponding
+            <p>Public key cryptography lets you encrypt and send messages safely
+             to anyone whose public key you know. Only those with the corresponding
             <mark>private key</mark> can decipher the message.</p>
 
             <Illustration src={transmission_5_0}/>
@@ -335,16 +334,12 @@ function AboutFaq () {
              disseminated widely, and a private key which is known only to the owner.
              Your public key is used by others to encrypt a message that
              only you can decrypt with your private key.</p>
-          <p>
-              Public key cryptography makes it so you don’t need to smuggle the decryption
-           key to the recipient of your secret message because that person already has the
-           decryption key. The decryption key is their private key. Therefore, all you need
-            to send a message is knowing your recipient’s matching public, encrypting key. And you
-             can obtain this easily because your recipient can share their public key
-             with anyone, since public keys are only used to encrypt messages, not decrypt
-             them.</p>
-
-
+          <p>Public key cryptography makes it so you don’t need to smuggle the decryption
+           key to the recipient of your secret message because that person already has
+           the decryption key. The decryption key is their private key. Therefore, all you
+           need to send a message is knowing your recipient’s matching public, encrypting key.
+           And you can obtain this easily because your recipient can share their public key
+           with anyone, since public keys are only used to encrypt messages, not decrypt them.</p>
 
             <Illustration src={symmetric_asymmetric}/>
 
@@ -359,9 +354,9 @@ function AboutFaq () {
                elliptic curve &nbsp;<i>secp256k1</i>.
               </p>
 
-              <div className="alert alert-warning mt-2">Keep your private key very safe. If somebody get to know your private key,
-              they can read your encrypted messages, even impersonate you.
-              Only share your public key.</div>
+              <div className="alert alert-warning mt-2">Keep your private key very safe.
+              If somebody gets hold of your private key, they can read your encrypted
+              messages, even impersonate you. Only share your public key.</div>
 
          </FaqCard>
        </li>
