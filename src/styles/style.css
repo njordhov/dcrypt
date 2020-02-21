@@ -5,7 +5,7 @@
 }
 
 .navbar.bg-dark {
-  background-color: var(--app-navbar-background, inherit) !important;
+  background-color: var(--app-navbar, inherit) !important;
 }
 
 .alert-info {
