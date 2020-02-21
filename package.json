@@ -1,7 +1,7 @@
 {
-  "name": "dcrypt-msg",
-  "version": "0.3.0",
-  "description": "Public-key cryptography made easy",
+  "name": "dcrypt",
+  "version": "0.4.0",
+  "description": "Secure cryptography made easy",
   "author": "",
   "license": "MIT",
   "repository": {
