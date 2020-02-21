@@ -18,7 +18,7 @@ html.drop-app {
   --app-link-accent: var(--primary-complement);
 }
 
-html.drop-app #encrypt-tab {
+html.drop-app #encrypt-tab * {
   display: none;
 }
 
