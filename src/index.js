@@ -14,9 +14,9 @@ import Share from './components/Share';
 // include icon fonts for landing page etc (not working?)
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
-// import bootstrap from 'bootstrap/dist/css/bootstrap.css'
-//import 'bootswatch/dist/cyborg/bootstrap.css'
 import './styles/theme.scss'
+import './styles/common.css'
+import './styles/custom.css'
 import './styles/style.css'
 
 import $ from 'jquery'

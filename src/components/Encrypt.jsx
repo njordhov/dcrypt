@@ -4,22 +4,11 @@ import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { isNil, isNull, isEmpty } from 'lodash'
 import KeyField from './KeyField.jsx'
-import {usePublicKey, usePublishKey, useRemotePublicKey, trimId} from './cipher.jsx'
+import {usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler} from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
-
-function encryptHandler(file, encryptContent, setResult) {
-  if (file) {
-    var myReader = new FileReader()
-    myReader.readAsArrayBuffer(file)
-    myReader.addEventListener("loadend", (e) => {
-      var buffer = e.srcElement.result;  //arraybuffer object
-      const cipherObject = encryptContent(buffer)
-      if (cipherObject) {
-        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-        content.filename = file.name
-        setResult(content)}
-  })}}
+import Editor, { editorMarkup, draftFromMarkup } from './Editor'
+import { features } from './config'
 
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const { userSession } = useBlockstack()
@@ -138,8 +127,9 @@ export default function Encrypt (props) {
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const remoteKey = useRemotePublicKey(targetId)
+  // TODO: Use reducer for content result to support composite content state
   const [content, setResult] = useState()
-  const saveName = content && content.filename && encryptedFilename(content.filename)
+  const saveName = encryptedFilename((content && content.filename) || "message")
   const resetForm = useCallback(() => {setResult(null); })
   usePublishKey(publicKey)
   const activeKey = remoteKey || publicKey
@@ -153,18 +143,29 @@ export default function Encrypt (props) {
       document.documentElement.className.replace("encrypting", '')
     }
   }, [remoteKey])
+  const onMessageChange = useCallback((message) => {
+    // TODO: factor out, slow so may cause lag if called for every change
+    if (publicKey) {
+      const markup = editorMarkup(message)
+      const options = publicKey ? {publicKey: publicKey} : null
+      const cipherObject = userSession.encryptContent(markup, options)
+      const encrypted = new Blob([cipherObject], { type: "ECIES" })
+      setResult(encrypted)
+    }
+  }, [setResult, userSession, publicKey])
   return (
       <div className="jumbotron">
         <div className="container">
           {targetId && <ExplainDialog targetId={targetId} publicKey={remoteKey}/>}
           {!isRemote &&
            <InfoBox className="mb-5" dismissible={true}>
-            Securely encrypt a file using your public key.
-            The content is encrypted in the browser and kept on your computer.
+            Securely encrypt a {features.message ? "message" : "file"} using your public key.
+            The content is encrypted in the browser and never leaves your computer.
           </InfoBox>}
           {isRemote &&
           <InfoBox className="mb-5" dismissible={true}>
-              Securely encrypt a file in the browser using the public key of
+              Securely encrypt a {features.message ? "message" : "file"} in the browser
+              using the public key of
               &nbsp;<cite>{trimId(targetId)}.</cite>
               <InfoToggle toggle="modal" target="#ExplainDialog"/>
               {false &&
@@ -181,9 +182,11 @@ export default function Encrypt (props) {
           </div>
 
           <div className="mt-4 pt-4 m-auto align-items-center">
-            <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>
-
-            { content &&
+            {!features.files && features.message &&
+             <Editor active={true} onChange={onMessageChange}/>}
+            {features.files &&
+             <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>}
+            { (content && features.files) &&
                <div className="alert alert-info text-center mt-4">
                   The file has been encrypted.
                 </div> }
@@ -191,7 +194,7 @@ export default function Encrypt (props) {
             <div className="d-flex justify-content-center align-items-center w-100 mt-3">
               <SaveButton content={content} onComplete={ resetForm }
                           filename={saveName}>
-                Save Encrypted File
+                Save Encrypted {features.message ? "Message" : "File"}
               </SaveButton>
           </div>
         </div>

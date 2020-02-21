@@ -1,0 +1,10 @@
+
+html.message-app {
+  --primary: var(--brand-login-accent);
+  --primary-complement: var(--brand-login-complement);
+  --navbar: var(--brand-background);
+  --alert: var(--blue);
+  --app-info-color: var(--blue);
+  --app-link-accent: var(--primary-complement);
+  --app-navbar-background: var(--brand-login-background);
+}

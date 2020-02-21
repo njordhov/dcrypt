@@ -109,3 +109,16 @@ export function useEncryptionUrl () {
     const { username } = userData || {}
     return (username && encryptionUrl(username) )
 }
+
+export function encryptHandler(file, encryptContent, setResult) {
+  if (file) {
+    var myReader = new FileReader()
+    myReader.readAsArrayBuffer(file)
+    myReader.addEventListener("loadend", (e) => {
+      var buffer = e.srcElement.result;  //arraybuffer object
+      const cipherObject = encryptContent(buffer)
+      if (cipherObject) {
+        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+        content.filename = file.name
+        setResult(content)}
+  })}}

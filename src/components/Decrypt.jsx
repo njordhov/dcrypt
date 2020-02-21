@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { useBlockstack } from 'react-blockstack'
 import { isNil, isNull, reduce } from 'lodash'
@@ -6,6 +5,8 @@ import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
 import InfoBox, {InfoToggle} from './InfoBox'
+import Editor, { editorMarkup, draftFromMarkup, ViewEditor } from './Editor'
+import { features } from './config'
 
 import css from 'text-security/dist/text-security.css'
 
@@ -81,7 +82,7 @@ export function DropDecrypt ({setResult, gotResult, onError, filename}) {
       setFiles([])
     }
   }, [gotResult])
-  
+
   const placeholder = <span>Drag & drop a <cite>dCrypt</cite> encrypted file here, or click to select from your filesystem.</span>
 
   useEffect( () => decryptHandler(file, decryptContent, setResult), [file, decryptContent])
@@ -144,14 +145,17 @@ export default function Decrypt (props) {
           label="Private Key" privateKey={privateKey} />
       </div>
 
-      <div className="mt-4 pt-4 m-auto align-items-center" >
+      <div className="mt-4 pt-4 m-auto align-items-center">
+       {!(features.message && !!content) &&
         <DropDecrypt setResult={setResult} gotResult={!!content} onError={onError}
-                     filename={filename}/>
+                     filename={filename}/>}
         { message &&
           <div className="alert alert-warning text-center mt-4">
             {message}
           </div>
         }
+        {(features.message && !!content) &&
+          <ViewEditor active={true} decrypted={content}/>}
         { content &&
            <div className="alert alert-info text-center mt-4">
               The file has been decrypted and the result is ready to be saved.

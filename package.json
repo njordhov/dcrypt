@@ -1,7 +1,7 @@
 {
-  "name": "dcrypt-drop",
-  "version": "0.3.0",
-  "description": "Public-key cryptography made easy",
+  "name": "dcrypt",
+  "version": "0.4.0",
+  "description": "Secure cryptography made easy",
   "author": "",
   "license": "MIT",
   "repository": {
@@ -32,7 +32,10 @@
   "dependencies": {
     "blockstack": "^19.3.0",
     "copy-text-to-clipboard": "^2.1.1",
+    "draft-js": "^0.11.4",
+    "draftjs-to-html": "^0.9.1",
     "file-saver": "^2.0.2",
+    "html-to-draftjs": "^1.5.0",
     "jquery": "~3.4.1",
     "node-sass": "^4.13.0",
     "popper": "^1.0.1",
@@ -40,6 +43,7 @@
     "react": "^16.9.0",
     "react-blockstack": "^0.6.4",
     "react-dom": "^16.9.0",
+    "react-draft-wysiwyg": "^1.14.4",
     "react-dropzone": "^10.1.6",
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.1.1",
