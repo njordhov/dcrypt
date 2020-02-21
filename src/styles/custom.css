@@ -17,3 +17,19 @@ html.drop-app {
   --app-info-color: var(--blue);
   --app-link-accent: var(--primary-complement);
 }
+
+html.drop-app #encrypt-tab {
+  display: none;
+}
+
+html.drop-app #decrypt-item {
+  order: 3;
+}
+
+html.drop-app #encrypt-feature {
+  display: none;
+}
+
+html.drop-app #decrypt-feature {
+  order: 3;
+}

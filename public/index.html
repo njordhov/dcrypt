@@ -2,7 +2,7 @@
 <html class="%REACT_APP_TAG%">
   <head>
     <meta charset="utf-8">
-    <title>dCrypt</title>
+    <title>%REACT_APP_TITLE%</title>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/media/logo32.png">
     <script>
@@ -73,16 +73,20 @@
                 Home
               </a>
             </li>
-            <li class="nav-item mr-md-2">
+            <li id="about-item" class="nav-item mr-md-2">
               <a class="nav-link" id="about-tab" data-toggle="tab"
                  href="#about" role="tab" aria-controls="about" aria-selected="false">
                 <span class="dcrypt-only">
                    <i class="far fa-question-circle"></i>
                    About
                 </span>
+                <span class="drop-only">
+                   <i class="far fa-question-circle"></i>
+                   About
+                </span>
               </a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2">
+            <li id="tutorial-item" class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="tutorial-tab" data-toggle="tab"
                  href="#tutorial" role="tab" aria-controls="tutorial" aria-selected="false">
                  <i class="fas fa-graduation-cap"></i>
@@ -96,13 +100,13 @@
                  Encrypt
                </a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2">
+            <li id="decrypt-item" class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="decrypt-tab" data-toggle="tab"
                  href="#decrypt" role="tab" aria-controls="decrypt" aria-selected="false">
                  <i class="fas fa-unlock-alt"></i>
                  Decrypt</a>
             </li>
-            <li class="nav-item when-authenticated mr-md-2">
+            <li id="share-item" class="nav-item when-authenticated mr-md-2">
               <a class="nav-link" id="share-tab" data-toggle="tab"
                  href="#share" role="tab" aria-controls="share" aria-selected="false">
                  <span class="dcrypt-only">
@@ -197,7 +201,7 @@
                 </span>
               </h2>
               <div class="row">
-              <div class="col p-5">
+                <div id="learn-feature" class="col p-5">
                   <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3"
                        onclick="clickTab('tutorial-tab')">
                     <div class="features-icons-icon d-flex">
@@ -211,7 +215,7 @@
                     </p>
                   </div>
               </div>
-              <div class="col p-5">
+              <div id="encrypt-feature" class="col p-5">
                   <div class="features-icons-item mx-auto mb-3 mb-md-0"
                        onclick="clickTab('encrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -225,7 +229,7 @@
                     </p>
                   </div>
               </div>
-              <div class="col p-5">
+              <div id="decrypt-feature" class="col p-5">
                   <div class="features-icons-item mx-auto mb-3 mb-md-0"
                        onclick="clickTab('decrypt-tab')">
                     <div class="features-icons-icon d-flex">
@@ -243,7 +247,7 @@
                     </p>
                   </div>
               </div>
-              <div class="col p-5">
+              <div id="receive-feature" class="col p-5">
                 <div class="features-icons-item mx-auto mb-3 mb-md-0"
                      onclick="clickTab('share-tab')">
                     <div class="features-icons-icon d-flex">
