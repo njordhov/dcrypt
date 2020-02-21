@@ -182,7 +182,7 @@ export default function Encrypt (props) {
           </div>
 
           <div className="mt-4 pt-4 m-auto align-items-center">
-            {features.message &&
+            {!features.files && features.message &&
              <Editor active={true} onChange={onMessageChange}/>}
             {features.files &&
              <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>}

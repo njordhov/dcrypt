@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, CardBody, Card, Collapse, UncontrolledCollapse } from 'reactstrap'
+import { features } from './config'
 
 import css from './About.css'
 
@@ -373,7 +374,7 @@ function AboutFaq () {
 }
 
 export default function About ({visual}) {
-  const mode = "faq"
+  const mode = (features.files && features.message) ? "visual" : "faq"
   switch (mode) {
     case "faq": return <AboutFaq/>
     case "visual": return <AboutVisual/>
