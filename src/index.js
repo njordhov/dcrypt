@@ -17,6 +17,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 // import bootstrap from 'bootstrap/dist/css/bootstrap.css'
 //import 'bootswatch/dist/cyborg/bootstrap.css'
 import './styles/theme.scss'
+import './styles/variant/common.css'
+import './styles/variant/message.css'
 import './styles/style.css'
 
 import $ from 'jquery'

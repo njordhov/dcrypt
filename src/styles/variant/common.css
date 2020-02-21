@@ -1,0 +1,49 @@
+:root  {
+  /* https://projects.invisionapp.com/boards/HE2VVROFSGB27 */
+  --brand-background: #270F34;
+  --brand-lines: #4B3457;
+  /* Blockstack colors */
+  --brand-dark: #211F6D;
+  --brand-mild: #C4D8E5;
+  --brand-greyish: #F1F6F9;
+  --brand-bright: #3700FF;
+  --brand-accent: #00D4FF;
+    /* Blockstack authentication colors */
+  --brand-login-background: #2F2161;
+  --brand-login-accent: #A56DFF;
+  --brand-login-complement: #5A9200;
+}
+
+.inspect {
+  border: thin solid red;
+}
+
+.inspect .inspect {
+  border: thin solid yellow;
+}
+
+.inspect .inspect {
+  border: thin solid green;
+}
+
+#signin-button {
+  background-color: var(--brand-login-background);
+  border-color: var(--brand-lines);
+  color: var(--brand-greyish);
+}
+
+#signin-button:hover {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
+}
+
+#signin-button {
+  background-color: var(--brand-login-background);
+  border-color: var(--brand-lines);
+  color: var(--brand-greyish);
+}
+
+#signin-button:hover {
+  border-color: var(--brand-login-accent);
+  color: var(--brand-login-accent);
+}
