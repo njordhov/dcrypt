@@ -18,8 +18,11 @@ html.drop-app {
   --app-link-accent: var(--primary-complement);
 }
 
-html.drop-app #encrypt-tab * {
-  display: none;
+html.drop-app #encrypt-item {
+  /* Cannot set display to none as it disables tab action used in sharing */
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
 }
 
 html.drop-app #decrypt-item {
