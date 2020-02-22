@@ -39,7 +39,8 @@ function LinkCard (props) {
         </div>
         <div className="card-footer">
           <p>Copy the link and share it with others. You may tell them
-          it <a href={link} target="_blank">opens a webpage</a> where they can encrypt a file that
+          it <a href={link} target="_blank" rel="noopener noreferrer">
+            opens a webpage</a> where they can encrypt a file that
           only you will be able to decrypt.</p>
         </div>
       </div>
