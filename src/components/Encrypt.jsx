@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef, useReducer } from 'react'
 import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
@@ -122,19 +122,7 @@ function ExplainDialog (props) {
   </>)
 }
 
-export default function Encrypt (props) {
-  const { userData, userSession, targetId } = useBlockstack()
-  const {username} = userData || {}
-  const publicKey = usePublicKey()
-  const remoteKey = useRemotePublicKey(targetId)
-  // TODO: Use reducer for content result to support composite content state
-  const [content, setResult] = useState()
-  const saveName = encryptedFilename((content && content.filename) || "message")
-  const resetForm = useCallback(() => {setResult(null); })
-  usePublishKey(publicKey)
-  const activeKey = remoteKey || publicKey
-  const activeId = remoteKey ? targetId : username
-  const isRemote = !!remoteKey
+function useBrowserContext (remoteKey) {
   useEffect( () => {
     if (remoteKey) {
       document.documentElement.className += " encrypting"
@@ -143,16 +131,56 @@ export default function Encrypt (props) {
       document.documentElement.className.replace("encrypting", '')
     }
   }, [remoteKey])
-  const onMessageChange = useCallback((message) => {
-    // TODO: factor out, slow so may cause lag if called for every change
-    if (publicKey) {
-      const markup = editorMarkup(message)
-      const options = publicKey ? {publicKey: publicKey} : null
-      const cipherObject = userSession.encryptContent(markup, options)
-      const encrypted = new Blob([cipherObject], { type: "ECIES" })
-      setResult(encrypted)
-    }
-  }, [setResult, userSession, publicKey])
+}
+
+function useEncryptedThunk (message, content) {
+  // Returns a thunk that resolves to a blob with encrypted data
+  const { userSession } = useBlockstack()
+  const publicKey = usePublicKey()
+  const encryptedThunk = useCallback((message || content) && (() => {
+    const options = publicKey ? {publicKey: publicKey} : null
+    const cipherObject = userSession.encryptContent(message, options)
+    const encrypted = new Blob([cipherObject, content], { type: "ECIES" })
+    return encrypted
+  }), [message, content, publicKey, userSession])
+  return encryptedThunk
+}
+
+function encryptReducer (state, event) {
+  console.log("encryptReducer:", state, event)
+  switch (event.action) {
+    case "reset":
+      return {}
+    case "message":
+      return {...state, message: event.message}
+    case "result":
+      return {...state, content: event.content, filename: event.filename}
+    default:
+      return state
+  }
+}
+
+export default function Encrypt (props) {
+  const { userData, userSession, targetId } = useBlockstack()
+  const {username} = userData || {}
+  const publicKey = usePublicKey()
+  const remoteKey = useRemotePublicKey(targetId)
+  useBrowserContext(remoteKey)
+  const [{message, content, filename}, dispatch] = useReducer(encryptReducer, {})
+  const setResult = useCallback((content) => {
+    const filename = encryptedFilename((content && content.filename) || "message")
+    dispatch({action: "result", content: content, filename: filename})
+  },[dispatch])
+  const resetForm = useCallback(() => dispatch({action: "reset"}), [dispatch])
+  usePublishKey(publicKey)
+  const activeKey = remoteKey || publicKey
+  const activeId = remoteKey ? targetId : username
+  const isRemote = !!remoteKey
+  const onEditorChange = useCallback((draft) => {
+    const markup = draft && editorMarkup(draft)
+    dispatch({action: "message", message: markup})
+  }, [dispatch])
+  const encryptedThunk = useEncryptedThunk (message, content)
   return (
       <div className="jumbotron">
         <div className="container">
@@ -183,7 +211,7 @@ export default function Encrypt (props) {
 
           <div className="mt-4 pt-4 m-auto align-items-center">
             {features.message &&
-             <Editor active={true} onChange={onMessageChange}/>}
+             <Editor active={true} onChange={onEditorChange}/>}
             {features.files &&
              <DropEncrypt publicKey={activeKey} setResult={setResult} gotResult={!!content}/>}
             { (content && features.files && !features.message) &&
@@ -192,8 +220,9 @@ export default function Encrypt (props) {
                 </div> }
 
             <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-              <SaveButton content={content} onComplete={ resetForm }
-                          filename={saveName}>
+              <SaveButton content={encryptedThunk}
+                          onComplete={resetForm}
+                          filename={filename}>
                 Save Encrypted {features.message ? "Message" : "File"}
               </SaveButton>
           </div>

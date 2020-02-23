@@ -174,7 +174,8 @@ function SaveCard ({active, onComplete, completed, content}) {
             When you have completed the first step, there will be an encrypted file to save.
           </div>}
         <div className="d-flex justify-content-center align-items-center w-100 mt-1">
-            <SaveButton content={content} onComplete={ onComplete }
+            <SaveButton content={content}
+                        onComplete={ onComplete }
                         filename={filename}>
               Save Encrypted File
             </SaveButton>
@@ -255,7 +256,8 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
           : !features.message ?
-            <SaveButton content={decrypted} onComplete={ onCompleted }
+            <SaveButton content={decrypted}
+                        onComplete={ onCompleted }
                         filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}>
                Save decrypted file
             </SaveButton>

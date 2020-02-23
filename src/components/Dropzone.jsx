@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import FileSaver, { saveAs } from 'file-saver'
 import {useDropzone} from 'react-dropzone'
+import { isFunction } from 'lodash'
 
 import css from './Dropzone.css'
 
@@ -41,11 +42,16 @@ function DownloadContentButton (props) {
 }
 
 export function ExportContentButton (props) {
-  const { content, filename, children, onComplete, icon} = props
-  const saveFile = () => saveAs(content, filename)
+  // content can be a function->blob or a blob
+  const { content, filename, children, onComplete, icon } = props
+  const saveFile = useCallback(() => {
+    const data = content && (isFunction(content) ? content() : content)
+    if (data && !(data instanceof Blob)) {
+      throw ("Expected a Blob")
+    }
+    saveAs(data, filename)
+  }, [content, filename])
   const disabled = !content
-  if (content && !(content instanceof Blob)) {
-    throw ("Content is not a Blob")}
   return (
     <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
       <a className={[disabled && "disabled", "btn btn-outline-primary center-text"].join(" ")}
@@ -72,8 +78,8 @@ export function SaveButton (props) {
   const { content, filename } = props
   const [name, setName] = useState()
   useEffect( () => {
-      setName(filename || (content && content.filename)) //keeps it around beyond the click
-    }, [content, filename])
+      setName(filename) // keeps it around beyond the click
+    }, [filename])
   const custom = Object.assign({}, props, {filename: name})
   return (
     <div className="d-flex justify-content-center align-items-center w-100">
