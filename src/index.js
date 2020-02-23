@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { AppConfig } from 'blockstack'
 import { initBlockstack } from 'react-blockstack'
-import Signin from './components/Signin';
+import SignIn from './components/Signin';
 import App from './components/App';
 import Auth from './components/Auth';
 import About from './components/About';
@@ -27,7 +27,7 @@ const appConfig = new AppConfig(['store_write', 'publish_data'])
 
 initBlockstack({appConfig})
 
-ReactDOM.render(<Signin/>, document.getElementById('signin-root'));
+ReactDOM.render(<SignIn/>, document.getElementById('signin-root'));
 ReactDOM.render(<App/>, document.getElementById('app-root'));
 ReactDOM.render(<Auth/>, document.getElementById('auth-root'));
 ReactDOM.render(<About/>, document.getElementById('about-root'));

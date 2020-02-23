@@ -4,7 +4,7 @@ import InfoBox, {InfoToggle} from './InfoBox'
 
 function AboutBlockstack (props) {
   return (
-    <>
+    <div className="AboutBlockstack">
       <p className="mt-2"><small>Who's Blockstack?</small>
         <span className="ml-1">
           <InfoToggle target="#blockstack-login-info"/>
@@ -20,12 +20,12 @@ function AboutBlockstack (props) {
           </InfoBox>
         </div>
       </div>
-    </>)}
+    </div>)}
 
-export default function Signin (props) {
+export default function SignIn (props) {
     const { signIn } = useBlockstack()
     return (
-    <div className="alert alert-light text-dark text-center m-auto pt-4 mb-0">
+    <div className="SignIn alert alert-light text-dark text-center m-auto pt-4 mb-0">
       <div className="text-center">
         <p className="lead mb-4">
           Get your own <mark title="This consist of a Public Key used for encryption and a Private Key used for decryption.">

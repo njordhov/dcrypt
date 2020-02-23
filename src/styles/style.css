@@ -175,7 +175,7 @@ main .alert-light a:not(:hover) {
   color: var(--app-link-accent) !important;
 }
 
-main .KeyPair {
+main .KeyPair, main .SignIn {
   max-width: 40em;
 }
 

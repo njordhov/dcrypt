@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams, useL
 import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
 import Enter from './Enter'
 import About from './About'
-import Signin from './Signin'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
