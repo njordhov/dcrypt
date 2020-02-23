@@ -89,12 +89,12 @@ function Routes () {
       <Switch>
         <Route key="home" path="/home" exact={true} component={goPane('home')} />
         <Route key="about" path="/about" exact={true} component={goPane('about') } />
-        <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />
-        {userData && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
+        {userData && <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />}
+        {true && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
         {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
                         component={ EncryptFor } />}
         {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
-        <Route key="share" path="/share" exact={true} component={goPane('share') } />
+        {userData && <Route key="share" path="/share" exact={true} component={goPane('share') } />}
         {(false && userData) ? <Redirect to="/about"/> : <Redirect to="/home"/>}
         <Redirect to="/home"/>
       </Switch>
