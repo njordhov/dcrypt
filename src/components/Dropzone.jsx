@@ -47,9 +47,13 @@ export function ExportContentButton (props) {
   const saveFile = useCallback(() => {
     const data = content && (isFunction(content) ? content() : content)
     if (data && !(data instanceof Blob)) {
-      throw ("Expected a Blob")
+      console.warn("Expected a Blob")
     }
-    saveAs(data, filename)
+    if(data instanceof Promise) {
+      data.then((data) => saveAs(data, filename))
+    } else {
+      saveAs(data, filename)
+    }
   }, [content, filename])
   const disabled = !content
   return (

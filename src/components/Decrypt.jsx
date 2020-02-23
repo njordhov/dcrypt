@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { isNil, isNull, reduce } from 'lodash'
+import { isNil, isNull, isEmpty, reduce } from 'lodash'
+import JSZip from 'jszip'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
@@ -31,7 +32,7 @@ function decryptHandler(file, decryptContent, addResult) {
           const originalObject = decryptContent(encryptedContent)
           if (originalObject) {
             const decrypted = new Blob([originalObject])  // https://fileinfo.com/filetypes/encoded
-            decrypted.filename = file.name
+            decrypted.filename = decryptedFilename(file.name)
             addResult(decrypted)
           } else {
             console.warn("File not decrypted:", file)
@@ -149,6 +150,22 @@ export default function Decrypt (props) {
     setError(message)
   }
   const resetForm = () => dispatch({type: "reset"})
+  const decryptedThunk = useCallback( (content || !isEmpty(result)) && (() => {
+    if (isEmpty(result)) {
+      return content
+    } else {
+      var zip = new JSZip()
+      const root = zip.folder("Decrypted Archive")
+      root.file("message.html", content)
+      const folder = root.folder("Attachments")
+      var i = 0
+      result.forEach( (attachment) => {
+        i = i + 1
+        folder.file(attachment.filename || ("" + i), attachment)
+      })
+      return(zip.generateAsync({type:"blob"}))
+    }
+  }), [content, result])
   // console.debug("DECRYPT:", content)
   return (
     <div className="jumbotron">
@@ -185,11 +202,12 @@ export default function Decrypt (props) {
               The file has been decrypted and the result is ready to be saved.
             </div> }
         <div className="d-flex justify-content-center align-items-center mt-3">
-          <SaveButton content={content}
-                      // filename={content && content.filename}
+          <SaveButton content={decryptedThunk}
                       onComplete={ resetForm }
-                      filename={filename}>
-            Save Decrypted { !features.files ? "Message" : !features.message ? "File" : "Data"}
+                      filename={"Decrypted" || filename}>
+            Save Decrypted {
+              !features.files ? "Message" : !features.message ? "File" : "Archive"
+            }
           </SaveButton>
         </div>
        </div>
