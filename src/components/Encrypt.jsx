@@ -108,10 +108,11 @@ function ExplainDialog (props) {
 
           <p hidden="true">You are welcome to check out the rest of the site for explanations
              about how such end-to-end cryptography works.</p>
-             {!userData &&
-               <p>After signing in, you
-                will get your own encryption key and have access to
-                a hands-on tutorial that walks you through the process.</p>}
+         {!userData &&
+          <p>If you choose to sign in, you
+             will get your own encryption key and have access to
+             a hands-on tutorial that walks you through the process
+             of receiving secure messages from others.</p>}
         </div>
         <div className="modal-footer">
           <button type="button" className="btn btn-primary" data-dismiss="modal">Enter</button>
