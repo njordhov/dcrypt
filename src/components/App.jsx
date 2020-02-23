@@ -26,6 +26,7 @@ function KeyPair (props) {
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
+  const authenticated = !!userData
   return (
     <div className="KeyPair alert alert-light text-dark text-center m-auto pt-4 mb-0">
       <div className="text-center">
@@ -61,8 +62,23 @@ function KeyPair (props) {
   )
 }
 
+function useEncryptFor ({setId}) {
+  const [pane, setPane] = usePane()
+  const EncryptFor = (props) => {
+    const {userId} = useParams()
+    console.debug("Encrypt For:", userId )
+    useEffect( () => {
+      setPane("encrypt")
+      setId(userId)
+    })
+    return null
+  }
+  return EncryptFor
+}
+
 function Routes () {
   const { userData } = useBlockstack()
+  const authenticated = !!userData
   const [state, dispatch] = useReducer(appReducer, {})
   const [pane, setPane] = usePane()
   const goPane = (id) => (props) => {
@@ -71,15 +87,7 @@ function Routes () {
     setPane(id)
     return (null)
   }
-  const EncryptFor = (props) => {
-    const {userId} = useParams()
-    console.debug("Encrypt For:", userId )
-    useEffect( () => {
-      setPane("encrypt")
-      dispatch({type: "encrypt", userId: userId})
-    })
-    return null
-  }
+  const EncryptFor = useEncryptFor({setId: (userId) => dispatch({type: "encrypt", userId})})
   const {userId} = state
   useEffect( () => {
     if (userId) {
@@ -89,12 +97,12 @@ function Routes () {
       <Switch>
         <Route key="home" path="/home" exact={true} component={goPane('home')} />
         <Route key="about" path="/about" exact={true} component={goPane('about') } />
-        {userData && <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />}
+        {authenticated && <Route key="tutorial" path="/tutorial" exact={true} component={goPane('tutorial') } />}
         {true && <Route key="encrypt" path="/encrypt" exact={true} component={goPane('encrypt') } />}
         {true && <Route key="custom" path="/encrypt/for/:userId" exact={true}
                         component={ EncryptFor } />}
-        {userData && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
-        {userData && <Route key="share" path="/share" exact={true} component={goPane('share') } />}
+        {authenticated && <Route key="decrypt" path="/decrypt" exact={true} component={goPane('decrypt') } />}
+        {authenticated && <Route key="share" path="/share" exact={true} component={goPane('share') } />}
         {(false && userData) ? <Redirect to="/about"/> : <Redirect to="/home"/>}
         <Redirect to="/home"/>
       </Switch>
