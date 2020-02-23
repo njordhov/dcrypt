@@ -218,7 +218,7 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
             <mark data-toggle="tooltip" title={tooltip}>your private key.</mark>
           </div>}
          <div className="mt-4"></div>
-         <DropDecrypt setResult={onCompleted} gotResult={completed}
+         <DropDecrypt addResult={onCompleted} gotResult={completed}
                       onError={onError}/>
        </div>
     </Card>
