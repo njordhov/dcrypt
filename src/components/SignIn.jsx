@@ -39,7 +39,7 @@ function SignInCore ({signIn, disabled}) {
           disabled={disabled}
           onClick={signIn}
         >
-          Sign In with Blockstack
+          Register with Blockstack
         </button>
       <AboutBlockstack/>
     </div>
