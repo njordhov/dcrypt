@@ -104,49 +104,49 @@ html:not(.authenticated) #navbarNav .nav-tabs {
 
 /* MAIN */
 
-main {
+body > main {
   background-color: #181818;
   min-height: 100vh;
   min-height: calc(100vh - 32px);
 }
 
-main .jumbotron {
+body > main .jumbotron {
   background-color: #181818;  /* original conflicts input-group colors */
 }
 
-main .jumbotron > .container {
+body > main .jumbotron > .container {
   margin-left: auto;
   margin-right: auto;
   max-width: 40em;
 }
 
-main mark {
+body > main mark {
   border-radius: 5px;
   background-color: inherit;
   color: #fcf8e3;
   border: thin solid transparent;
 }
 
-main mark:hover {
+body > main mark:hover {
   border-radius: 5px;
   background-color: transparent;
   color: inherit;
   border: thin solid var(--app-link-accent);
 }
 
-main .btn-primary:hover {
+body > main .btn-primary:hover {
   background-color: var(--app-link-accent);
 }
 
-main .btn-outline-primary:hover {
+body > main .btn-outline-primary:hover {
   background-color: var(--app-link-accent);
 }
 
-main a:hover {
+body > main a:hover {
   color: var(--app-link-accent);
 }
 
-main .alert-light a:not(:hover) {
+body > main .alert-light a:not(:hover) {
   color: white;
 }
 
@@ -175,7 +175,7 @@ main .alert-light a:not(:hover) {
   color: var(--app-link-accent) !important;
 }
 
-main .KeyPair, main .SignIn {
+body > main .KeyPair, body > main .SignIn {
   max-width: 40em;
 }
 
@@ -210,4 +210,17 @@ html:not(.authenticated) .features-icons .features-icons-item {
   background-repeat: no-repeat;
   background-size: 170% 170%;
   border-radius: 0.2rem;
+}
+
+/* Blockstack Connect */
+
+body footer ~ div > div:first-child > div {
+  /* Matches the modal background */
+  /* background-color: #FFFFFF50; */
+}
+
+body footer ~ div > div > div:last-child > div   {
+  /* Matches the injected dialog */
+  background-color: var(--brand-greyish, white);
+  opacity: 1;
 }

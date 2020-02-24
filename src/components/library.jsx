@@ -44,14 +44,18 @@ export function usePerson() {
 }
 
 export function useAuthOptions () {
+  const {userSession, userData} = useBlockstack()
+  console.log("Signed on:", !!userData)
   const authOptions = {
     redirectTo: '/',
-    /*finished: ({ userSession }) => {
-      console.log(userSession.loadUserData())
-    },*/
+    manifest: '/manifest.json',
+    finished: ({ userSession }) => {
+      console.log("Signed on:", userSession.loadUserData())
+    },
+    userSession: userSession,
     appDetails: {
       name: config.title || "dCrypt",
-      icon: 'https://example.com/icon.png'
+      icon: '/media/logo.svg'
     }
   }
   return authOptions
