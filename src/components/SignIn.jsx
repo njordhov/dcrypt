@@ -64,8 +64,8 @@ function ConnectSignIn () {
 
 export default function SignIn () {
   switch (config.app) {
-    case "dcrypt-app":
-      return <ConnectSignIn/>
+    //case "dcrypt-app":
+    //  return <ConnectSignIn/>
     default:
       return <ClassicSignIn/>
   }
