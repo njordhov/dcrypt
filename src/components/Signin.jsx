@@ -1,6 +1,9 @@
-import React, { } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
+import { useConnect, Connect, showBlockstackConnect } from '@blockstack/connect'
 import InfoBox, {InfoToggle} from './InfoBox'
+import { useAuthOptions } from './library'
+import config from './config'
 
 function AboutBlockstack (props) {
   return (
@@ -22,25 +25,48 @@ function AboutBlockstack (props) {
       </div>
     </div>)}
 
-export default function SignIn (props) {
-    const { signIn } = useBlockstack()
-    return (
-    <div className="SignIn alert alert-light text-dark text-center m-auto pt-4 mb-0">
-      <div className="text-center">
-        <p className="lead mb-4">
-          Get your own <mark title="This consist of a Public Key used for encryption and a Private Key used for decryption.">
-            keypair</mark> and gain access to encryption tools:
-        </p>
-        <button
-            className="btn btn-primary btn-lg"
-            id="signin-button"
-            disabled={!signIn}
-            onClick={ signIn }
-          >
-            Sign In with Blockstack
-          </button>
-        <AboutBlockstack/>
-      </div>
+function SignInCore ({signIn, disabled}) {
+  return (
+  <div className="SignIn alert alert-light text-dark text-center m-auto pt-4 mb-0">
+    <div className="text-center">
+      <p className="lead mb-4">
+        Get your own <mark title="This consist of a Public Key used for encryption and a Private Key used for decryption.">
+          keypair</mark> and gain access to encryption tools:
+      </p>
+      <button
+          className="btn btn-primary btn-lg"
+          id="signin-button"
+          disabled={disabled}
+          onClick={signIn}
+        >
+          Sign In with Blockstack
+        </button>
+      <AboutBlockstack/>
     </div>
-    )
+  </div>
+  )
+}
+
+function ClassicSignIn () {
+  const { signIn } = useBlockstack()
+  const disabled = !signIn
+  return <SignInCore signIn={signIn} disabled={disabled}/>
+}
+
+function ConnectSignIn () {
+  const authOptions = useAuthOptions()
+  const signIn = useCallback(() => {
+    showBlockstackConnect(authOptions)
+  },[authOptions])
+  const disabled = !signIn
+  return (<SignInCore signIn={signIn} disabled={disabled}/>)
+}
+
+export default function SignIn () {
+  switch (config.app) {
+    case "dcrypt-app":
+      return <ConnectSignIn/>
+    default:
+      return <ClassicSignIn/>
   }
+}

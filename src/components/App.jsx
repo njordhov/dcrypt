@@ -1,12 +1,15 @@
 import React, { useEffect, useReducer } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams, useLocation, useHistory } from 'react-router-dom'
 import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
+import { Connect } from '@blockstack/connect'
 import Enter from './Enter'
 import About from './About'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
 import {usePane} from './pane'
+import { useAuthOptions } from './library'
+import config from './config'
 
 function appReducer (state, event) {
   switch (event.type) {
@@ -108,7 +111,7 @@ function Routes () {
     )
 }
 
-export default function App () {
+function AppCore () {
   return (
     <>
       <AuthenticatedDocumentClass name="authenticated" />
@@ -118,4 +121,22 @@ export default function App () {
       </Router>
     </>
   )
+}
+
+function ConnectApp () {
+  const authOptions = useAuthOptions()
+  return (
+    <Connect authOptions={authOptions}>
+      <AppCore/>
+    </Connect>
+  )
+}
+
+export default function App () {
+  switch (config.app) {
+    case "drop-app2":
+      return <ConnectApp/>
+    default:
+      return <AppCore/>
+  }
 }

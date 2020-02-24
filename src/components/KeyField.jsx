@@ -24,7 +24,7 @@ export default function KeyField (props) {
         {label &&
          <div className="input-group-prepend">
           <span className="input-group-text">
-            <i class="fas fa-key mr-2 text-primary"></i>
+            <i className="fas fa-key mr-2 text-primary"></i>
             {label}
           </span>
          </div>}
@@ -44,7 +44,7 @@ export default function KeyField (props) {
             {trimId(username)}
           </button>}
          {false && publicKey &&
-          <div class="dropdown-menu px-3">
+          <div className="dropdown-menu px-3">
             <p>The public key is associated with your own Blockstack ID. Use it to encrypt content for yourself, not others.</p>
           </div>}
          </div>}

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useBlockstack } from 'react-blockstack'
+import config from './config'
 
 export function trimEnding (s, ending) {
   if (s.endsWith(ending)) {
@@ -40,4 +41,18 @@ export function usePerson() {
   const username2 = username && username.replace(/.id.blockstack$/, "")
 
   return { avatarUrl , username: username2 }
+}
+
+export function useAuthOptions () {
+  const authOptions = {
+    redirectTo: '/',
+    /*finished: ({ userSession }) => {
+      console.log(userSession.loadUserData())
+    },*/
+    appDetails: {
+      name: config.title || "dCrypt",
+      icon: 'https://example.com/icon.png'
+    }
+  }
+  return authOptions
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom';
 import { AppConfig } from 'blockstack'
 import { initBlockstack } from 'react-blockstack'
-import SignIn from './components/Signin';
+import SignIn from './components/SignIn';
 import App from './components/App';
 import Auth from './components/Auth';
 import About from './components/About';
