@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useBlockstack } from 'react-blockstack'
+import { useBlockstack, didConnect } from 'react-blockstack'
 import config from './config'
 
 export function trimEnding (s, ending) {
@@ -49,8 +49,9 @@ export function useAuthOptions () {
   const authOptions = {
     redirectTo: '/',
     manifest: '/manifest.json',
-    finished: ({ userSession }) => {
+    finished: ({userSession}) => {
       console.log("Signed on:", userSession.loadUserData())
+      didConnect({userSession})
     },
     userSession: userSession,
     appDetails: {

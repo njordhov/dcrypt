@@ -133,10 +133,5 @@ function ConnectApp () {
 }
 
 export default function App () {
-  switch (config.app) {
-    case "drop-app2":
-      return <ConnectApp/>
-    default:
-      return <AppCore/>
-  }
+  return ((config.classic) ? <AppCore/> : <ConnectApp/>)
 }
