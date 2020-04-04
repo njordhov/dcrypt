@@ -24,11 +24,10 @@ function appReducer (state, event) {
 }
 
 function KeyPair (props) {
-  const {userData} = useBlockstack()
+  const {userData, authenticated} = useBlockstack()
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
-  const authenticated = !!userData
   return (
     <div className="KeyPair alert alert-light text-dark text-center m-auto pt-4 mb-0">
       <div className="text-center">
@@ -79,8 +78,7 @@ function useEncryptFor ({setId}) {
 }
 
 function Routes () {
-  const { userData } = useBlockstack()
-  const authenticated = !!userData
+  const { userData, authenticated } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
   const [pane, setPane] = usePane()
   const goPane = (id) => (props) => {
