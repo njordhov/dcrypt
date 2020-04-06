@@ -28,7 +28,7 @@ function AuthButton ({signIn, signOut}) {
 function MoreMenu (props) {
   const { signOut } = useBlockstack()
   return(
-  <div className="dropdown-menu">
+  <div className="dropdown-menu dropdown-menu-right">
     <a className="dropdown-item" href={profileManagerUrl} target="_blank" rel="noopener noreferrer">
       <i className="fas fa-user-cog"></i>
       <span className="ml-2">Edit Profile</span>
@@ -56,8 +56,7 @@ export default function Auth (props) {
                  <img src={ avatarUrl }
                       className="avatar-image mr-3" id="avatar-image" />
                  : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
-                 {/* FIX: USe library function to generate canonical id? */}
-                { username && username.replace(/.id.blockstack$/, "") }
+                { username }
               </span>
             </button>
             <MoreMenu/>

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useBlockstack, didConnect } from 'react-blockstack'
+import { useBlockstack, didConnect, useConnectOptions } from 'react-blockstack'
 import config from './config'
 
 export function trimEnding (s, ending) {
@@ -29,35 +29,35 @@ export function usePerson() {
   useEffect(() => {
     const avatarUrl = (person && person.avatarUrl && person.avatarUrl())
     // const icon = avatarUrl && proxyUrl(avatarUrl)
-    fetch(avatarUrl, {method: "GET", mode: 'cors'})
-      .then((response) => {
-        response.blob()
-        .then((blob) => URL.createObjectURL(blob))
-        .then((url) => setAvatar(url))
-      })
-      .catch((err) => console.warn("Avatar Failed fetching url:", err))
+    if (avatarUrl) {
+      fetch(avatarUrl, {method: "GET", mode: 'cors'})
+        .then((response) => {
+          response.blob()
+          .then((blob) => URL.createObjectURL(blob))
+          .then((url) => setAvatar(url))
+        })
+        .catch((err) => console.warn("Avatar Failed fetching url:", err))
+      } else {
+        console.info("No avatar for user")
+      }
   }, [person])
   // need better replace here!
   const username2 = username && username.replace(/.id.blockstack$/, "")
-
   return { avatarUrl , username: username2 }
 }
 
 export function useAuthOptions () {
-  const {userSession, userData} = useBlockstack()
-  console.log("Signed on:", !!userData)
-  const authOptions = {
+  const options = {
     redirectTo: '/',
     manifest: '/manifest.json',
     finished: ({userSession}) => {
-      console.log("Signed on:", userSession.loadUserData())
       didConnect({userSession})
     },
-    userSession: userSession,
     appDetails: {
       name: config.title || "dCrypt",
       icon: '/media/logo.svg'
     }
   }
+  const authOptions = useConnectOptions(options)
   return authOptions
 }
