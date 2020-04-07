@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useBlockstack } from 'react-blockstack'
-import { usePerson } from './library'
+import { showBlockstackConnect } from '@blockstack/connect'
+import { usePerson, useAuthOptions } from './library'
 
 import css from './Auth.css'
 
@@ -42,7 +43,11 @@ function MoreMenu (props) {
 }
 
 export default function Auth (props) {
-    const {userSession, userData, signIn, signOut, person} = useBlockstack()
+    const {userSession, userData, signOut, authenticated, person} = useBlockstack()
+    const authOptions = useAuthOptions()
+    const signIn = useCallback (!authenticated && (() => { 
+      showBlockstackConnect(authOptions)
+    }), [authOptions])
     const { avatarUrl, username } = usePerson()
     const defaultAvatar = "fas fa-user-secret"
     return (
