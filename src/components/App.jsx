@@ -29,14 +29,14 @@ function KeyPair (props) {
   return (
     <div className="KeyPair alert alert-light text-dark text-center m-auto pt-4 mb-0">
       <div className="text-center">
-        <p className="lead mb-4 d-none">
+        <div className="lead mb-4 d-none">
           Your public key:
           <InfoToggle target="#KeyPairExplainDialog"/>
           <InfoBox id="KeyPairExplainDialog" className="mb-5" dismissible={true} hide={true}>
             Your public key is used to encrypt confidential messages that only you can decrypt.
             It can be freely shared&nbsp;with&nbsp;others.
           </InfoBox>
-        </p>
+        </div>
         <div>
           <KeyField className="PublicKeyField"
              label="Public Key"
@@ -52,7 +52,7 @@ function KeyPair (props) {
         </div>
         <Link to="/about">
           <button className="btn btn-primary btn-lg mt-4 mb-2">
-            <i class="far fa-question-circle mr-2"></i>
+            <i className="far fa-question-circle mr-2"></i>
             About Cryptography
           </button>
         </Link>
@@ -79,13 +79,13 @@ function Routes () {
   const { userData, authenticated } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
   const [_pane, setPane] = usePane()
-  const goPane = useCallback((id) => (props) => {
+  const goPane = (id) => (props) => {
     // dispatch({type: "goPane", pane: id})
     if (setPane) {
       setPane(id)
     }
     return (null)
-  }, [setPane])
+  }
   const EncryptFor = useEncryptFor({setId: (userId) => dispatch({type: "encrypt", userId})})
   const {userId} = state
   useEffect( () => {

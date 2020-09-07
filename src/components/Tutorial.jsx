@@ -54,8 +54,8 @@ function safekeepingReducer (state, event) {
 function StepHeader ({completed, children}) {
   return(
     <h5 className="card-header">
-      {completed ? <i class="fas fa-check-circle mr-2 text-primary"></i>
-                 : <i class="far fa-circle mr-2 text-primary"></i>}
+      {completed ? <i className="fas fa-check-circle mr-2 text-primary"></i>
+                 : <i className="far fa-circle mr-2 text-primary"></i>}
       {children}
     </h5>
   )

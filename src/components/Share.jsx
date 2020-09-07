@@ -30,7 +30,7 @@ function LinkCard (props) {
   const link = useEncryptionUrl()
   return (
    <div className="card border-light">
-      <div class="card-body">
+      <div className="card-body">
         <h5 className="card-title text-center">Link to Share</h5>
         <div className="my-4">
           <LinkField link={link}/>

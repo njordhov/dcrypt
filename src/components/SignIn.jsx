@@ -8,11 +8,11 @@ import config from './config'
 function AboutBlockstack (props) {
   return (
     <div className="AboutBlockstack">
-      <p className="mt-2"><small>Who's Blockstack?</small>
+      <div className="mt-2"><small>Who's Blockstack?</small>
         <span className="ml-1">
           <InfoToggle target="#blockstack-login-info"/>
         </span>
-      </p>
+      </div>
       <div className="row">
         <div className="col-md-6 m-auto">
           <InfoBox id="blockstack-login-info" hide={true}>

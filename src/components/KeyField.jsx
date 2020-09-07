@@ -51,7 +51,7 @@ export default function KeyField (props) {
         <input className={"form-control key-field text-truncate"}
                datatoggle="tooltip"
                title={tooltip}
-               value={publicKey || privateKey} readOnly={true}
+               value={publicKey || privateKey || ""} readOnly={true}
                type={hiddenKey? "text" : "text"}
                onClick={ toggleKey }/>
         {/*

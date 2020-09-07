@@ -21,7 +21,7 @@ export default function ClipButton ({targetRef}) {
   }, [targetRef])
   return(
   <button className="btn btn-primary" type="button"
-          dataToggle="tooltip" dataPlacement="top" title="Copy link to clipboard"
+          datatoggle="tooltip" dataplacement="top" title="Copy link to clipboard"
           onClick={copyAction}>
     <i className="fas fa-clone"></i>
   </button>

@@ -27,7 +27,7 @@ function EFF (props) {
 
 function Credits () {
   return (
-      <div class="Credits d-flex alert alert-dark mt-5">
+      <div className="Credits d-flex alert alert-dark mt-5">
         <img className="mx-2 mh-100" src={creative_commons}
              alt="Creative Commons logo"/>
         <div className="flex-grow-1">
@@ -51,7 +51,7 @@ function AboutText () {
      <h5 className="text-center pb-2">What is Public Key Cryptography?</h5>
     <div className="card-columns">
        <div className="card border-primary">
-         <div class="card-body">
+         <div className="card-body">
             <p>The internet runs on public-key cryptography! It is an essential technology to
             communicate secrets online, but
             can be confusing to understand and hard to use.</p>
@@ -59,7 +59,7 @@ function AboutText () {
       </div>
 
       <div className="card border-primary">
-        <div class="card-body">
+        <div className="card-body">
           <p>Here is how encryption works when communicating a message:</p>
           <ol>
             <li>A clearly readable message such as <cite>"Meet me in the garden"</cite> is encrypted into an
@@ -73,7 +73,7 @@ function AboutText () {
       </div>
 
       <div className="card border-info">
-         <div class="card-body">
+         <div className="card-body">
             <p>But what if the parties don't have a way to agree on the encryption
                       cipher in advance?</p>
             <p>Public key cryptography solves the chicken/egg problem of <cite>how to communicate securely with
@@ -83,7 +83,7 @@ function AboutText () {
       </div>
 
      <div className="card border-info">
-        <div class="card-body">
+        <div className="card-body">
             <p>
               The solution is to have a public sharable key to encrypt the message and a different
               secret key to decrypt it back to the original. That's why it is also known
@@ -92,14 +92,14 @@ function AboutText () {
       </div>
 
       <div className="card bg-dark">
-        <div class="card-body">
+        <div className="card-body">
            {<img className="img-responsive" src={wikiBobAlice} alt="Illustrating encryption"
                  style={{maxWidth: "100%", maxHeight: "auto", objectFit: "contain"}}/>}
         </div>
        </div>
 
      <div className="card border-info">
-        <div class="card-body">
+        <div className="card-body">
             <p>In a nutshell, assymetric cryptography is like giving out padlocks
             that anyone can use to secure confidential material but where only
              you have the key to unlock it. That way, anyone
@@ -109,9 +109,9 @@ function AboutText () {
       </div>
 
      <div className="card border-danger">
-        <div class="card-body">
-            <div class="card-media text-center mb-1">
-              <i class="fas fa-bolt" style={{color: "gold", fontSize: "300%"}}></i>
+        <div className="card-body">
+            <div className="card-media text-center mb-1">
+              <i className="fas fa-bolt" style={{color: "gold", fontSize: "300%"}}></i>
             </div>
             <p>Public-key cryptography has many uses.
             For example, say you want to request funds from somebody
@@ -228,7 +228,7 @@ the foundation for many end-to-end encryption systems.</p>
        <Credits/>
        <button className="btn btn-primary btn-lg mt-4 mb-2 mx-auto d-none"
                onClick={() => document.getElementById('tutorial-tab').click()}>
-           <i class="fas fa-graduation-cap mr-2"></i>
+           <i className="fas fa-graduation-cap mr-2"></i>
            Learn More
        </button>
      </div>
@@ -243,17 +243,17 @@ function FaqCard1 ({children, parentId}) {
   const target_id = "FaqCard_target" + id
   return (
     <div className="FaqCard card">
-      <div class="card-header" id={button_id}>
-        <h2 class="mb-0">
-          <button class="btn btn-link" type="button" data-toggle="collapse"
+      <div className="card-header" id={button_id}>
+        <h2 className="mb-0">
+          <button className="btn btn-link" type="button" data-toggle="collapse"
                   data-target={"#" + target_id} aria-expanded={expanded ? "true" : "false"}
                   aria-controls={target_id}>
             Collapsible Group Item {target_id}
           </button>
         </h2>
       </div>
-      <div id={target_id} class="collapse show" aria-labelledby={button_id} data-parent={"#" + parentId}>
-        <div class="card-body">
+      <div id={target_id} className="collapse show" aria-labelledby={button_id} data-parent={"#" + parentId}>
+        <div className="card-body">
          {children}
         </div>
       </div>
@@ -265,13 +265,13 @@ function FaqCard ({children, parentId, title, defaultOpen}) {
   const id = "FaqCard" + Math.floor(Math.random() * 10000000)
   return (
     <div className="FaqCard card m-0">
-      <div class="card-header text-center" id={id} >
-        <h5 class="mb-0">
+      <div className="card-header text-center" id={id} >
+        <h5 className="mb-0">
             {title || id}
         </h5>
       </div>
       <UncontrolledCollapse toggler={"#" + id} defaultOpen={defaultOpen}>
-        <div class="card-body">
+        <div className="card-body">
          {children}
         </div>
       </UncontrolledCollapse>
@@ -367,7 +367,7 @@ function AboutFaq () {
      <Credits/>
      <button className="btn btn-primary btn-lg mt-4 mb-2 mx-auto d-none"
            onClick={() => document.getElementById('tutorial-tab').click()}>
-       <i class="fas fa-graduation-cap mr-2"></i>
+       <i className="fas fa-graduation-cap mr-2"></i>
        Learn More
      </button>
    </div>
