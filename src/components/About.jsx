@@ -376,7 +376,7 @@ function AboutFaq () {
 }
 
 export default function About ({visual}) {
-  const mode = (features.files && features.message) ? "visual" : "faq"
+  const mode = (false && features.files && features.message) ? "visual" : "faq"
   switch (mode) {
     case "faq": return <AboutFaq/>
     case "visual": return <AboutVisual/>
