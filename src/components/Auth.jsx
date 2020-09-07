@@ -3,26 +3,20 @@ import { useBlockstack } from 'react-blockstack'
 import { showBlockstackConnect } from '@blockstack/connect'
 import { usePerson, useAuthOptions } from './library'
 
-import css from './Auth.css'
+import './Auth.css'
 
 const profileManagerUrl = "https://browser.blockstack.org/profiles"
 
 function AuthButton ({signIn, signOut}) {
   return (
-    signOut ?
-      <button
-          className="btn btn-outline-secondary"
-          onClick={ signOut }>
-          Sign Out
-      </button>
-      : signIn ?
-      <button
-        className="btn btn-outline-primary"
-        onClick={ signIn }>
-        <i className="fas fa-sign-in-alt mr-1" style={{fontSize: "1rem"}}></i>
-        Sign In
-      </button>
-      : <span>...</span>
+    (signIn || !signOut) &&
+       <button
+         className="btn btn-outline-primary"
+         disabled={!signIn}
+         onClick={ signIn }>
+         <i className="fas fa-sign-in-alt mr-1" style={{fontSize: "1rem"}}></i>
+         Sign In
+       </button>
   )
 }
 
@@ -35,17 +29,17 @@ function MoreMenu (props) {
       <span className="ml-2">Edit Profile</span>
     </a>
     <div className="dropdown-divider"></div>
-    <a className="dropdown-item" onClick={ signOut }>
+    <button className="dropdown-item" type="button" onClick={ signOut }>
       <i className="fas fa-sign-out-alt"></i>
       <span className="ml-2">Sign out</span>
-    </a>
+    </button>
   </div>)
 }
 
 export default function Auth (props) {
-    const {userSession, userData, signOut, authenticated, person} = useBlockstack()
+    const { signOut, authenticated } = useBlockstack()
     const authOptions = useAuthOptions()
-    const signIn = useCallback (!authenticated && (() => { 
+    const signIn = useCallback (!authenticated && authOptions && (() => { 
       showBlockstackConnect(authOptions)
     }), [authOptions])
     const { avatarUrl, username } = usePerson()
@@ -59,6 +53,7 @@ export default function Auth (props) {
               <span className="avatar mr-3">
                 {avatarUrl ?
                  <img src={ avatarUrl }
+                      alt="Authenticated"
                       className="avatar-image mr-3" id="avatar-image" />
                  : <i className={defaultAvatar} style={{fontSize: "1.6rem", marginRight: "0.5em"}}></i>}
                 { username }
@@ -66,15 +61,9 @@ export default function Auth (props) {
             </button>
             <MoreMenu/>
           </div>}
-
-        {(signIn || !signOut) &&
-           <button
-             className="btn btn-outline-primary"
-             disabled={!signIn}
-             onClick={ signIn }>
-             <i className="fas fa-sign-in-alt mr-1" style={{fontSize: "1rem"}}></i>
-             Sign In
-           </button>}
+          
+         <AuthButton signIn={signIn} signOut={signOut}/>
+         
         </div>
     )
 }
