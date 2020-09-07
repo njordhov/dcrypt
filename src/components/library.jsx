@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import { useBlockstack, didConnect, useConnectOptions } from 'react-blockstack'
 import config from './config'
 

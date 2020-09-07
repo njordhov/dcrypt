@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useCallback, useRef, useReducer } from 'react'
-import FileSaver from 'file-saver'
 import { useBlockstack } from 'react-blockstack'
-import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
-import { isNil, isNull, isEmpty } from 'lodash'
+import { isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
-import {usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler} from './cipher.jsx'
+import { usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler } from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
-import InfoBox, {InfoToggle} from './InfoBox'
-import Editor, { editorMarkup, draftFromMarkup } from './Editor'
+import InfoBox, { InfoToggle } from './InfoBox'
+import Editor, { editorMarkup } from './Editor'
 import { features } from './config'
 
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
     const options = publicKey ? {publicKey: publicKey} : null
-    const encryptContent = useCallback(content => userSession.encryptContent(content, options),
-                                       [userSession, publicKey])
+    const encryptContent = useCallback(content => 
+      userSession.encryptContent(content, options)
+      ,[userSession, options])
     const file = files && files[0]
-    useEffect( (() => encryptHandler(file, encryptContent, setResult)),[file, encryptContent])
+    useEffect( (() => 
+      encryptHandler(file, encryptContent, setResult))
+      ,[file, encryptContent, setResult])
     const onChange = (files) => {
       console.log("Current files:", files)
       setFiles(files)
@@ -77,14 +78,14 @@ function ExplainDialog (props) {
     <div className="modal-dialog modal-dialog-centered" role="document">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalLabel"></h5>
           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div className="modal-body">
           <div className="mb-4 w-100 text-center" >
-            <img className="mx-auto" src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
+            <img className="mx-auto" alt="App logo"
+                 src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
           </div>
           <p>Hi! Welcome to <i>d</i>Crypt Drop. Seems like somebody we know as <cite>{username}</cite> directed you here
              to encrypt a file so you can send it to them confidentially.</p>
@@ -162,7 +163,7 @@ function encryptReducer (state, event) {
 }
 
 export default function Encrypt (props) {
-  const { userData, userSession, targetId } = useBlockstack()
+  const { userData, targetId } = useBlockstack()
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const remoteKey = useRemotePublicKey(targetId)

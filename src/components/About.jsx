@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, CardBody, Card, Collapse, UncontrolledCollapse } from 'reactstrap'
+import { UncontrolledCollapse } from 'reactstrap'
 import { features } from './config'
 
-import css from './About.css'
+import './About.css'
 
 import effJoinImg from "../assets/eff-join1.png"
 import comparison_encryptedmessage from "../assets/7.comparison-encryptedmessage.png"
@@ -32,11 +32,13 @@ function Credits () {
              alt="Creative Commons logo"/>
         <div className="flex-grow-1">
         Parts of this page has been adapted from
-        the <a target="_blank" href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
+        the <a target="_blank" rel="noopener noreferrer"
+               href="https://ssd.eff.org/en/module/deep-dive-end-end-encryption-how-do-public-key-encryption-systems-work">
         EFF Deep Dive on End-to-End Encryption</a> which is a good destination if you would
         like to know more.
         This content may be freely distributed under
-        the <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/us/">
+        the <a target="_blank" rel="noopener noreferrer"
+               href="https://creativecommons.org/licenses/by/3.0/us/">
          Creative Commons license.</a>
          </div>
        </div>
@@ -91,7 +93,7 @@ function AboutText () {
 
       <div className="card bg-dark">
         <div class="card-body">
-           {<img className="img-responsive" src={wikiBobAlice}
+           {<img className="img-responsive" src={wikiBobAlice} alt="Illustrating encryption"
                  style={{maxWidth: "100%", maxHeight: "auto", objectFit: "contain"}}/>}
         </div>
        </div>
@@ -165,6 +167,7 @@ function Illustration ({src}) {
   return (
     <div className="alert alert-dark w-80 mt-4">
       <img style={{maxWidth: "100%"}}
+           alt="Illustration"
            src={src}/>
     </div>
   )
@@ -259,7 +262,6 @@ function FaqCard1 ({children, parentId}) {
 }
 
 function FaqCard ({children, parentId, title, defaultOpen}) {
-  const expanded = false
   const id = "FaqCard" + Math.floor(Math.random() * 10000000)
   return (
     <div className="FaqCard card m-0">

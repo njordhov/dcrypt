@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
-import { useBlockstack } from 'react-blockstack'
-import KeyField from './KeyField'
-import InfoBox, {InfoToggle} from './InfoBox'
+import InfoBox from './InfoBox'
 import ClipButton from './ClipButton'
-import { useEncryptionUrl, usePublicKey } from './cipher'
+import { useEncryptionUrl } from './cipher'
 
-import css from './Share.css'
+import './Share.css'
 
 function LinkField ({link, className}) {
   const linkRef = useRef()
@@ -49,10 +47,6 @@ function LinkCard (props) {
 }
 
 export default function Share (props) {
-  const { userData, userSession, targetId } = useBlockstack()
-  const {username} = userData || {}
-  const publicKey = usePublicKey()
-
   return(
   <div className="jumbotron">
     <div className="container">

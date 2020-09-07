@@ -1,9 +1,7 @@
-import React, { useEffect, useReducer } from 'react'
-import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams, useLocation, useHistory } from 'react-router-dom'
+import React, { useEffect, useReducer, useCallback } from 'react'
+import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams } from 'react-router-dom'
 import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
 import { Connect } from '@blockstack/connect'
-import Enter from './Enter'
-import About from './About'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
@@ -24,7 +22,7 @@ function appReducer (state, event) {
 }
 
 function KeyPair (props) {
-  const {userData, authenticated} = useBlockstack()
+  const {userData} = useBlockstack()
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
@@ -64,7 +62,7 @@ function KeyPair (props) {
 }
 
 function useEncryptFor ({setId}) {
-  const [pane, setPane] = usePane()
+  const [_pane, setPane] = usePane()
   const EncryptFor = (props) => {
     const {userId} = useParams()
     console.debug("Encrypt For:", userId )
@@ -80,13 +78,14 @@ function useEncryptFor ({setId}) {
 function Routes () {
   const { userData, authenticated } = useBlockstack()
   const [state, dispatch] = useReducer(appReducer, {})
-  const [pane, setPane] = usePane()
-  const goPane = (id) => (props) => {
+  const [_pane, setPane] = usePane()
+  const goPane = useCallback((id) => (props) => {
     // dispatch({type: "goPane", pane: id})
-    console.log("GoPane:", id)
-    setPane(id)
+    if (setPane) {
+      setPane(id)
+    }
     return (null)
-  }
+  }, [setPane])
   const EncryptFor = useEncryptFor({setId: (userId) => dispatch({type: "encrypt", userId})})
   const {userId} = state
   useEffect( () => {

@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React, { useEffect, useCallback, useReducer } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { isNil, isNull, isEmpty, reduce } from 'lodash'
+import { isNil, isEmpty, reduce } from 'lodash'
 import JSZip from 'jszip'
 import KeyField from './KeyField.jsx'
 import { usePrivateKey } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
-import InfoBox, {InfoToggle} from './InfoBox'
-import Editor, { editorMarkup, draftFromMarkup, ViewEditor } from './Editor'
+import InfoBox from './InfoBox'
+import { ViewEditor } from './Editor'
 import { features } from './config'
 
-import css from 'text-security/dist/text-security.css'
+import 'text-security/dist/text-security.css'
 
 // TODO: Simplify using the similar code in dCrypt Drop
 // This implementation can likely be much faster!
@@ -26,7 +26,7 @@ function decryptHandler(file, decryptContent, addResult) {
         const f = (out, code, ix) => out += String.fromCharCode(code)
         const decodedString = reduce(bufferCharCodes, f, "")
         // const encryptedItems = decodedString.split(/(?!})/g)
-        const encryptedItems = decodedString.match(/[^\}]+\}?|\}/g) // split out each {...}
+        const encryptedItems = decodedString.match(/[^}]+}?|}/g) // split out each {...}
         //console.log("Items to decrypt:", decodedString, encryptedItems
         encryptedItems.forEach ( encryptedContent => {
           const originalObject = decryptContent(encryptedContent)
@@ -81,7 +81,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
 
   const [{file}, dispatch] = useReducer(decryptReducer, {});
   const setFiles = (files) => dispatch({type: "files", files: files })
-  const setMessage = (message) => dispatch({type: "message", message: message})
+  //const setMessage = (message) => dispatch({type: "message", message: message})
 
   const decryptContent = useCallback((content => {
     try {
@@ -92,7 +92,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
       onError && onError({type: "decrypt failed", error: err, message: "Can't decrypt the file, possibly because it is not encrypted with your public key."})
       return(null)
     }
-  }), [userSession])
+  }), [userSession, onError])
 
   useEffect(() => {
     if (!gotResult) {
@@ -137,7 +137,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
   }
 
 export default function Decrypt (props) {
-  const { userData, userSession } = useBlockstack()
+  const { userData } = useBlockstack()
   const {username} = userData || {}
   const privateKey = usePrivateKey()
 

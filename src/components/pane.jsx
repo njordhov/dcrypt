@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import $ from 'jquery'
-import { useParams, useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 function clickPane (id) {
   const tab = document.getElementById("" + id + "-tab")
@@ -30,8 +30,10 @@ export function usePane (init) {
   const [pane, setPane] = useState(init || null)
   const history = useHistory()
   useEffect(() => {
-    initPanes(setPane, history)
-  }, [])
+    if (history) {
+      initPanes(setPane, history)
+    }
+  },[history])
   useEffect( () => {
     if (pane) {
       clickPane(pane)

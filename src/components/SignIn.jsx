@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { useConnect, Connect, showBlockstackConnect } from '@blockstack/connect'
+import { showBlockstackConnect } from '@blockstack/connect'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { useAuthOptions } from './library'
 import config from './config'
@@ -16,7 +16,9 @@ function AboutBlockstack (props) {
       <div className="row">
         <div className="col-md-6 m-auto">
           <InfoBox id="blockstack-login-info" hide={true}>
-            <a href="https://blockstack.org/about" target="_blank">Blockstack PBC</a> is
+            <a href="https://blockstack.org/about" 
+               rel="noopener noreferrer"
+               target="_blank">Blockstack PBC</a> is
              an American public benefit corporation,
             creating a decentralized computing network and app ecosystem
             designed to protect&nbsp;digital&nbsp;rights.

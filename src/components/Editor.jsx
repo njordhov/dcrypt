@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useReducer, useEffect, useRef, useLayoutEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { debounce } from 'lodash'
-import { EditorState, ContentState, convertFromRaw, convertToRaw } from 'draft-js'
+import { EditorState, ContentState } from 'draft-js'
 import { Editor as DraftEditor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html'
@@ -46,7 +46,7 @@ export default function Editor ({active, onChange, defaultEditorState, readOnly}
     //EditorState.push(editorState, content)
     editor.current.update(editorState)
     //editor.current.forceUpdate()
-  },[editor.current, active])
+  },[active])
 
   console.log("ACTIVE:", active)
   useEffect(() => {
@@ -54,11 +54,11 @@ export default function Editor ({active, onChange, defaultEditorState, readOnly}
       focusEditor() // has to be before reset...
       resetEditor()
     }
-  }, [active])
+  }, [active, resetEditor])
   const changeCallback = useCallback(onChange && debounce(onChange, 500),[onChange])
   useEffect(() => {
     onChange && contentState && changeCallback(contentState)
-  }, [contentState, onChange])
+  }, [contentState, onChange, changeCallback])
   return(
     <div className="MsgEditor w-100 border-primary bg-dark text-dark border border-dark"
          style={{minHeight: "20em"}}>

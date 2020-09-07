@@ -19,8 +19,8 @@ import './styles/common.css'
 import './styles/custom.css'
 import './styles/style.css'
 
-import $ from 'jquery'
-import Popper from 'popper.js'
+import 'jquery'
+import 'popper.js'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 const appConfig = new AppConfig(['store_write', 'publish_data'])

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import css from './InfoBox.css'
+import './InfoBox.css'
 
 export function InfoToggle ({toggle, target}) {
   return(
@@ -14,7 +14,6 @@ export function InfoToggle ({toggle, target}) {
 
 
 export default function InfoBox ({id, className, children, hide, dismissible}) {
-  console.debug("InfoBox:", id, hide)
   return(
     <div id={id} className={["alert alert-info text-center", "InfoBox", dismissible && "alert-dismissible", "collapse", (hide ? "hide" : "show"), className].join(" ")}>
         {children}

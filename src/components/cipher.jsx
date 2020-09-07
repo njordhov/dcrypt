@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { getFileUrl } from 'blockstack'
+import { useState, useEffect } from 'react'
 import { useBlockstack } from 'react-blockstack'
 import { get } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
@@ -32,7 +31,7 @@ function createUserDataEffect(f, ...args) {
     useEffect( () => {
       const result = f(userData, ...args)
       setValue(result)
-    }, [userData, ...args])
+    }, [userData])
     return (value)
   })
 }
@@ -66,7 +65,9 @@ export function publishPublicKey (userSession, publicKey) {
 
 export function usePublishKey(publicKey) {
   const { userSession } = useBlockstack()
-  useEffect( () => {publicKey && publishPublicKey(userSession, publicKey)}, [publicKey])
+  useEffect( () => {
+    publicKey && publishPublicKey(userSession, publicKey)
+  }, [userSession, publicKey])
 }
 
 export function useRemotePublicKey (username) {
@@ -78,7 +79,6 @@ export function useRemotePublicKey (username) {
   useEffect( () => {
     if (username) {
       userSession.getFile(publicKeyFilename, {username: username, decrypt: false, verify:true})
-      .then((content) => (console.debug("Remote key:", content), content))
       .then((content) => {
         if (content) {
           setValue(content && get(JSON.parse (content), "key"))
@@ -95,7 +95,7 @@ export function useRemotePublicKey (username) {
     } else {
       setValue(null)
     }
-  }, [username])
+  }, [username, userSession])
   return (value)
 }
 

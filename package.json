@@ -15,7 +15,16 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^_",
+          "argsIgnorePattern": "^_"
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -30,8 +39,8 @@
     ]
   },
   "dependencies": {
-    "@blockstack/connect": "^2.3.1",
-    "blockstack": "^21.0.0",
+    "@blockstack/connect": "2.3.1",
+    "blockstack": "21.0.0",
     "copy-text-to-clipboard": "^2.1.1",
     "draft-js": "^0.11.4",
     "draftjs-to-html": "^0.9.1",
@@ -43,7 +52,7 @@
     "popper": "^1.0.1",
     "popper.js": "^1.15.0",
     "react": "^16.13.0",
-    "react-blockstack": "^0.6.8",
+    "react-blockstack": "0.6.10",
     "react-dom": "^16.13.0",
     "react-draft-wysiwyg": "^1.14.4",
     "react-dropzone": "^10.1.6",

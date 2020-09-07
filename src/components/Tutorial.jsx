@@ -1,13 +1,12 @@
-import React, { useState, useCallback, useReducer, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { Atom, swap, useAtom, deref} from "@dbeining/react-atom"
-import { isNil } from 'lodash'
+import { Atom, swap, useAtom } from "@dbeining/react-atom"
 import {DropEncrypt} from './Encrypt'
 import {DropDecrypt} from './Decrypt'
-import Dropzone, { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
-import InfoBox, {InfoToggle} from './InfoBox'
+import { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
+import InfoBox from './InfoBox'
 import KeyField from './KeyField'
-import Editor, { editorMarkup, draftFromMarkup, ViewEditor } from './Editor'
+import Editor, { editorMarkup, ViewEditor } from './Editor'
 import {usePublicKey, usePrivateKey} from './cipher'
 import {classNames} from './library'
 import { features } from './config'
@@ -23,7 +22,7 @@ function Card (props) {
 
 function useAtomReducer (atom, reducer) {
   const state = useAtom(atom)
-  const dispatch = useCallback((event) => swap(atom, (state) => reducer(state, event)))
+  const dispatch = (event) => swap(atom, (state) => reducer(state, event))
   return [state, dispatch]
 }
 
@@ -100,18 +99,18 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
   const onMessageChange = useCallback((message) => {
     dispatch({type: "message", message: message})
   }, [dispatch])
+  /*
   const onFilesChange = useCallback((files) => {
     dispatch({type: "files", files: files})
-  }, [dispatch])
+  }, [dispatch])*/
   const done = useCallback(() => {
     if (message) {
       const markup = editorMarkup(message)
-      console.log("Markup:", markup, "from", message)
       onChange && onChange(markup)
       onComplete()
     }
-  }, [message])
-  const disabled = (message === undefined || message == "")
+  }, [message, onChange, onComplete])
+  const disabled = (message === undefined || message === "")
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -125,11 +124,11 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
          </div>}
          <Editor active={active} onChange={onMessageChange} content={message}/>
          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-           <a className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
+           <button className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
               onClick={done}
               disabled={disabled}>
               Encrypt
-           </a>
+           </button>
           </div>
        </div>}
       {!features.message && features.files &&
@@ -275,7 +274,9 @@ function SafeKeeping (props) {
   const [{step, content, encrypted, saved, decrypted, done}, dispatch]
         = useTutorialReducer(safekeepingReducer)
   const onContent = (content) => dispatch({type: "content", content: content})
-  const onEncrypted = (encrypted) => dispatch({type: "encrypted", encrypted: encrypted})
+  const onEncrypted = useCallback((encrypted) => 
+    dispatch({type: "encrypted", encrypted: encrypted})
+    ,[dispatch])
   useEffect(() => {
     if (content) {
       const options = publicKey ? {publicKey: publicKey} : null
@@ -285,7 +286,7 @@ function SafeKeeping (props) {
       console.log("ENCRYPT:", encrypted)
       onEncrypted(encrypted)
     }
-  }, [userSession, content, publicKey])
+  }, [userSession, content, publicKey, onEncrypted])
   const onSaved = () => dispatch({type: "saved"})
   const onDecrypted = (decrypted) => dispatch({type: "decrypted", decrypted: decrypted})
   const onDone = () => dispatch({type: "done"})
@@ -309,21 +310,21 @@ function SafeKeeping (props) {
           <div className="alert alert-secondary">
             <PublicKeyField className="" username={username} publicKey={publicKey}/>
           </div>
-          <ImportCard active={(step == "import")} completed={!!encrypted}
+          <ImportCard active={(step === "import")} completed={!!encrypted}
                       onComplete={onEncrypted}
                       onChange={onContent}
                       username={username} publicKey={publicKey}/></li>
         <li className="list-group-item mt-4">
-          <SaveCard active={(step == "save")} completed={!!saved} content={encrypted}
+          <SaveCard active={(step === "save")} completed={!!saved} content={encrypted}
                 onComplete={onSaved}/></li>
         <li className="list-group-item mt-4">
           <div className="alert alert-secondary">
             <PrivateKeyField className="" username={username} privateKey={privateKey}/>
           </div>
-          <DecryptStep active={(step == "decrypt")} completed={!!decrypted} onCompleted={onDecrypted}
+          <DecryptStep active={(step === "decrypt")} completed={!!decrypted} onCompleted={onDecrypted}
                        username={username} privateKey={privateKey}/></li>
         <li className="list-group-item mt-4">
-          <FinalStep active={(step == "export")} decrypted={decrypted} completed={!!done}
+          <FinalStep active={(step === "export")} decrypted={decrypted} completed={!!done}
                      onCompleted={onDone}/></li>
       </ul>
 

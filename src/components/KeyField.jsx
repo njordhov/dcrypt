@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useBlockstack, useProfile } from 'react-blockstack'
+import React, { useState } from 'react'
+import { useProfile } from 'react-blockstack'
 import { trimId } from './cipher'
 import './KeyField.css'
 
 export default function KeyField (props) {
     const {className, label, publicKey, privateKey, username, isOwner } = props
-    const url = window.location.origin + "/encrypt?public-key=" + publicKey
+    //const url = window.location.origin + "/encrypt?public-key=" + publicKey
     const copyLink = () => {
           console.log("Copy encrypt link to clipboard")
           // FIX: Implement copy functionality

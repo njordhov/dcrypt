@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import FileSaver, { saveAs } from 'file-saver'
-import {useDropzone} from 'react-dropzone'
+import { saveAs } from 'file-saver'
+import { useDropzone } from 'react-dropzone'
 import { isFunction } from 'lodash'
 
-import css from './Dropzone.css'
+import './Dropzone.css'
 
 function useObjectUrl (content) {
   const [url, setUrl] = useState()
@@ -33,6 +33,7 @@ export function DownloadButton (props) {
   )
 }
 
+/*
 function DownloadContentButton (props) {
   // Using download link for client-side content
   const { content, filename } = props
@@ -40,6 +41,7 @@ function DownloadContentButton (props) {
   const custom = Object.assign({}, props, {url: url})
   return (DownloadButton(custom))
 }
+*/
 
 export function ExportContentButton (props) {
   // content can be a function->blob or a blob
@@ -58,14 +60,14 @@ export function ExportContentButton (props) {
   const disabled = !content
   return (
     <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
-      <a className={[disabled && "disabled", "btn btn-outline-primary center-text"].join(" ")}
-         role="button"
+      <button 
+         className={[disabled && "disabled", "btn btn-outline-primary center-text"].join(" ")}
          onClick={!disabled ? (() => {saveFile(); onComplete()}) : undefined}
          disabled= { disabled }
          aria-disabled={ disabled }>
          <i className={icon || "fas fa-file-export mr-2"}></i>
          { children }
-      </a>
+      </button>
     </div>
   )
 }
@@ -79,7 +81,7 @@ export function encryptedFilename (filename) {
 }
 
 export function SaveButton (props) {
-  const { content, filename } = props
+  const { filename } = props
   const [name, setName] = useState()
   useEffect( () => {
       setName(filename) // keeps it around beyond the click
@@ -111,7 +113,7 @@ export default function Dropzone(props) {
     } else {
       console.log("Dropped in Dropzone:", acceptedFiles)
     }
-  }, [])
+  }, [props])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   const rootProps = getRootProps(Object.assign({}, props, {className: isDragActive ? props.className + " dragging" : props.className}))
   const inputProps = getInputProps()
