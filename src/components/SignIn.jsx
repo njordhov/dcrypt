@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
-import { useBlockstack } from 'react-blockstack'
+import { useBlockstack, useConnectOptions } from 'react-blockstack'
 import { showBlockstackConnect } from '@blockstack/connect'
 import InfoBox, {InfoToggle} from './InfoBox'
-import { useAuthOptions } from './library'
 import config from './config'
 
 function AboutBlockstack (props) {
@@ -56,7 +55,8 @@ function ClassicSignIn () {
 }
 
 function ConnectSignIn () {
-  const authOptions = useAuthOptions()
+  const authOptionDefaults = {appDetails: { name: config.title, icon: config.icon}}
+  const authOptions = useConnectOptions(authOptionDefaults)
   const signIn = useCallback(() => {
     showBlockstackConnect(authOptions)
   },[authOptions])

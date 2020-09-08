@@ -1,15 +1,16 @@
 import React, { useCallback } from 'react';
-import { useBlockstack } from 'react-blockstack'
-import { showBlockstackConnect } from '@blockstack/connect'
-import { usePerson, useAuthOptions } from './library'
+import { useBlockstack, useConnectOptions, didConnect } from 'react-blockstack'
+import { showBlockstackConnect, Connect} from '@blockstack/connect'
+import { usePerson } from './library'
+import config from './config'
 
 import './Auth.css'
 
 const profileManagerUrl = "https://browser.blockstack.org/profiles"
 
-function AuthButton ({signIn, signOut}) {
+function AuthButton ({signIn}) {
   return (
-    (signIn || !signOut) &&
+    (signIn) &&
        <button
          className="btn btn-outline-primary"
          disabled={!signIn}
@@ -37,16 +38,21 @@ function MoreMenu (props) {
 }
 
 export default function Auth (props) {
-    const { signOut, authenticated } = useBlockstack()
-    const authOptions = useAuthOptions()
-    const signIn = useCallback (!authenticated && authOptions && (() => { 
+    const { signOut, authenticated, userSession } = useBlockstack()
+    const authOptionDefaults = {appDetails: { name: config.title, icon: config.icon}}
+    const authOptions = useConnectOptions(authOptionDefaults)
+    const signIn = useCallback (!authenticated && authOptions && (() => {
       showBlockstackConnect(authOptions)
-    }), [authOptions])
+    }), [authenticated, authOptions])
     const { avatarUrl, username } = usePerson()
     const defaultAvatar = "fas fa-user-secret"
+    console.debug("FINSHED AUTH OPTIONS:", authOptions)
     return (
+    <Connect authOptions={authOptions}>
       <div className="Auth">
-         { signOut &&
+        { signIn ?  
+           <AuthButton signIn={signIn}/>
+         : signOut ? 
           <div className="btn-group dropdown">
             <button className="btn text-muted dropdown-toggle"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,10 +66,10 @@ export default function Auth (props) {
               </span>
             </button>
             <MoreMenu/>
-          </div>}
-          
-         <AuthButton signIn={signIn} signOut={signOut}/>
-         
-        </div>
+          </div>
+        :  <div>...</div>
+       }
+     </div>
+    </Connect>
     )
 }

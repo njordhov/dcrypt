@@ -1,12 +1,11 @@
-import React, { useEffect, useReducer, useCallback } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams } from 'react-router-dom'
-import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
+import { useBlockstack, AuthenticatedDocumentClass, setContext, useConnectOptions } from 'react-blockstack'
 import { Connect } from '@blockstack/connect'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
 import {usePane} from './pane'
-import { useAuthOptions } from './library'
 import config from './config'
 
 function appReducer (state, event) {
@@ -121,7 +120,8 @@ function AppCore () {
 }
 
 function ConnectApp () {
-  const authOptions = useAuthOptions()
+  const authOptionDefaults = {appDetails: { name: config.title, icon: config.icon}}
+  const authOptions = useConnectOptions(authOptionDefaults)
   return (
     <Connect authOptions={authOptions}>
       <AppCore/>

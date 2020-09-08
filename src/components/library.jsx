@@ -45,19 +45,3 @@ export function usePerson() {
   const username2 = username && username.replace(/.id.blockstack$/, "")
   return { avatarUrl , username: username2 }
 }
-
-export function useAuthOptions () {
-  const options = {
-    redirectTo: '/',
-    manifest: '/manifest.json',
-    finished: ({userSession}) => {
-      didConnect({userSession})
-    },
-    appDetails: {
-      name: config.title || "dCrypt",
-      icon: '/media/logo.svg'
-    }
-  }
-  const authOptions = useConnectOptions(options)
-  return authOptions
-}
