@@ -1,12 +1,11 @@
 import React, { useEffect, useReducer } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams } from 'react-router-dom'
-import { useBlockstack, AuthenticatedDocumentClass, setContext, useConnectOptions } from 'react-blockstack'
+import { useBlockstack, AuthenticatedDocumentClass, setContext } from 'react-blockstack'
 // import { Connect } from '@blockstack/connect-react'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
 import {usePane} from './pane'
-import config from './config'
 
 function appReducer (state, event) {
   switch (event.type) {

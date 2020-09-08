@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useBlockstack, useConnectOptions, didConnect } from 'react-blockstack'
+import { useBlockstack, useConnectOptions } from 'react-blockstack'
 import { showBlockstackConnect } from '@blockstack/connect'
 import { usePerson } from './library'
 import config from './config'
@@ -38,7 +38,7 @@ function MoreMenu (props) {
 }
 
 export default function Auth (props) {
-    const { signOut, authenticated, userSession } = useBlockstack()
+    const { signOut, authenticated } = useBlockstack()
     const authOptionDefaults = {appDetails: { name: config.title, icon: config.icon}}
     const authOptions = useConnectOptions(authOptionDefaults)
     const signIn = useCallback (!authenticated && authOptions && (() => {
