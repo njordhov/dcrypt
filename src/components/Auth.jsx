@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useBlockstack, useConnectOptions, didConnect } from 'react-blockstack'
-import { showBlockstackConnect, Connect} from '@blockstack/connect'
+import { showBlockstackConnect } from '@blockstack/connect'
 import { usePerson } from './library'
 import config from './config'
 
@@ -46,9 +46,7 @@ export default function Auth (props) {
     }), [authenticated, authOptions])
     const { avatarUrl, username } = usePerson()
     const defaultAvatar = "fas fa-user-secret"
-    console.debug("FINSHED AUTH OPTIONS:", authOptions)
     return (
-    <Connect authOptions={authOptions}>
       <div className="Auth">
         { signIn ?  
            <AuthButton signIn={signIn}/>
@@ -70,6 +68,5 @@ export default function Auth (props) {
         :  <div>...</div>
        }
      </div>
-    </Connect>
     )
 }

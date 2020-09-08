@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { BrowserRouter as Router, Route, Link, Redirect, Switch, useParams } from 'react-router-dom'
 import { useBlockstack, AuthenticatedDocumentClass, setContext, useConnectOptions } from 'react-blockstack'
-import { Connect } from '@blockstack/connect'
+// import { Connect } from '@blockstack/connect-react'
 import KeyField from './KeyField'
 import InfoBox, {InfoToggle} from './InfoBox'
 import { untrimId, usePublicKey, usePrivateKey } from './cipher'
@@ -119,6 +119,7 @@ function AppCore () {
   )
 }
 
+/*
 function ConnectApp () {
   const authOptionDefaults = {appDetails: { name: config.title, icon: config.icon}}
   const authOptions = useConnectOptions(authOptionDefaults)
@@ -127,8 +128,8 @@ function ConnectApp () {
       <AppCore/>
     </Connect>
   )
-}
+}*/
 
 export default function App () {
-  return ((config.classic) ? <AppCore/> : <ConnectApp/>)
+  return <AppCore/>
 }
