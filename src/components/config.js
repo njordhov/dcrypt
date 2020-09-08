@@ -7,5 +7,6 @@ const privacyUrl = process.env.REACT_APP_PRIVACY_URL
 const classic = false // (app !== "dcrypt-app")
 export const features = {message: message, files: files}
 export const icon = '/media/logo.svg'
+export const repository = process.env.REPOSITORY_URL || "https://github.com/njordhov/dcrypt"
 const config = {app, features, title, icon, privacyUrl, classic}
 export default config
