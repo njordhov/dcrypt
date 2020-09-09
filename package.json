@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@blockstack/connect": "2.12.2-alpha.41d15c8.0",
+    "@blockstack/connect": "2.12.2-alpha.718aa48.0",
     "@blockstack/stacks-transactions": "^0.7.0",
     "blockstack": "21.1.0",
     "copy-text-to-clipboard": "^2.1.1",
