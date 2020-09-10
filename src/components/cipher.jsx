@@ -38,7 +38,7 @@ function createUserDataEffect(f, ...args) {
 
 const getPrivateKey = (userData) => userData && userData.appPrivateKey
 
-export const usePrivateKey = createUserDataEffect( getPrivateKey )
+export const usePrivateKey = createUserDataEffect(getPrivateKey)
 
 const getPublicKey = ( userData ) => {
   // just take from profile?
@@ -47,26 +47,38 @@ const getPublicKey = ( userData ) => {
   return (publicKey)
 }
 
-export const usePublicKey = createUserDataEffect( getPublicKey )
+export const usePublicKey = createUserDataEffect(getPublicKey)
 
-const unsafePublicKeyFilename = "public" // bw compatibility
+const legacyPublicKeyFilename = "public" // bw compatibility
 const publicKeyFilename = "public.key"
 
-export function publishPublicKey (userSession, publicKey) {
-  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), {encrypt: false, sign:true})
-  userSession.deleteFile(unsafePublicKeyFilename)
+function deleteLegacyPublicKey (userSession) {
+  userSession.deleteFile(legacyPublicKeyFilename)
   .then (() => null)
   .catch((err) => {
     switch(err.name) {
       case "FileNotFound": break;
+      case "DoesNotExist": break;
       default: console.warn("Failed deleting legacy public key:", err)
-    }})
+    }})  
+}
+
+function publishPublicKey (userSession, publicKey) {
+  console.info("Publish public key as:", publicKeyFilename) 
+  const putOptions = {encrypt: false, sign: true, dangerouslyIgnoreEtag: true}
+  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), putOptions)
+  .catch((err) => {
+    console.warn("Failed publishing public key:", err)
+  })
 }
 
 export function usePublishKey(publicKey) {
   const { userSession } = useBlockstack()
   useEffect( () => {
-    publicKey && publishPublicKey(userSession, publicKey)
+    userSession && deleteLegacyPublicKey(userSession)
+  }, [userSession])
+  useEffect( () => {
+    userSession && publicKey && publishPublicKey(userSession, publicKey)
   }, [userSession, publicKey])
 }
 
@@ -83,7 +95,7 @@ export function useRemotePublicKey (username) {
         if (content) {
           setValue(content && get(JSON.parse (content), "key"))
         } else { // fallback for unsigned public key in original release, can be removed
-          userSession.getFile(unsafePublicKeyFilename, {username: username, decrypt: false})
+          userSession.getFile(legacyPublicKeyFilename, {username: username, decrypt: false})
           .then((content) => setValue(content && get(JSON.parse (content), "key")))
           .catch((err) => console.warn("Failed to get unsigned public key:", err))
         }})
