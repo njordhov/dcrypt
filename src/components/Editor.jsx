@@ -40,15 +40,17 @@ export default function Editor ({active, onChange, defaultEditorState, readOnly}
   }
   const resetEditor = useCallback( () => {
     // https://stackoverflow.com/questions/52646426/set-editorstate-without-the-application-state-in-draft-js
-    console.log("ACTIVE RESET:", active)
     const content = ContentState.createFromText('')
     const editorState = EditorState.createWithContent(content)
     //EditorState.push(editorState, content)
-    editor.current.update(editorState)
+    if (active && editor.current) {
+      editor.current.update(editorState)
+    } else {
+      console.warn("No current editor")
+    }
     //editor.current.forceUpdate()
-  },[active])
+  },[active, editor])
 
-  console.log("ACTIVE:", active)
   useEffect(() => {
     if (active) {
       focusEditor() // has to be before reset...
