@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { get } from 'lodash'
+import { get, isNil, isEmpty } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { trimEnding, ensureEndsWith } from './library'
 
@@ -119,6 +119,9 @@ function encryptionUrl (username) {
 export function useEncryptionUrl () {
     const { userData } = useBlockstack()
     const { username } = userData || {}
+    if ( !isNil(userData) && isEmpty(username) ) {
+      console.warn("Cannot generate encryption-url without a username")
+    }
     return (username && encryptionUrl(username) )
 }
 

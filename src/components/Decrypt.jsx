@@ -50,7 +50,6 @@ function decryptHandler(file, decryptContent, addResult) {
 
 function decryptReducer (state, action) {
   // shared for multiple components
-  console.debug("DECRYPT RED:", state, action)
   switch (action.type) {
     case "files":
       const files = action.files
@@ -87,7 +86,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
     try {
       return( userSession.decryptContent(content) )
     } catch (err) {
-      console.info("Failed to decrypt:", err)
+      console.warn("Failed to decrypt:", err)
       setFiles(null)
       onError && onError({type: "decrypt failed", error: err, message: "Can't decrypt the file, possibly because it is not encrypted with your public key."})
       return(null)
