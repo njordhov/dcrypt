@@ -226,7 +226,7 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
 }
 
 function FinalStep ({active, decrypted, completed, onCompleted}) {
-  console.log("FinalStep:", active, decrypted, completed)
+  //console.log("FinalStep:", active, decrypted, completed)
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -281,10 +281,10 @@ function SafeKeeping (props) {
   useEffect(() => {
     if (content) {
       const options = publicKey ? {publicKey: publicKey} : null
-      console.log("Content:", content)
+      //console.log("Content:", content)
       const cipherObject = userSession.encryptContent(content, options)
       const encrypted = new Blob([cipherObject], { type: "ECIES" })
-      console.log("ENCRYPT:", encrypted)
+      //console.log("ENCRYPT:", encrypted)
       onEncrypted(encrypted)
     }
   }, [userSession, content, publicKey, onEncrypted])

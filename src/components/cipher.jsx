@@ -122,7 +122,7 @@ export function useEncryptionUrl () {
     if ( !isNil(userData) && isEmpty(username) ) {
       console.warn("Cannot generate encryption-url without a username")
     }
-    return (username && encryptionUrl(username) )
+    return (!isEmpty(username) ? encryptionUrl(username) : null)
 }
 
 export function encryptHandler(file, encryptContent, setResult) {
