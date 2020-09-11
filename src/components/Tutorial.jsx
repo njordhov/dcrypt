@@ -22,7 +22,9 @@ function Card (props) {
 
 function useAtomReducer (atom, reducer) {
   const state = useAtom(atom)
-  const dispatch = (event) => swap(atom, (state) => reducer(state, event))
+  const dispatch = useCallback( (event) => {
+    swap(atom, (state) => reducer(state, event))
+  }, [atom, reducer] )
   return [state, dispatch]
 }
 
@@ -31,7 +33,6 @@ const tutorialAtom = Atom.of({step: null})
 const useTutorialReducer = (reducer) => useAtomReducer(tutorialAtom, reducer)
 
 function safekeepingReducer (state, event) {
-  console.log("Reduce:", state, event)
   switch (event.type) {
     case "content":
       return({...state, content: event.content, step: "save"})
