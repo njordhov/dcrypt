@@ -3,7 +3,7 @@ import { useBlockstack } from 'react-blockstack'
 import { isNil, isEmpty, reduce } from 'lodash'
 import JSZip from 'jszip'
 import KeyField from './KeyField.jsx'
-import { usePrivateKey } from './cipher.jsx'
+import { usePrivateKey, useDecryptContent } from './cipher.jsx'
 import Dropzone, { SaveButton, decryptedFilename } from './Dropzone.jsx'
 import InfoBox from './InfoBox'
 import { ViewEditor } from './Editor'
@@ -14,13 +14,12 @@ import 'text-security/dist/text-security.css'
 // TODO: Simplify using the similar code in dCrypt Drop
 // This implementation can likely be much faster!
 
-function decryptHandler(file, decryptContent, addResult) {
+function decryptHandler(file, decryptContent, addResult, onError) {
   if (file) {
     var myReader = new FileReader()
     myReader.addEventListener("loadend", (e) => {
       var buffer = e.srcElement.result; //arraybuffer object
       if (buffer) {
-        //console.debug("decryptHandler", file, buffer.byteLength)
         const bufferCharCodes = new Uint8Array(buffer)
         // NOTE: var decodedString = String.fromCharCode(...bufferCharCodes) -> buffer overflow for large files in some browsers
         const f = (out, code, ix) => out += String.fromCharCode(code)
@@ -29,15 +28,16 @@ function decryptHandler(file, decryptContent, addResult) {
         const encryptedItems = decodedString.match(/[^}]+}?|}/g) // split out each {...}
         //console.log("Items to decrypt:", decodedString, encryptedItems
         encryptedItems.forEach ( encryptedContent => {
-          const originalObject = decryptContent(encryptedContent)
-          if (originalObject) {
+          decryptContent(encryptedContent)
+          .then((originalObject) => {
             const decrypted = new Blob([originalObject])  // https://fileinfo.com/filetypes/encoded
             decrypted.filename = decryptedFilename(file.name)
-            addResult(decrypted)
-          } else {
-            console.warn("File not decrypted:", file)
-            addResult(null)
-          }
+            addResult(decrypted)})
+          .catch (err => {
+            console.error("File not decrypted:", file, err)
+            onError && onError({type: "decrypt failed", error: err, 
+                                message: "Can't decrypt the file, possibly because it is not encrypted with your public key."})
+            addResult(null)})
         })
       } else {
         console.warn("Failed to read file:", file)
@@ -75,35 +75,27 @@ function decryptReducer (state, action) {
   }
 }
 
+
 export function DropDecrypt ({addResult, gotResult, onError, filename}) {
-  const { userSession } = useBlockstack()
-
   const [{file}, dispatch] = useReducer(decryptReducer, {});
-  const setFiles = (files) => dispatch({type: "files", files: files })
-  //const setMessage = (message) => dispatch({type: "message", message: message})
-
-  const decryptContent = useCallback((content => {
-    try {
-      return( userSession.decryptContent(content) )
-    } catch (err) {
-      console.warn("Failed to decrypt:", err)
-      setFiles(null)
-      onError && onError({type: "decrypt failed", error: err, message: "Can't decrypt the file, possibly because it is not encrypted with your public key."})
-      return(null)
-    }
-  }), [userSession, onError])
-
+  const setFiles = useCallback((files) => {
+    dispatch({type: "files", files: files })
+  }, [dispatch])
+  const decryptContent = useDecryptContent()
+  const handleDecrypt = useCallback ( (file) => {
+    decryptHandler(file, decryptContent, addResult, onError)
+  }, [decryptContent, addResult, onError])
+  
   useEffect(() => {
     if (!gotResult) {
       setFiles([])
     }
   }, [gotResult])
-
-  const placeholder = <span>Drag & drop a <cite>dCrypt</cite> encrypted file here, or click to select from your filesystem.</span>
-
   useEffect( () => {
-    decryptHandler(file, decryptContent, addResult)
-  }, [file, decryptContent, addResult])
+    handleDecrypt(file)
+  }, [file, handleDecrypt])
+  
+  const placeholder = <span>Drag & drop a <cite>dCrypt</cite> encrypted file here, or click to select from your filesystem.</span>
 
   return (
       <>
@@ -141,14 +133,18 @@ export default function Decrypt (props) {
   const privateKey = usePrivateKey()
 
   const [{content, result, error}, dispatch] = useReducer(decryptReducer, {});
-  const addResult = (content) => dispatch({type: "result", result: content})
-  const setError = (note) => dispatch({type: "error", error: error})
+  const addResult = useCallback((content) => {
+    dispatch({type: "result", result: content})
+  }, [dispatch])
+  const setError = useCallback((note) => {
+    dispatch({type: "error", error: note})
+  }, [dispatch])
   const filename  = content && content.filename && decryptedFilename(content.filename)
-  const onError = ({type, message}) => {
+  const onError = useCallback(({type, message}) => {
     console.warn("Problem during decryption:", type, message)
     setError(message)
-  }
-  const resetForm = () => dispatch({type: "reset"})
+  }, [setError])
+  const resetForm = useCallback(() => dispatch({type: "reset"}), [dispatch])
   const decryptedThunk = useCallback( (content || !isEmpty(result)) && (() => {
     if (isEmpty(result)) {
       return content

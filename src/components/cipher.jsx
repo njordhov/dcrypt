@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
 import { get, isNil, isEmpty } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
@@ -123,6 +123,22 @@ export function useEncryptionUrl () {
       console.warn("Cannot generate encryption-url without a username")
     }
     return (!isEmpty(username) ? encryptionUrl(username) : null)
+}
+
+export function useEncryptContent (options) {
+  const {userSession} = useBlockstack()
+  const encrypt = useCallback ((content) => 
+      userSession.encryptContent(content, options)
+  ,[userSession, options])
+  return (encrypt)
+}
+
+export function useDecryptContent () {
+  const { userSession } = useBlockstack()
+  const decrypt = useCallback((content) => 
+    userSession.decryptContent(content)
+  ,[userSession])
+  return (decrypt)
 }
 
 export function encryptHandler(file, encryptContent, setResult) {

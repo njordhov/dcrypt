@@ -7,7 +7,7 @@ import { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dr
 import InfoBox from './InfoBox'
 import KeyField from './KeyField'
 import Editor, { editorMarkup, ViewEditor } from './Editor'
-import {usePublicKey, usePrivateKey} from './cipher'
+import {usePublicKey, usePrivateKey, useEncryptContent} from './cipher'
 import {classNames} from './library'
 import { features } from './config'
 
@@ -226,7 +226,7 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
 }
 
 function FinalStep ({active, decrypted, completed, onCompleted}) {
-  //console.log("FinalStep:", active, decrypted, completed)
+  console.log("FinalStep:", active, decrypted, completed)
   return (
     <Card active={active}>
       <StepHeader completed={completed}>
@@ -267,30 +267,33 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
     </Card>
 )}
 
+
 function SafeKeeping (props) {
-  const {userData, userSession} = useBlockstack()
+  const {userData} = useBlockstack()
   const {username} = userData || {}
   const publicKey = usePublicKey()
   const privateKey = usePrivateKey()
   const [{step, content, encrypted, saved, decrypted, done}, dispatch]
         = useTutorialReducer(safekeepingReducer)
-  const onContent = (content) => dispatch({type: "content", content: content})
+  const onContent = useCallback((content) => {
+    dispatch({type: "content", content: content})
+  }, [dispatch])
   const onEncrypted = useCallback((encrypted) => 
     dispatch({type: "encrypted", encrypted: encrypted})
     ,[dispatch])
+  const encryptContent = useEncryptContent(publicKey ? {publicKey} : null)
   useEffect(() => {
     if (content) {
-      const options = publicKey ? {publicKey: publicKey} : null
-      //console.log("Content:", content)
-      const cipherObject = userSession.encryptContent(content, options)
-      const encrypted = new Blob([cipherObject], { type: "ECIES" })
-      //console.log("ENCRYPT:", encrypted)
-      onEncrypted(encrypted)
+      encryptContent(content)
+      .then ((cipherText) =>
+        onEncrypted(new Blob([cipherText], { type: "ECIES" })))
     }
-  }, [userSession, content, publicKey, onEncrypted])
-  const onSaved = () => dispatch({type: "saved"})
-  const onDecrypted = (decrypted) => dispatch({type: "decrypted", decrypted: decrypted})
-  const onDone = () => dispatch({type: "done"})
+  }, [content, encryptContent, onEncrypted])
+  const onSaved = useCallback(() => dispatch({type: "saved"}), [dispatch])
+  const onDecrypted = useCallback((decrypted) => {
+    dispatch({type: "decrypted", decrypted: decrypted})
+  }, [dispatch])
+  const onDone = useCallback(() => dispatch({type: "done"}), [dispatch])
   const isInitial = (step == null)
   return (
    <div className="mx-auto">
