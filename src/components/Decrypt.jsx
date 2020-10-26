@@ -120,8 +120,8 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
             </div>
           : !gotResult ?
           <div className="m-auto text-center">
-              <div class="spinner-border text-success" role="status">
-                <span class="sr-only">Decrypting...</span>
+              <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Decrypting...</span>
               </div>
            </div>
           : gotResult ?

@@ -43,8 +43,8 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
               </div>
             : !gotResult ?
             <div className="m-auto text-center">
-                <div class="spinner-border text-success" role="status">
-                  <span class="sr-only">Encrypting...</span>
+                <div className="spinner-border text-success" role="status">
+                  <span className="sr-only">Encrypting...</span>
                 </div>
              </div>
            : gotResult ?
