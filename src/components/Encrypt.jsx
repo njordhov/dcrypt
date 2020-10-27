@@ -7,7 +7,7 @@ import { usePublicKey, usePublishKey, useRemotePublicKey, useEncryptContent,
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, { InfoToggle } from './InfoBox'
 import Editor, { editorMarkup } from './Editor'
-import { features } from './config'
+import { features, icon } from './config'
 
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
     const [files, setFiles] = useState([])
@@ -87,7 +87,7 @@ function ExplainDialog (props) {
         <div className="modal-body">
           <div className="mb-4 w-100 text-center" >
             <img className="mx-auto" alt="App logo"
-                 src="/media/logo.svg" style={{width: "50%", maxWidth: "12em"}}/>
+                 src={icon} style={{width: "50%", maxWidth: "12em"}}/>
           </div>
           <p>Hi! Welcome to <i>d</i>Crypt Drop. Seems like somebody we know as <cite>{username}</cite> directed you here
              to encrypt a file so you can send it to them confidentially.</p>
