@@ -360,11 +360,12 @@ function AboutFaq () {
               </p>
               
               <p>However, note that it is intended primarily for educational purposes.
-              There are inherit security risks with browser based apps.
-              If you need high security, there are better options.
+              There are inherit security risks with browser based apps.</p>
+              
+              <p>If you need high security, there are better options.
               Including if your information has monetary value or is 
               in the interest of the likes of criminals and 
-              nation states.
+              nation states.</p>
 
               <div className="alert alert-warning mt-2">Keep your private key very safe.
               If somebody gets hold of your private key, they can read your encrypted
