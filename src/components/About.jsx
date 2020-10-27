@@ -211,13 +211,15 @@ the foundation for many end-to-end encryption systems.</p>
        <p>But how does the recipient get to know the key to decrypt your message if
           you cannot communucate safely in the first place?</p>
       <p>
-          Public key cryptography makes it so you don’t need to smuggle the decryption
-       key to the recipient of your secret message because that person already has the
-       decryption key. The decryption key is their private key. Therefore, all you need
-        to send a message is knowing your recipient’s matching public, encrypting key. And you
-         can obtain this easily because your recipient can share their public key
-         with anyone, since public keys are only used to encrypt messages, not decrypt
-         them.</p>
+          Public key cryptography solves this conundrum by using two keys: One secret 
+          key to decrypt messages, and a different public key to encrypt them.
+          That way, you don’t need to smuggle the decryption
+          key to the recipient of your secret message because that person already has it:
+          their private key. All you need
+          to send a message is knowing your recipient’s matching public, encrypting key. And you
+          can obtain this easily because your recipient can share their public key
+          with anyone, since public keys are only used to encrypt messages, not decrypt
+          them.</p>
 
         <Illustration src={symmetric_asymmetric}/>
 
@@ -352,14 +354,21 @@ function AboutFaq () {
        <li className="list-group-item">
          <FaqCard parentId="AboutFaq" title="How Secure is dCrypt Encryption?">
 
-              <p>This software the same strong cryptography
+              <p>This software uses the same strong cryptography
                as Bitcoin and many other cryptocurrencies and blockchains:
                elliptic curve &nbsp;<i>secp256k1</i>.
               </p>
+              
+              <p>However, note that it is intended primarily for educational purposes.
+              There are inherit security risks with browser based apps.
+              If you need high security, there are better options.
+              Including if your information has monetary value or is 
+              in the interest of the likes of criminals and 
+              nation states.
 
               <div className="alert alert-warning mt-2">Keep your private key very safe.
               If somebody gets hold of your private key, they can read your encrypted
-              messages, even impersonate you. Only share your public key.</div>
+              messages, even impersonate you. Only share your public key.</div>            
 
          </FaqCard>
        </li>
