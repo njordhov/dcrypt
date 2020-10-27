@@ -90,7 +90,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
     if (!gotResult) {
       setFiles([])
     }
-  }, [gotResult])
+  }, [gotResult, setFiles])
   useEffect( () => {
     handleDecrypt(file)
   }, [file, handleDecrypt])

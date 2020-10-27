@@ -281,7 +281,8 @@ function SafeKeeping (props) {
   const onEncrypted = useCallback((encrypted) => 
     dispatch({type: "encrypted", encrypted: encrypted})
     ,[dispatch])
-  const encryptContent = useEncryptContent(publicKey ? {publicKey} : null)
+  const options = useState(publicKey ? {publicKey} : null)
+  const encryptContent = useEncryptContent(options)
   useEffect(() => {
     if (content) {
       encryptContent(content)

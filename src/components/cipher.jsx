@@ -141,15 +141,43 @@ export function useDecryptContent () {
   return (decrypt)
 }
 
-export function encryptHandler(file, encryptContent, setResult) {
-  if (file) {
-    var myReader = new FileReader()
-    myReader.readAsArrayBuffer(file)
-    myReader.addEventListener("loadend", (e) => {
-      var buffer = e.srcElement.result;  //arraybuffer object
-      const cipherObject = encryptContent(buffer)
-      if (cipherObject) {
-        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-        content.filename = file.name
-        setResult(content)}
-  })}}
+export function useEncrypted (message, content) {
+  // Returns a blob with encrypted message, with attached optional file (presumedly already encrypted)
+  const [state, setState] = useState()
+  const { userSession } = useBlockstack()
+  const publicKey = usePublicKey()
+  const [options] = useState(publicKey ? {publicKey} : null)
+  const encryptContent = useEncryptContent(options)
+  useEffect(() => {
+    if (isNil(message) && isNil(content)) {
+      setState(null)
+    } else {
+      encryptContent(message)
+      .then(cipherText => 
+         new Blob([cipherText, content], { type: "ECIES" }))
+      .then(setState)
+      .catch(err => {
+        console.error("Failed encryption:", err)
+        setState(null)
+      })
+    }
+  }, [message, content, encryptContent])
+  return (state)
+}
+
+export function encryptFile(file, encryptContent) {
+  var myReader = new FileReader()
+  const p = new Promise ((resolve, reject) => {
+      myReader.addEventListener("loadend", (e) => {
+        var buffer = e.srcElement.result;  //arraybuffer object
+        encryptContent(buffer)
+        .then((cipherObject) => {
+          const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+          content.filename = file.name
+          resolve(content)})
+        .catch(reject)
+      })
+    })
+  myReader.readAsArrayBuffer(file)
+  return p
+}
