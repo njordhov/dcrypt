@@ -17,14 +17,6 @@ html.drop-app {
   --app-link-accent: var(--primary-complement);
 }
 
-html.dcrypt-app #share-item {
-  display: none;
-}
-
-html.dcrypt-app #receive-feature {
-  display: none;
-}
-
 html.drop-app #encrypt-item {
   /* Cannot set display to none as it disables tab action used in sharing */
   position: absolute;

@@ -47,12 +47,11 @@ export function ExportContentButton (props) {
   // content can be a function->blob or a blob
   const { content, filename, children, onComplete, icon } = props
   const saveFile = useCallback(() => {
-    const data = content && (isFunction(content) ? content() : content)
-    if (data && !(data instanceof Blob)) {
-      console.warn("Expected a Blob")
-    }
+    const data = content
     if(data instanceof Promise) {
       data.then((data) => saveAs(data, filename))
+    } else if (data && !(data instanceof Blob)) {
+      console.warn("Expected a Blob")
     } else {
       saveAs(data, filename)
     }

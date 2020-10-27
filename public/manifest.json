@@ -1,9 +1,9 @@
 {
-  "name": "dCrypt drop",
-  "start_url": "https://drop.dcrypt.app",
-  "description": "Receive files securely",
+  "name": "dCrypt",
+  "start_url": "https://dcrypt.app",
+  "description": "Public-key cryptography made easy",
   "icons": [{
-    "src": "https://drop.dcrypt.app/media/logo.svg",
+    "src": "https://dcrypt.app/media/logo.svg",
     "sizes": "400x400",
     "type": "image/svg"
   }]

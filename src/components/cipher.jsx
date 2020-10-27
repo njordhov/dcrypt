@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useBlockstack } from 'react-blockstack'
-import { get } from 'lodash'
+import { get, isNil, isEmpty } from 'lodash'
 import { ECPair /*, address as baddress, crypto as bcrypto*/ } from 'bitcoinjs-lib'
 import { trimEnding, ensureEndsWith } from './library'
 
@@ -38,7 +38,7 @@ function createUserDataEffect(f, ...args) {
 
 const getPrivateKey = (userData) => userData && userData.appPrivateKey
 
-export const usePrivateKey = createUserDataEffect( getPrivateKey )
+export const usePrivateKey = createUserDataEffect(getPrivateKey)
 
 const getPublicKey = ( userData ) => {
   // just take from profile?
@@ -47,26 +47,38 @@ const getPublicKey = ( userData ) => {
   return (publicKey)
 }
 
-export const usePublicKey = createUserDataEffect( getPublicKey )
+export const usePublicKey = createUserDataEffect(getPublicKey)
 
-const unsafePublicKeyFilename = "public" // bw compatibility
+const legacyPublicKeyFilename = "public" // bw compatibility
 const publicKeyFilename = "public.key"
 
-export function publishPublicKey (userSession, publicKey) {
-  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), {encrypt: false, sign:true})
-  userSession.deleteFile(unsafePublicKeyFilename)
+function deleteLegacyPublicKey (userSession) {
+  userSession.deleteFile(legacyPublicKeyFilename)
   .then (() => null)
   .catch((err) => {
     switch(err.name) {
       case "FileNotFound": break;
+      case "DoesNotExist": break;
       default: console.warn("Failed deleting legacy public key:", err)
-    }})
+    }})  
+}
+
+function publishPublicKey (userSession, publicKey) {
+  console.info("Publish public key as:", publicKeyFilename) 
+  const putOptions = {encrypt: false, sign: true, dangerouslyIgnoreEtag: true}
+  userSession.putFile(publicKeyFilename, JSON.stringify({key: publicKey}), putOptions)
+  .catch((err) => {
+    console.warn("Failed publishing public key:", err)
+  })
 }
 
 export function usePublishKey(publicKey) {
   const { userSession } = useBlockstack()
   useEffect( () => {
-    publicKey && publishPublicKey(userSession, publicKey)
+    userSession && deleteLegacyPublicKey(userSession)
+  }, [userSession])
+  useEffect( () => {
+    userSession && publicKey && publishPublicKey(userSession, publicKey)
   }, [userSession, publicKey])
 }
 
@@ -83,7 +95,7 @@ export function useRemotePublicKey (username) {
         if (content) {
           setValue(content && get(JSON.parse (content), "key"))
         } else { // fallback for unsigned public key in original release, can be removed
-          userSession.getFile(unsafePublicKeyFilename, {username: username, decrypt: false})
+          userSession.getFile(legacyPublicKeyFilename, {username: username, decrypt: false})
           .then((content) => setValue(content && get(JSON.parse (content), "key")))
           .catch((err) => console.warn("Failed to get unsigned public key:", err))
         }})
@@ -107,18 +119,65 @@ function encryptionUrl (username) {
 export function useEncryptionUrl () {
     const { userData } = useBlockstack()
     const { username } = userData || {}
-    return (username && encryptionUrl(username) )
+    if ( !isNil(userData) && isEmpty(username) ) {
+      console.warn("Cannot generate encryption-url without a username")
+    }
+    return (!isEmpty(username) ? encryptionUrl(username) : null)
 }
 
-export function encryptHandler(file, encryptContent, setResult) {
-  if (file) {
-    var myReader = new FileReader()
-    myReader.readAsArrayBuffer(file)
-    myReader.addEventListener("loadend", (e) => {
-      var buffer = e.srcElement.result;  //arraybuffer object
-      const cipherObject = encryptContent(buffer)
-      if (cipherObject) {
-        const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
-        content.filename = file.name
-        setResult(content)}
-  })}}
+export function useEncryptContent (options) {
+  const {userSession} = useBlockstack()
+  const encrypt = useCallback ((content) => 
+      userSession.encryptContent(content, options)
+  ,[userSession, options])
+  return (encrypt)
+}
+
+export function useDecryptContent () {
+  const { userSession } = useBlockstack()
+  const decrypt = useCallback((content) => 
+    userSession.decryptContent(content)
+  ,[userSession])
+  return (decrypt)
+}
+
+export function useEncrypted (message, content) {
+  // Returns a blob with encrypted message, with attached optional file (presumedly already encrypted)
+  const [state, setState] = useState()
+  const { userSession } = useBlockstack()
+  const publicKey = usePublicKey()
+  const [options] = useState(publicKey ? {publicKey} : null)
+  const encryptContent = useEncryptContent(options)
+  useEffect(() => {
+    if (isNil(message) && isNil(content)) {
+      setState(null)
+    } else {
+      encryptContent(message)
+      .then(cipherText => 
+         new Blob([cipherText, content], { type: "ECIES" }))
+      .then(setState)
+      .catch(err => {
+        console.error("Failed encryption:", err)
+        setState(null)
+      })
+    }
+  }, [message, content, encryptContent])
+  return (state)
+}
+
+export function encryptFile(file, encryptContent) {
+  var myReader = new FileReader()
+  const p = new Promise ((resolve, reject) => {
+      myReader.addEventListener("loadend", (e) => {
+        var buffer = e.srcElement.result;  //arraybuffer object
+        encryptContent(buffer)
+        .then((cipherObject) => {
+          const content = new Blob([cipherObject], { type: "ECIES" })  //  https://fileinfo.com/filetypes/encoded
+          content.filename = file.name
+          resolve(content)})
+        .catch(reject)
+      })
+    })
+  myReader.readAsArrayBuffer(file)
+  return p
+}

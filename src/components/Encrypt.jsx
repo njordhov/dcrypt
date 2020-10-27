@@ -2,23 +2,25 @@ import React, { useState, useEffect, useCallback, useRef, useReducer } from 'rea
 import { useBlockstack } from 'react-blockstack'
 import { isNull } from 'lodash'
 import KeyField from './KeyField.jsx'
-import { usePublicKey, usePublishKey, useRemotePublicKey, trimId, encryptHandler } from './cipher.jsx'
+import { usePublicKey, usePublishKey, useRemotePublicKey, useEncryptContent, 
+         useEncrypted, trimId, encryptFile } from './cipher.jsx'
 import Dropzone, { SaveButton, encryptedFilename } from './Dropzone.jsx'
 import InfoBox, { InfoToggle } from './InfoBox'
 import Editor, { editorMarkup } from './Editor'
 import { features } from './config'
 
 export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
-    const { userSession } = useBlockstack()
     const [files, setFiles] = useState([])
-    const options = publicKey ? {publicKey: publicKey} : null
-    const encryptContent = useCallback(content => 
-      userSession.encryptContent(content, options)
-      ,[userSession, options])
+    const [options] = useState(publicKey ? {publicKey: publicKey} : null)
+    const encryptContent = useEncryptContent(options)
     const file = files && files[0]
-    useEffect( (() => 
-      encryptHandler(file, encryptContent, setResult))
-      ,[file, encryptContent, setResult])
+    useEffect(() => {
+      if (file) {
+        encryptFile(file, encryptContent)
+        .then(setResult)
+        .catch(err => console.error("Failed to encrypt file:", err))
+      }
+    }, [file, encryptContent, setResult])
     const onChange = (files) => {
       console.log("Current files:", files)
       setFiles(files)
@@ -43,8 +45,8 @@ export function DropEncrypt ({publicKey, setResult, gotResult, disabled}) {
               </div>
             : !gotResult ?
             <div className="m-auto text-center">
-                <div class="spinner-border text-success" role="status">
-                  <span class="sr-only">Encrypting...</span>
+                <div className="spinner-border text-success" role="status">
+                  <span className="sr-only">Encrypting...</span>
                 </div>
              </div>
            : gotResult ?
@@ -135,19 +137,6 @@ function useBrowserContext (remoteKey) {
   }, [remoteKey])
 }
 
-function useEncryptedThunk (message, content) {
-  // Returns a thunk that resolves to a blob with encrypted data
-  const { userSession } = useBlockstack()
-  const publicKey = usePublicKey()
-  const encryptedThunk = useCallback((message || content) && (() => {
-    const options = publicKey ? {publicKey: publicKey} : null
-    const cipherObject = userSession.encryptContent(message, options)
-    const encrypted = new Blob([cipherObject, content], { type: "ECIES" })
-    return encrypted
-  }), [message, content, publicKey, userSession])
-  return encryptedThunk
-}
-
 function encryptReducer (state, event) {
   console.log("encryptReducer:", state, event)
   switch (event.action) {
@@ -172,7 +161,7 @@ export default function Encrypt (props) {
   const setResult = useCallback((content) => {
     const filename = encryptedFilename((content && content.filename) || "message")
     dispatch({action: "result", content: content, filename: filename})
-  },[dispatch])
+  }, [dispatch])
   const resetForm = useCallback(() => dispatch({action: "reset"}), [dispatch])
   usePublishKey(publicKey)
   const activeKey = remoteKey || publicKey
@@ -182,7 +171,7 @@ export default function Encrypt (props) {
     const markup = draft && editorMarkup(draft)
     dispatch({action: "message", message: markup})
   }, [dispatch])
-  const encryptedThunk = useEncryptedThunk (message, content)
+  const encrypted = useEncrypted (message, content)
   return (
       <div className="jumbotron">
         <div className="container">
@@ -222,7 +211,7 @@ export default function Encrypt (props) {
                 </div> }
 
             <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-              <SaveButton content={encryptedThunk}
+              <SaveButton content={encrypted}
                           onComplete={resetForm}
                           filename={filename}>
                 Save Encrypted {features.message ? "Message" : "File"}
