@@ -118,7 +118,7 @@ export function DropDecrypt ({addResult, gotResult, onError, filename}) {
            </div>
           : gotResult ?
            <div className="mx-auto text-center">
-              <div><i className="fas fa-unlock-alt m-auto"></i></div>
+              <div><i className="fas fa-unlock-alt text-primary m-auto"></i></div>
               <div className="mt-2">{filename || (file && file.name)}</div>
            </div>
          : <div>Error</div>}

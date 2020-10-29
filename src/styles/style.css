@@ -20,31 +20,31 @@
   border-color: var(--primary-complement);
 }
 
-body > main .btn-primary {
+.btn-primary {
   background-color: var(--primary);
   border-color: var(--primary);
 }
 
-body > main .btn-primary.disabled {
+.btn-primary.disabled {
   background-color: var(--primary-mild);
   border-color: var(--primary);
 }
 
-body > main .btn-primary.disabled:hover {
+.btn-primary.disabled:hover {
   background-color: var(--primary-mild);
   border-color: var(--primary);
 }
 
-body > main .btn-outline-primary:hover {
+.btn-outline-primary:hover {
   border-color: var(--primary);
 }
 
-body > main .btn-outline-primary:not(.disabled):hover {
+.btn-outline-primary:not(.disabled):hover {
   background-color: var(--primary-complement, inherit);
   color: var(--white) !important;
 }
 
-body > main .btn-outline-primary {
+.btn-outline-primary {
   border-color: var(--primary);
   color: inherit !important;
 }

@@ -56,7 +56,7 @@ function StepHeader ({active, completed, children}) {
   return(
     <h5 className="card-header">
       { active 
-        ? <i className="far fa-circle text-primary mr-3"></i>
+        ? <i className="fas fa-circle mr-3"></i>
         : completed 
         ? <i className="fas fa-check-circle mr-3"></i>
         : <i className="far fa-circle mr-3"></i>}
