@@ -13,7 +13,7 @@ import { features } from './config'
 
 function Card (props) {
   return (
-  <div className={classNames("card bg-secondary", props.active && "border-warning", props.className)}
+  <div className={classNames("card bg-secondary", props.active && "border-primary", props.className)}
        {...props} active={null}>
     {props.children}
   </div>
@@ -43,7 +43,7 @@ function safekeepingReducer (state, event) {
     case "decrypted":
       return({...state, decrypted: event.decrypted, step: "export"})
     case "done":
-      return({...state, done:true, step: "done"})
+      return({...state, done: true, step: "done"})
     case "reset":
       return({step: "import"})
     default:
@@ -52,11 +52,14 @@ function safekeepingReducer (state, event) {
   }
 }
 
-function StepHeader ({completed, children}) {
+function StepHeader ({active, completed, children}) {
   return(
     <h5 className="card-header">
-      {completed ? <i className="fas fa-check-circle mr-2 text-primary"></i>
-                 : <i className="far fa-circle mr-2 text-primary"></i>}
+      { active 
+        ? <i className="far fa-circle text-primary mr-3"></i>
+        : completed 
+        ? <i className="fas fa-check-circle mr-3"></i>
+        : <i className="far fa-circle mr-3"></i>}
       {children}
     </h5>
   )
@@ -114,7 +117,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
   const disabled = (message === undefined || message === "")
   return (
     <Card active={active}>
-      <StepHeader completed={completed}>
+      <StepHeader active={active} completed={completed}>
         Step 1: Encrypt a {features.message ? "Message" : "File"}
       </StepHeader>
       {features.message &&
@@ -125,7 +128,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
          </div>}
          <Editor active={active} onChange={onMessageChange} content={message}/>
          <div className="d-flex justify-content-center align-items-center w-100 mt-3">
-           <button className={[disabled ? "disabled" : null, "btn btn-outline-primary center-text"].join(" ")}
+           <button className={[disabled ? "disabled" : null, "btn btn-primary center-text"].join(" ")}
               onClick={done}
               disabled={disabled}>
               Encrypt
@@ -158,7 +161,7 @@ function SaveCard ({active, onComplete, completed, content}) {
                     : "message.html.dcrypt"
   return (
     <Card active={active}>
-      <StepHeader completed={completed}>
+      <StepHeader active={active} completed={completed}>
         Step 2: Save as Encrypted File
       </StepHeader>
       <div className="card-body">
@@ -167,8 +170,8 @@ function SaveCard ({active, onComplete, completed, content}) {
                The encrypted file has been saved.
           </div> :
           (active && !completed) ?
-          <div className="alert alert-info text-center mb-4">
-               The encrypted file is ready to be saved:
+          <div className="alert alert-primary text-center mb-4">
+               The encrypted file is ready to be saved.
           </div> :
           <div className="alert alert-dark text-center mb-4">
             When you have completed the first step, there will be an encrypted file to save.
@@ -177,7 +180,9 @@ function SaveCard ({active, onComplete, completed, content}) {
             <SaveButton content={content}
                         onComplete={ onComplete }
                         filename={filename}>
-              Save Encrypted File
+              { !completed 
+                ? <span>Save Encrypted File</span>
+                : <span>Save File Again</span> }
             </SaveButton>
         </div>
       </div>
@@ -192,14 +197,13 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
   const tooltip = privateKey && ("Your private key is " + privateKey + " but it's supposed to be a secret, so keep it to yourself.")
   return (
     <Card active={active}>
-       <StepHeader completed={completed}>
+       <StepHeader active={active} completed={completed}>
          Step 3: Decrypt the Encrypted File
        </StepHeader>
        <div className="card-body">
        {active &&
-        <div className="alert alert-info text-center mb-4">
-           Decrypt the saved file using
-           <mark data-toggle="tooltip" title={tooltip}>your private key:</mark>
+        <div className="alert alert-primary text-center mb-4">
+           Decrypt the saved file using your private key.
         </div>}
        {(error) ?
         <div className="alert alert-danger text-center mb-4">
@@ -226,10 +230,9 @@ function DecryptStep ({active, completed, onCompleted, username, privateKey}) {
 }
 
 function FinalStep ({active, decrypted, completed, onCompleted}) {
-  console.log("FinalStep:", active, decrypted, completed)
   return (
     <Card active={active}>
-      <StepHeader completed={completed}>
+      <StepHeader active={active} completed={completed}>
         Step 4: {features.message ? "View Deciphered Message"
                                   : "Save the Restored File"}
       </StepHeader>
@@ -255,13 +258,16 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
         { !completed &&
           ( false ?
             <OpenLink content={decrypted}>Open Decrypted File</OpenLink>
-          : !features.message ?
+          : features.files ?
             <SaveButton content={decrypted}
                         onComplete={ onCompleted }
                         filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}>
                Save decrypted file
             </SaveButton>
-          : null
+          : <button className="btn btn-primary btn-large"
+                  onClick={onCompleted}>
+             Done
+           </button>
           )}
       </div>
     </Card>
@@ -281,7 +287,7 @@ function SafeKeeping (props) {
   const onEncrypted = useCallback((encrypted) => 
     dispatch({type: "encrypted", encrypted: encrypted})
     ,[dispatch])
-  const options = useState(publicKey ? {publicKey} : null)
+  const [options] = useState(publicKey ? {publicKey} : null)
   const encryptContent = useEncryptContent(options)
   useEffect(() => {
     if (content) {
@@ -294,6 +300,7 @@ function SafeKeeping (props) {
   const onDecrypted = useCallback((decrypted) => {
     dispatch({type: "decrypted", decrypted: decrypted})
   }, [dispatch])
+  const onReset = useCallback(() => dispatch({type:"reset"}))
   const onDone = useCallback(() => dispatch({type: "done"}), [dispatch])
   const isInitial = (step == null)
   return (
@@ -305,7 +312,7 @@ function SafeKeeping (props) {
         </div>
         { <button className={classNames("m-3 btn", isInitial ? "btn-primary" : "btn-outline-primary")}
                 disabled={!isInitial && !encrypted}
-                onClick={() => dispatch({type:"reset"})}>
+                onClick={onReset}>
            {isInitial ? "Start" : "Restart"}
           </button>}
       </InfoBox>
@@ -315,21 +322,33 @@ function SafeKeeping (props) {
           <div className="alert alert-secondary">
             <PublicKeyField className="" username={username} publicKey={publicKey}/>
           </div>
-          <ImportCard active={(step === "import")} completed={!!encrypted}
+          <ImportCard active={(step === "import")} 
+                      completed={!!encrypted}
                       onComplete={onEncrypted}
                       onChange={onContent}
-                      username={username} publicKey={publicKey}/></li>
+                      username={username} 
+                      publicKey={publicKey}/>
+        </li>
         <li className="list-group-item mt-4">
-          <SaveCard active={(step === "save")} completed={!!saved} content={encrypted}
-                onComplete={onSaved}/></li>
+          <SaveCard active={(step === "save")} 
+                    completed={!!saved} 
+                    content={encrypted}
+                    onComplete={onSaved}/>
+        </li>
         <li className="list-group-item mt-4">
           <div className="alert alert-secondary">
             <PrivateKeyField className="" username={username} privateKey={privateKey}/>
           </div>
-          <DecryptStep active={(step === "decrypt")} completed={!!decrypted} onCompleted={onDecrypted}
-                       username={username} privateKey={privateKey}/></li>
+          <DecryptStep active={(step === "decrypt")} 
+                       completed={!!decrypted} 
+                       onCompleted={onDecrypted}
+                       username={username} 
+                       privateKey={privateKey}/>
+        </li>
         <li className="list-group-item mt-4">
-          <FinalStep active={(step === "export")} decrypted={decrypted} completed={!!done}
+          <FinalStep active={(step === "export")} 
+                     decrypted={decrypted} 
+                     completed={!!done}
                      onCompleted={onDone}/></li>
       </ul>
 
@@ -337,7 +356,7 @@ function SafeKeeping (props) {
       <div className="alert alert-success text-center mt-4">
         <p>Congratulations! You have completed the tutorial.</p>
         <button className="btn btn-primary btn-large"
-                onClick={() => dispatch({type:"reset"})}>
+                onClick={onReset}>
            Restart
         </button>
       </div>}

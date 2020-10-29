@@ -1,4 +1,7 @@
 :root  {
+  --stacks-blue: #5546FF;
+  --stacks-complement: #ffa946;
+  --stacks-blue-opaque: #5546FF20;
   /* https://projects.invisionapp.com/boards/HE2VVROFSGB27 */
   --brand-background: #270F34;
   --brand-lines: #4B3457;
@@ -15,9 +18,11 @@
 }
 
 :root  {
-  --app-info-color: var(--blue);
-  --app-link-accent: var(--yellow);
-  --primary-complement: var(--yellow);
+  --primary: var(--stacks-blue);
+  --primary-complement: var(--stacks-complement);
+  --primary-mild: var(--stacks-blue-opaque);
+  --app-info-color: var(--stacks-blue-opaque);
+  --app-link-accent: var(--primary-complement);
 }
 
 .inspect {

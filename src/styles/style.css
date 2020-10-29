@@ -1,45 +1,82 @@
 /* Theme Customization */
 
+.navbar.bg-dark {
+  background-color: var(--app-navbar, inherit) !important;
+}
+
+/* Primary */
+
 .text-primary {
   color: var(--primary) !important;
 }
 
-.navbar.bg-dark {
-  background-color: var(--app-navbar, inherit) !important;
+.alert-primary {
+  background-color: inherit;
+  color: var(--primary-complement);
 }
+
+.btn-primary:hover:not(.disabled) {
+  background-color: var(--primary-complement, inherit);
+  border-color: var(--primary-complement);
+}
+
+body > main .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+body > main .btn-primary.disabled {
+  background-color: var(--primary-mild);
+  border-color: var(--primary);
+}
+
+body > main .btn-primary.disabled:hover {
+  background-color: var(--primary-mild);
+  border-color: var(--primary);
+}
+
+body > main .btn-outline-primary:hover {
+  border-color: var(--primary);
+}
+
+body > main .btn-outline-primary:not(.disabled):hover {
+  background-color: var(--primary-complement, inherit);
+  color: var(--white) !important;
+}
+
+body > main .btn-outline-primary {
+  border-color: var(--primary);
+  color: inherit !important;
+}
+
+.border-primary {
+  border-color: var(--primary-complement, inherit) !important;
+}
+
+/* Info */
 
 .alert-info {
   background-color: var(--app-info-color, inherit);
 }
 
 .text-info {
-  color: var(--app-info-color, inherit) !important;
+  color: var(inherit) !important;
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-complement, inherit);
+/* Success */
+
+.alert-success {
+  background-color: inherit !important;
 }
 
-.btn-primary {
-  background-color: var(--primary);
-}
-
-.btn-outline-primary {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.btn-outline-primary:hover {
-  background-color: var(--primary-complement, inherit);
-  color: var(--white) !important;
-}
+/* Anchor */
 
 a:hover {
   color: var(--primary-complement, inherit);
 }
 
 a[href] {
-  color: var(--primary);
+  color: inherit;
   opacity: 0.9;
 }
 
@@ -128,17 +165,12 @@ body > main mark {
 }
 
 body > main mark:hover {
-  border-radius: 5px;
   background-color: transparent;
   color: inherit;
-  border: thin solid var(--app-link-accent);
+  /*border: thin solid var(--app-link-accent);*/
 }
 
 body > main .btn-primary:hover {
-  background-color: var(--app-link-accent);
-}
-
-body > main .btn-outline-primary:hover {
   background-color: var(--app-link-accent);
 }
 

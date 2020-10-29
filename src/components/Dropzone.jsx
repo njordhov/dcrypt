@@ -18,7 +18,7 @@ export function DownloadButton (props) {
   const {url, filename, children, onComplete, icon} = props
   return (
       <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
-        <a className={[!url ? "disabled":null, "btn btn-outline-primary center-text"].join(" ")}
+        <a className={[!url ? "disabled":null, "btn btn-primary center-text"].join(" ")}
          role="button"
          download = {"" + filename}
          onClick={onComplete || undefined} // best we can do as there are no event triggered upon download complete
@@ -60,7 +60,7 @@ export function ExportContentButton (props) {
   return (
     <div data-toggle="tooltip" title={filename ? "Save as: " + filename : null}>
       <button 
-         className={[disabled && "disabled", "btn btn-outline-primary center-text"].join(" ")}
+         className={[disabled && "disabled", "btn btn-primary center-text"].join(" ")}
          onClick={!disabled ? (() => {saveFile(); onComplete()}) : undefined}
          disabled= { disabled }
          aria-disabled={ disabled }>

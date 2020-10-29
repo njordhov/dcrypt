@@ -14,7 +14,7 @@
 }
 
 .Dropzone:hover {
-    border-color: white;
+  border-color: var(--app-link-accent);
 }
 
 .Dropzone.dragging {
@@ -23,4 +23,8 @@
 
 .Dropzone .fas {
   font-size: 100px;
+}
+
+.Dropzone .fas:hover {
+  color: var(--app-link-accent);
 }
