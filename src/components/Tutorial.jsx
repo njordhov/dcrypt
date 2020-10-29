@@ -6,7 +6,7 @@ import {DropDecrypt} from './Decrypt'
 import { SaveButton, OpenLink, encryptedFilename, decryptedFilename } from './Dropzone.jsx'
 import InfoBox from './InfoBox'
 import KeyField from './KeyField'
-import Editor, { editorMarkup, ViewEditor } from './Editor'
+import Editor, { editorMarkup, ViewEditor, isEditorEmpty } from './Editor'
 import {usePublicKey, usePrivateKey, useEncryptContent} from './cipher'
 import {classNames} from './library'
 import { features } from './config'
@@ -114,7 +114,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
       onComplete()
     }
   }, [message, onChange, onComplete])
-  const disabled = (message === undefined || message === "")
+  const disabled = (message === undefined || isEditorEmpty(message))
   return (
     <Card active={active}>
       <StepHeader active={active} completed={completed}>
@@ -131,6 +131,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
            <button className={[disabled ? "disabled" : null, "btn btn-primary center-text"].join(" ")}
               onClick={done}
               disabled={disabled}>
+              <i className="fas fa-shield-alt mr-2"></i>
               Encrypt
            </button>
           </div>
@@ -148,7 +149,7 @@ function ImportCard ({active, completed, onComplete, onChange, publicKey, userna
             <mark data-toggle="tooltip" title={tooltip}>your public key.</mark>
             It can only be decrypted using your private key.
           </div>}
-        <DropEncrypt disabled={ !active } setResult={onComplete}
+        <DropEncrypt disabled={ !active || disabled } setResult={onComplete}
                      gotResult={ completed }/>
        </div>}
    </Card>
@@ -162,9 +163,13 @@ function SaveCard ({active, onComplete, completed, content}) {
   return (
     <Card active={active}>
       <StepHeader active={active} completed={completed}>
-        Step 2: Save as Encrypted File
+        Step 2: Save Encrypted File
       </StepHeader>
       <div className="card-body">
+        <div className={["mx-auto text-center mb-4", 
+                         (active || completed ? "text-primary" : "disabled")].join(" ")}>
+          <i className="fas fa-shield-alt m-auto" style={{fontSize: "100px"}}></i>
+        </div>
         { completed ?
           <div className="alert alert-success text-center mb-4">
                The encrypted file has been saved.
@@ -262,7 +267,7 @@ function FinalStep ({active, decrypted, completed, onCompleted}) {
             <SaveButton content={decrypted}
                         onComplete={ onCompleted }
                         filename={decrypted && decrypted.filename && decryptedFilename(decrypted.filename)}>
-               Save decrypted file
+               Save Decrypted File
             </SaveButton>
           : <button className="btn btn-primary btn-large"
                   onClick={onCompleted}>
@@ -313,6 +318,7 @@ function SafeKeeping (props) {
         { <button className={classNames("m-3 btn", isInitial ? "btn-primary" : "btn-outline-primary")}
                 disabled={!isInitial && !encrypted}
                 onClick={onReset}>
+           <i className="fas fa-step-forward mr-2"></i>
            {isInitial ? "Start" : "Restart"}
           </button>}
       </InfoBox>

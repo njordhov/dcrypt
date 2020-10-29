@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { debounce } from 'lodash'
-import { EditorState, ContentState } from 'draft-js'
+import { debounce, isEmpty } from 'lodash'
+import { EditorState, ContentState, convertFromRaw } from 'draft-js'
 import { Editor as DraftEditor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html'
@@ -9,6 +9,14 @@ import htmlToDraft from 'html-to-draftjs'
 export function editorMarkup (raw) {
   return (draftToHtml(raw))
 }
+
+export const isEditorEmpty = (rawState) => {
+  if (!rawState || isEmpty(rawState)) { // filter undefined and {}
+    return true;
+  }
+  const contentState = convertFromRaw(rawState);
+  return !(contentState.hasText() && (contentState.getPlainText() !== ''));
+};
 
 export function contentFromMarkup (markup) {
   const blocksFromHtml = htmlToDraft(markup)
@@ -32,7 +40,6 @@ const toolbar = {
 
 export default function Editor ({active, onChange, defaultEditorState, readOnly}) {
   // https://github.com/jpuri/react-draft-wysiwyg
-  console.log("Editor:", active)
   const [contentState, setContentState] = useState({})
   const editor = useRef(null);
   function focusEditor() {
@@ -85,13 +92,11 @@ export default function Editor ({active, onChange, defaultEditorState, readOnly}
 
 export function ViewEditor ({active, decrypted}) {
   const [editorState, setEditorState] = useState(null)
-  console.log("DECRYPTED:", decrypted, (typeof decrypted), editorState)
   useEffect(() => {
     // decrypted is a blob
     if (decrypted && (typeof decrypted === "object")) {
       decrypted.text()
       .then((markup) => {
-        console.log("MARKUP:", markup)
         setEditorState(draftFromMarkup(markup))
       })
     }
