@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useBlockstack, useConnectOptions } from 'react-blockstack'
-import { showBlockstackConnect } from '@blockstack/connect'
+import { showBlockstackConnect } from '@stacks/connect'
 import { usePerson } from './library'
 import config from './config'
 
