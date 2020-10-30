@@ -23,6 +23,14 @@
   --primary-mild: var(--stacks-blue-opaque);
   --app-info-color: var(--stacks-blue-opaque);
   --app-link-accent: var(--primary-complement);
+  
+  --font-family-sans-serif: OpenSauceOne-Black;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01' on;
+  font-family: "Open Sauce One", sans-serif !important;
 }
 
 .inspect {
