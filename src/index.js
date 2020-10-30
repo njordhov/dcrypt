@@ -16,7 +16,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 
 import './styles/theme.scss'
 import './styles/common.css'
-import './styles/custom.css'
 import './styles/style.css'
 
 import 'jquery'

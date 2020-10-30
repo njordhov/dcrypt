@@ -7,7 +7,7 @@ import config from './config'
 function AboutBlockstack (props) {
   return (
     <div className="AboutBlockstack">
-      <div className="mt-2"><small>Who's Blockstack?</small>
+      <div className="mt-2"><small>Who's Stacks?</small>
         <span className="ml-1">
           <InfoToggle target="#blockstack-login-info"/>
         </span>
@@ -17,9 +17,8 @@ function AboutBlockstack (props) {
           <InfoBox id="blockstack-login-info" hide={true}>
             <a href="https://blockstack.org/about" 
                rel="noopener noreferrer"
-               target="_blank">Blockstack PBC</a> is
-             an American public benefit corporation,
-            creating a decentralized computing network and app ecosystem
+               target="_blank">Stacks</a> is
+             creating a decentralized computing network and app ecosystem
             designed to protect&nbsp;digital&nbsp;rights.
           </InfoBox>
         </div>
@@ -40,7 +39,7 @@ function SignInCore ({signIn, disabled}) {
           disabled={disabled}
           onClick={signIn}
         >
-          Register with Blockstack
+          Register with Stacks
         </button>
       <AboutBlockstack/>
     </div>
