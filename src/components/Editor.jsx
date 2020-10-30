@@ -6,10 +6,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 
-export function editorMarkup (raw) {
-  return (draftToHtml(raw))
-}
-
 export const isEditorEmpty = (rawState) => {
   if (!rawState || isEmpty(rawState)) { // filter undefined and {}
     return true;
@@ -17,6 +13,10 @@ export const isEditorEmpty = (rawState) => {
   const contentState = convertFromRaw(rawState);
   return !(contentState.hasText() && (contentState.getPlainText() !== ''));
 };
+
+export function editorMarkup (raw) {
+  return (!isEditorEmpty(raw) ? draftToHtml(raw) : null)
+}
 
 export function contentFromMarkup (markup) {
   const blocksFromHtml = htmlToDraft(markup)

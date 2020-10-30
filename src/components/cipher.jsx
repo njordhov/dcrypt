@@ -152,7 +152,7 @@ export function useEncrypted (message, content) {
     if (isNil(message) && isNil(content)) {
       setState(null)
     } else {
-      encryptContent(message)
+      encryptContent(!isNil(message) ? message : "")
       .then(cipherText => 
          new Blob([cipherText, content], { type: "ECIES" }))
       .then(setState)
